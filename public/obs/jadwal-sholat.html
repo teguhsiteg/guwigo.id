@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jadwal Sholat Harian</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        background: transparent;
+        font-family: "Poppins", sans-serif;
+        color: #fff;
+        padding: 20px;
+      }
+      .jadwal-container {
+        background: rgba(11, 28, 43, 0.85);
+        border-left: 4px solid #d4af37;
+        padding: 15px 20px;
+        border-radius: 8px;
+        width: 250px;
+      }
+      h3 {
+        margin: 0 0 15px 0;
+        font-size: 16px;
+        color: #d4af37;
+        text-align: center;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        padding-bottom: 8px;
+      }
+      .jadwal-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 15px;
+      }
+      .jadwal-name {
+        color: #a0b2a6;
+      }
+      .jadwal-time {
+        font-weight: 700;
+        color: #fdf5e6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="jadwal-container">
+      <h3>Jadwal Hari Ini</h3>
+      <div id="list-jadwal">Memuat...</div>
+    </div>
+    <script>
+      async function init() {
+        const res = await fetch(
+          "https://api.aladhan.com/v1/timingsByCity?city=Yogyakarta&country=Indonesia&method=20",
+        );
+        const data = await res.json();
+        const t = data.data.timings;
+
+        const html = `
+                <div class="jadwal-item"><span class="jadwal-name">Imsak</span><span class="jadwal-time">${t.Imsak}</span></div>
+                <div class="jadwal-item"><span class="jadwal-name">Subuh</span><span class="jadwal-time">${t.Fajr}</span></div>
+                <div class="jadwal-item"><span class="jadwal-name">Dzuhur</span><span class="jadwal-time">${t.Dhuhr}</span></div>
+                <div class="jadwal-item"><span class="jadwal-name">Ashar</span><span class="jadwal-time">${t.Asr}</span></div>
+                <div class="jadwal-item"><span class="jadwal-name">Maghrib</span><span class="jadwal-time">${t.Maghrib}</span></div>
+                <div class="jadwal-item"><span class="jadwal-name">Isya</span><span class="jadwal-time">${t.Isha}</span></div>
+            `;
+        document.getElementById("list-jadwal").innerHTML = html;
+      }
+      init();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OBS Running Text</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* Mencegah munculnya scrollbar di OBS */
+        background-color: transparent;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .marquee-container {
+        width: 100vw;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center; /* Rata tengah vertikal sempurna */
+        box-sizing: border-box;
+        border-top: 2px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .marquee-text {
+        white-space: nowrap;
+        display: inline-block;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+
+        /* Optimasi Hardware Acceleration untuk OBS agar tidak patah-patah */
+        will-change: transform;
+        animation: scroll-left linear infinite;
+      }
+
+      @keyframes scroll-left {
+        0% {
+          /* Memulai tepat di ujung kanan luar layar */
+          transform: translateX(100vw);
+        }
+        100% {
+          /* Berjalan lurus hingga seluruh teks melewati batas kiri layar */
+          transform: translateX(-100%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" class="marquee-container">
+      <div id="text" class="marquee-text">Memuat teks...</div>
+    </div>
+
+    <script>
+      // Tangkap parameter dari URL
+      const params = new URLSearchParams(window.location.search);
+      const text = params.get("text") || "Selamat Datang di Live Streaming!";
+      const color = params.get("color") || "#ffffff";
+      const bg = params.get("bg") || "rgba(15, 23, 42, 0.9)";
+      const speed = params.get("speed") || "15";
+      const size = params.get("size") || "28";
+
+      const container = document.getElementById("container");
+      const textEl = document.getElementById("text");
+
+      // Terapkan styling dari user
+      container.style.backgroundColor = decodeURIComponent(bg);
+      container.style.height = parseInt(size) + 30 + "px"; // Spasi vertikal proporsional
+
+      textEl.textContent = decodeURIComponent(text);
+      textEl.style.color = decodeURIComponent(color);
+      textEl.style.fontSize = size + "px";
+      textEl.style.animationDuration = speed + "s";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "hosting": {
+    "target": "guwigo",
+    "source": ".",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}
