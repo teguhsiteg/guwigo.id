@@ -10,6 +10,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithPopup,
+  signInWithCustomToken,
   GoogleAuthProvider
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -66,6 +67,43 @@ function AuthContent() {
 
   useEffect(() => {
     setRedirectTo(searchParams?.get("redirectTo") || null);
+  }, [searchParams]);
+
+  // SSO inbound: terima custom token dari /api/auth/sso/callback (?sso=),
+  // tukar jadi sesi Firebase lalu arahkan sesuai role.
+  useEffect(() => {
+    const ssoToken = searchParams?.get("sso");
+    if (!ssoToken) return;
+
+    (async () => {
+      try {
+        const cred = await signInWithCustomToken(auth, ssoToken);
+        const user = cred.user;
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        let userData = userDoc.data();
+
+        if (!userData) {
+          const SUPERADMIN_EMAIL = "teguhsiteg95@gmail.com";
+          const defaultRole =
+            user.email === SUPERADMIN_EMAIL ? "admin" : "member";
+          await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            name: user.displayName || "User",
+            email: user.email,
+            role: defaultRole,
+            createdAt: new Date().toISOString(),
+          });
+          userData = { role: defaultRole };
+        }
+
+        await handleLoginSuccess(user, userData);
+      } catch (err) {
+        console.error("SSO inbound error:", err);
+        setError("Gagal masuk via Guwigo. Silakan login manual.");
+        setIsLoading(false);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const toggleMode = () => {
@@ -182,6 +220,18 @@ function AuthContent() {
       }
       setIsLoading(false);
     }
+  };
+
+  const handleGuwigoSSO = () => {
+    const authUrl = process.env.NEXT_PUBLIC_AUTH_URL;
+    if (!authUrl) return;
+
+    // Arahkan ke IdP (guwigo-auth); IdP cek sesinya dan balik dengan token.
+    const callbackUrl = `${window.location.origin}/api/auth/sso/callback`;
+    const target = new URL(`${authUrl}/api/auth/sso`);
+    target.searchParams.set("redirect", callbackUrl);
+    target.searchParams.set("aud", "guwigo-tech");
+    window.location.href = target.toString();
   };
 
   const handleAuthSubmit = async (e: React.FormEvent) => {
@@ -680,6 +730,19 @@ function AuthContent() {
             </svg>
             Google
           </button>
+
+          {/* SSO Guwigo (identitas terpusat) */}
+          {process.env.NEXT_PUBLIC_AUTH_URL && (
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={handleGuwigoSSO}
+              className="w-full mt-3 bg-white border-2 border-slate-100 text-slate-700 font-bold py-4 rounded-2xl hover:bg-slate-50 hover:border-slate-300 focus:ring-4 focus:ring-slate-100 transition-all flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed text-xs shadow-sm"
+            >
+              <ShieldCheck size={18} className="text-[#22D3EE]" />
+              Masuk via Guwigo
+            </button>
+          )}
 
           {/* TOGGLE TEXT */}
           <div className="mt-10 text-center pb-8 border-t border-slate-100 pt-8">
