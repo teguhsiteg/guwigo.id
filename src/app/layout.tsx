@@ -81,6 +81,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <head>
+        <meta name="facebook-domain-verification" content="4y1otfhgq0nwyd56ro4pexr9xt0wv7" />
         {/* === GOOGLE ADSENSE SCRIPT === */}
         <Script
           async
