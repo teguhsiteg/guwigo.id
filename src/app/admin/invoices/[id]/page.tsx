@@ -140,7 +140,7 @@ export default function InvoiceDetailPage() {
       const cleanNumber = invoice.invoiceNumber.replace(/[\/\\]/g, "_");
       const clientClean = (invoice.client?.name || "Client").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
-        margin: [12, 12, 12, 12],
+        margin: [8, 10, 8, 10],
         filename: `${cleanNumber}_${clientClean}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
@@ -180,7 +180,7 @@ export default function InvoiceDetailPage() {
       const cleanNumber = invoice.invoiceNumber.replace(/[\/\\]/g, "_");
       const clientClean = (invoice.client?.name || "Client").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
-        margin: [12, 12, 12, 12],
+        margin: [8, 10, 8, 10],
         filename: `${cleanNumber}_${clientClean}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
@@ -335,11 +335,11 @@ export default function InvoiceDetailPage() {
           style={{ boxSizing: "border-box", border: "none", borderRadius: 0, boxShadow: "none" }}
         >
         {/* Invoice Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start gap-8 pb-8 border-b border-slate-200">
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-6 pb-6 border-b border-slate-200">
           <div>
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-1.5">
               {settings.logoUrl ? (
-                <div className="relative w-36 h-10">
+                <div className="relative w-36 h-9">
                   <Image
                     src={settings.logoUrl}
                     alt={settings.companyName}
@@ -358,7 +358,7 @@ export default function InvoiceDetailPage() {
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-500 max-w-sm leading-relaxed">
+            <p className="text-[11px] text-slate-500 max-w-sm leading-relaxed">
               {settings.tagline}
               <br />
               {settings.address}
@@ -368,13 +368,13 @@ export default function InvoiceDetailPage() {
           </div>
 
           <div className="text-left sm:text-right">
-            <h2 className="text-3xl font-black text-blue-600 uppercase tracking-wider mb-2">
+            <h2 className="text-2xl sm:text-3xl font-black text-blue-600 uppercase tracking-wider mb-1">
               INVOICE
             </h2>
             <p className="text-sm font-bold font-mono text-slate-800">
               No: {invoice.invoiceNumber}
             </p>
-            <div className="text-xs text-slate-500 mt-2 space-y-0.5">
+            <div className="text-xs text-slate-500 mt-1.5 space-y-0.5">
               <p>
                 Tanggal Terbit:{" "}
                 <span className="font-semibold text-slate-700">
@@ -396,20 +396,20 @@ export default function InvoiceDetailPage() {
         </div>
 
         {/* Bill To Info */}
-        <div className="py-8 border-b border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="py-5 border-b border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
               Ditagihkan Kepada:
             </p>
             <h3 className="text-base font-bold text-slate-900">
               {invoice.client.name}
             </h3>
             {invoice.client.company && (
-              <p className="text-sm text-slate-600 font-medium">
+              <p className="text-xs text-slate-600 font-medium">
                 {invoice.client.company}
               </p>
             )}
-            <div className="text-xs text-slate-500 mt-2 space-y-1">
+            <div className="text-xs text-slate-500 mt-1.5 space-y-0.5">
               {invoice.client.email && (
                 <p className="flex items-center gap-1.5">
                   <Mail size={12} /> {invoice.client.email}
@@ -430,46 +430,46 @@ export default function InvoiceDetailPage() {
           </div>
 
           <div className="sm:text-right flex flex-col justify-end">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
               Total Tagihan
             </p>
-            <p className="text-3xl font-black text-slate-900">
+            <p className="text-2xl sm:text-3xl font-black text-slate-900">
               {formatCurrency(invoice.total)}
             </p>
-            <p className="text-xs text-slate-500 italic mt-1 max-w-sm ml-auto">
+            <p className="text-[11px] text-slate-500 italic mt-0.5 max-w-sm ml-auto">
               Terbilang: {amountToWords(invoice.total)}
             </p>
           </div>
         </div>
 
         {/* Table of Items */}
-        <div className="py-8">
+        <div className="py-5">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b-2 border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                <th className="py-3 px-2">Deskripsi Layanan / Produk</th>
-                <th className="py-3 px-2 text-center w-20">Qty</th>
-                <th className="py-3 px-2 text-center w-24">Satuan</th>
-                <th className="py-3 px-2 text-right w-36">Harga Satuan</th>
-                <th className="py-3 px-2 text-right w-40">Subtotal</th>
+              <tr className="border-b-2 border-slate-200 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                <th className="py-2.5 px-2">Deskripsi Layanan / Produk</th>
+                <th className="py-2.5 px-2 text-center w-16">Qty</th>
+                <th className="py-2.5 px-2 text-center w-20">Satuan</th>
+                <th className="py-2.5 px-2 text-right w-32">Harga Satuan</th>
+                <th className="py-2.5 px-2 text-right w-36">Subtotal</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-sm">
+            <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
               {invoice.items?.map((item, idx) => (
                 <tr key={idx} className="hover:bg-slate-50/50">
-                  <td className="py-3.5 px-2 font-medium text-slate-800">
+                  <td className="py-2.5 px-2 font-medium text-slate-800">
                     {item.description}
                   </td>
-                  <td className="py-3.5 px-2 text-center text-slate-600">
+                  <td className="py-2.5 px-2 text-center text-slate-600">
                     {item.quantity}
                   </td>
-                  <td className="py-3.5 px-2 text-center text-slate-500 uppercase text-xs">
+                  <td className="py-2.5 px-2 text-center text-slate-500 uppercase text-[11px]">
                     {item.unit || "pcs"}
                   </td>
-                  <td className="py-3.5 px-2 text-right text-slate-600 font-mono">
+                  <td className="py-2.5 px-2 text-right text-slate-600 font-mono">
                     {formatCurrency(item.unitPrice)}
                   </td>
-                  <td className="py-3.5 px-2 text-right font-bold text-slate-900 font-mono">
+                  <td className="py-2.5 px-2 text-right font-bold text-slate-900 font-mono">
                     {formatCurrency(item.amount)}
                   </td>
                 </tr>
@@ -479,11 +479,11 @@ export default function InvoiceDetailPage() {
         </div>
 
         {/* Calculations */}
-        <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between gap-6">
-          <div className="max-w-xs space-y-3">
+        <div className="pt-3 border-t border-slate-200 flex flex-col sm:flex-row justify-between gap-4">
+          <div className="max-w-xs space-y-2">
             {invoice.notes && (
               <div>
-                <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
                   Catatan / Keterangan:
                 </p>
                 <p className="text-xs text-slate-600 whitespace-pre-line leading-relaxed">
@@ -491,15 +491,15 @@ export default function InvoiceDetailPage() {
                 </p>
               </div>
             )}
-            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-[11px] text-slate-600 leading-relaxed">
-              <p className="font-bold text-slate-800 mb-1">Rekening Pembayaran:</p>
+            <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-200 text-[10px] text-slate-600 leading-relaxed">
+              <p className="font-bold text-slate-800 mb-0.5">Rekening Pembayaran:</p>
               <div className="whitespace-pre-line font-medium text-slate-700">
                 {settings.bankAccounts}
               </div>
             </div>
           </div>
 
-          <div className="w-full sm:w-72 space-y-2 text-sm">
+          <div className="w-full sm:w-68 space-y-1.5 text-xs sm:text-sm">
             <div className="flex justify-between text-slate-600">
               <span>Subtotal:</span>
               <span className="font-mono font-medium">
@@ -530,9 +530,9 @@ export default function InvoiceDetailPage() {
                 </span>
               </div>
             )}
-            <div className="border-t-2 border-slate-800 pt-3 flex justify-between items-center">
-              <span className="font-bold text-slate-900 text-base">TOTAL:</span>
-              <span className="text-2xl font-black text-blue-600 font-mono">
+            <div className="border-t-2 border-slate-800 pt-2 flex justify-between items-center">
+              <span className="font-bold text-slate-900 text-sm">TOTAL:</span>
+              <span className="text-xl sm:text-2xl font-black text-blue-600 font-mono">
                 {formatCurrency(invoice.total)}
               </span>
             </div>
@@ -540,7 +540,7 @@ export default function InvoiceDetailPage() {
         </div>
 
         {/* Footer Signature & QR Code Verification */}
-        <div className="print-avoid-break pt-12 mt-8 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-end gap-6 text-xs text-slate-500">
+        <div className="print-avoid-break pt-6 mt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-end gap-4 text-xs text-slate-500">
           <div className="space-y-4 max-w-sm">
             {/* DYNAMIC QR CODE FOR AUTHENTICITY VALIDATION */}
             <div className="flex items-center gap-3 p-2.5 bg-slate-50 rounded-2xl border border-slate-200">

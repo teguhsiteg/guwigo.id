@@ -101,7 +101,7 @@ export default function ReceiptDetailPage() {
       const cleanNumber = receipt.receiptNumber.replace(/[\/\\]/g, "_");
       const clientClean = (receipt.receivedFrom || "Receipt").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
-        margin: [12, 12, 12, 12],
+        margin: [8, 10, 8, 10],
         filename: `${cleanNumber}_${clientClean}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
@@ -141,7 +141,7 @@ export default function ReceiptDetailPage() {
       const cleanNumber = receipt.receiptNumber.replace(/[\/\\]/g, "_");
       const clientClean = (receipt.receivedFrom || "Receipt").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
-        margin: [12, 12, 12, 12],
+        margin: [8, 10, 8, 10],
         filename: `${cleanNumber}_${clientClean}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
