@@ -34,6 +34,7 @@ export default function ReceiptDetailPage() {
   const [settings, setSettings] = useState<InvoiceSettings>(defaultInvoiceSettings);
   const [isLoading, setIsLoading] = useState(true);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [isPrintingPdf, setIsPrintingPdf] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -65,8 +66,70 @@ export default function ReceiptDetailPage() {
     fetchReceipt();
   }, [id, router]);
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrint = async () => {
+    const element = document.getElementById("receipt-printable-doc");
+    if (!element || !receipt) return;
+    try {
+      setIsPrintingPdf(true);
+      toast.info("Menyiapkan dokumen cetak PDF (A4)...");
+
+      const printWindow = window.open("", "_blank");
+      if (printWindow) {
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>Memuat Dokumen Cetak - ${receipt.receiptNumber}</title>
+              <style>
+                body { margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; color: #334155; }
+                .spinner { width: 44px; height: 44px; border: 4px solid #cbd5e1; border-top-color: #2563eb; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+                @keyframes spin { to { transform: rotate(360deg); } }
+              </style>
+            </head>
+            <body>
+              <div style="text-align: center;">
+                <div class="spinner"></div>
+                <h3 style="margin: 0 0 8px; font-size: 16px; font-weight: 700;">Menyiapkan Dokumen Kuitansi A4...</h3>
+                <p style="margin: 0; font-size: 13px; color: #64748b;">Membuka format cetak PDF blob...</p>
+              </div>
+            </body>
+          </html>
+        `);
+      }
+
+      const html2pdf = (await import("html2pdf.js")).default;
+      const cleanNumber = receipt.receiptNumber.replace(/[\/\\]/g, "_");
+      const clientClean = (receipt.receivedFrom || "Receipt").replace(/[^a-zA-Z0-9_-]/g, "_");
+      const opt: any = {
+        margin: [8, 8, 8, 8],
+        filename: `${cleanNumber}_${clientClean}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          scrollY: 0,
+        },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+      };
+
+      const worker = html2pdf().set(opt).from(element);
+      const pdfBlob: Blob = await worker.outputPdf("blob");
+      const blobUrl = URL.createObjectURL(pdfBlob);
+
+      if (printWindow) {
+        printWindow.location.href = blobUrl;
+      } else {
+        window.open(blobUrl, "_blank");
+      }
+      toast.success("Dokumen PDF (blob) berhasil dibuka");
+    } catch (err) {
+      console.error("Gagal membuka dokumen PDF:", err);
+      toast.error("Gagal membuka dokumen cetak PDF");
+    } finally {
+      setIsPrintingPdf(false);
+    }
   };
 
   const handleDownloadPdf = async () => {
@@ -153,10 +216,11 @@ export default function ReceiptDetailPage() {
           <Button
             variant="secondary"
             size="sm"
+            isLoading={isPrintingPdf}
             onClick={handlePrint}
             icon={<Printer size={16} />}
           >
-            Cetak
+            Cetak (PDF)
           </Button>
         </div>
       </div>
