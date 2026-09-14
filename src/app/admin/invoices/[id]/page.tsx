@@ -563,13 +563,6 @@ export default function InvoiceDetailPage() {
                 <p className="text-[10px] text-slate-500 leading-tight">
                   Pindai QR Code untuk memeriksa validitas dan riwayat rekonsiliasi data pada server resmi Guwigo.
                 </p>
-                <Link
-                  href={`/verify/invoice/${invoice.id}`}
-                  target="_blank"
-                  className="text-[10px] text-blue-600 font-semibold underline hover:text-blue-700 inline-block pt-0.5"
-                >
-                  Buka Halaman Validasi &rarr;
-                </Link>
               </div>
             </div>
 

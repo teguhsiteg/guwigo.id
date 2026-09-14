@@ -372,13 +372,6 @@ export default function ReceiptDetailPage() {
                 <p className="text-[10px] text-slate-500 leading-tight">
                   Pindai QR Code untuk memeriksa validasi tanda terima sah pada server Guwigo.
                 </p>
-                <Link
-                  href={`/verify/receipt/${receipt.id}`}
-                  target="_blank"
-                  className="text-[10px] text-emerald-700 font-semibold underline hover:text-emerald-800 inline-block pt-0.5"
-                >
-                  Buka Halaman Validasi &rarr;
-                </Link>
               </div>
             </div>
           </div>
