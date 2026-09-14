@@ -580,60 +580,71 @@ export default function InvoiceDetailPage() {
               </p>
             </div>
           </div>
-          <div className="flex items-end gap-6">
-            {/* E-METERAI SLOT (Jika Diaktifkan) */}
-            {invoice.useEmeterai && (
-              <div className="w-28 h-28 border-2 border-dashed border-red-300 rounded-xl flex flex-col items-center justify-center p-2 text-center bg-red-50/40 relative overflow-hidden shrink-0">
-                {invoice.emeteraiUrl ? (
-                  <Image
-                    src={invoice.emeteraiUrl}
-                    alt="E-Meterai Resmi"
-                    fill
-                    className="object-contain p-1"
-                  />
-                ) : (
-                  <>
-                    <div className="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-[10px] mb-1">
-                      M
-                    </div>
-                    <span className="text-[10px] font-black text-red-700 tracking-wider uppercase">
-                      E-METERAI
-                    </span>
-                    <span className="text-[9px] font-bold text-red-600 font-mono">
-                      Rp 10.000
-                    </span>
-                    <span className="text-[8px] text-red-400 mt-1 uppercase font-semibold">
-                      PERURI
-                    </span>
-                  </>
-                )}
-              </div>
-            )}
+          <div className="flex items-end gap-6 sm:gap-8 justify-end">
+            {/* E-METERAI SLOT / SPACE */}
+            <div className="w-28 h-28 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-center bg-slate-50/40 relative overflow-hidden shrink-0">
+              {invoice.emeteraiUrl ? (
+                <Image
+                  src={invoice.emeteraiUrl}
+                  alt="E-Meterai Resmi"
+                  fill
+                  className="object-contain p-1"
+                />
+              ) : invoice.useEmeterai ? (
+                <>
+                  <div className="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-[10px] mb-1">
+                    M
+                  </div>
+                  <span className="text-[10px] font-black text-red-700 tracking-wider uppercase">
+                    E-METERAI
+                  </span>
+                  <span className="text-[9px] font-bold text-red-600 font-mono">
+                    Rp 10.000
+                  </span>
+                  <span className="text-[8px] text-red-400 mt-1 uppercase font-semibold">
+                    PERURI
+                  </span>
+                </>
+              ) : (
+                <div className="text-center opacity-60">
+                  <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">
+                    Ruang
+                  </span>
+                  <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">
+                    E-Meterai
+                  </span>
+                  <span className="block text-[8px] text-slate-400 mt-1 font-mono">
+                    Rp 10.000
+                  </span>
+                </div>
+              )}
+            </div>
 
-            <div className="text-center w-52 relative">
-              <p className="mb-14 font-medium text-slate-700">{settings.signerTitle}</p>
+            {/* TANDA TANGAN & STEMPEL */}
+            <div className="text-center w-56 relative">
+              <p className="mb-16 font-medium text-slate-700">{settings.signerTitle}</p>
               
               {/* Tanda Tangan (Jika diisi) */}
               {settings.signatureUrl && (
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-5 w-28 h-16 pointer-events-none select-none z-10">
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-5 w-32 h-18 pointer-events-none select-none z-10">
                   <Image
                     src={settings.signatureUrl}
                     alt="Tanda Tangan"
-                    width={112}
-                    height={64}
+                    width={128}
+                    height={72}
                     className="object-contain"
                   />
                 </div>
               )}
 
-              {/* Stempel Perusahaan */}
+              {/* Stempel Perusahaan (Lebih besar, agak miring, di kiri tanda tangan & menyentuh ttd) */}
               {settings.stampUrl && (
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-2 w-28 h-28 pointer-events-none select-none opacity-90 rotate-[-8deg] z-15">
+                <div className="absolute -left-10 -bottom-2 w-36 h-36 pointer-events-none select-none opacity-90 rotate-[-14deg] z-15">
                   <Image
                     src={settings.stampUrl}
                     alt="Stempel Resmi"
-                    width={112}
-                    height={112}
+                    width={144}
+                    height={144}
                     className="object-contain"
                   />
                 </div>
