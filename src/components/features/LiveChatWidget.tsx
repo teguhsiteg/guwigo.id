@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import {
   MessageSquare,
   X,
   Send,
   Loader2,
-  Sparkles,
+  Bot,
   MessageCircle,
 } from "lucide-react";
 
@@ -16,6 +17,7 @@ type Message = {
 };
 
 export default function LiveChatWidget() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -94,6 +96,10 @@ export default function LiveChatWidget() {
     });
   };
 
+  if (pathname?.startsWith("/verify") || pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <div className="fixed bottom-6 right-6 z-50 font-sans">
       {/* Jendela Chat */}
@@ -103,7 +109,7 @@ export default function LiveChatWidget() {
           <div className="bg-[#0B1324] p-4 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#00D4FF]/20 flex items-center justify-center border border-[#00D4FF]/30 relative">
-                <Sparkles size={18} className="text-[#00D4FF]" />
+                <Bot size={18} className="text-[#00D4FF]" />
                 <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-[#0B1324] rounded-full"></span>
               </div>
               <div>

@@ -20,7 +20,7 @@ import {
   Layers,
   Settings,
   Loader2,
-  Sparkles,
+  Box,
   CheckCircle,
   CheckCircle2, // <-- Ini yang baru ditambahkan
   AlertCircle,
@@ -526,7 +526,7 @@ export default function AdminServicesPage() {
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <Sparkles size={18} className="text-slate-400" />
+                              <Box size={18} className="text-slate-400" />
                             )}
                           </div>
                           <div>

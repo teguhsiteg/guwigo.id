@@ -9,75 +9,126 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Cek apakah user adalah Admin berdasarkan field 'role' di koleksi 'users'
+    // Cek apakah user adalah Super Admin berdasarkan email token auth
+    function isSuperAdminEmail() {
+      return isSignedIn() && (
+        request.auth.token.email == "parthner@guwigo.com" ||
+        request.auth.token.email == "admin@guwigo.com" ||
+        request.auth.token.email == "teguhsiteg95@gmail.com"
+      );
+    }
+
+    // Cek apakah user adalah Admin
     function isAdmin() {
-      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+      return isSignedIn() && (
+        isSuperAdminEmail() ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin")
+      );
     }
 
     // --- 1. KOLEKSI USERS ---
     match /users/{userId} {
-      // Izinkan user membuat datanya sendiri saat registrasi
-      allow create: if isSignedIn() && request.auth.uid == userId;
-      // User bisa baca datanya sendiri, Admin bisa baca semua
+      allow create: if isSignedIn() && (request.auth.uid == userId || isAdmin());
       allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
-      // Hanya admin yang bisa ubah role atau data user lain
-      allow update, delete: if isAdmin();
+      allow update: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
     }
 
-    // --- 2. KOLEKSI SERVICES (Supermarket Layanan) ---
+    // --- 2. KOLEKSI SERVICES & PRODUCTS ---
     match /services/{serviceId} {
-      // DIZINKAN: Siapapun (publik) boleh melihat daftar layanan dan harga
       allow read: if true;
-      // HANYA ADMIN: Yang boleh menambah, mengubah, atau menghapus layanan
+      allow write: if isAdmin();
+    }
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /store_products/{productId} {
+      allow read: if true;
       allow write: if isAdmin();
     }
 
-    // --- 3. KOLEKSI CLIENT INTAKES (Data Lama Anda) ---
+    // --- 3. KOLEKSI PORTOFOLIO & KONTEN LANDING ---
+    match /portfolio/{portfolioId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /news/{articleId} {
+      allow read: if true; // Publik boleh membaca artikel berita
+      allow write: if isAdmin();
+    }
+    match /gallery/{galleryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /bio_links/{linkId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /tools_items/{toolId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // --- 4. KOLEKSI DOKUMEN KHUSUS ADMIN (admin/hero-branding, admin/contact-settings, dll) ---
+    match /admin/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // --- 5. KOLEKSI CONTACT & CLIENT INTAKES ---
     match /clientIntakes/{clientId} {
-      // Izinkan publik kirim data intake (untuk landing page)
       allow create: if true;
-      // Admin bisa baca semua, User hanya bisa baca miliknya sendiri (berdasarkan email)
       allow read: if isAdmin() || (isSignedIn() && request.auth.token.email == resource.data.emailAktif);
-      // Hanya admin yang bisa update progress atau hapus
       allow update, delete: if isAdmin();
     }
-
-    // --- 4. KOLEKSI PRODUCTS ---
-    match /products/{productId} {
-      // Public bisa baca products
-      allow read: if true;
-      // Hanya admin yang bisa write
-      allow write: if isAdmin();
+    match /contact-messages/{msgId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
     }
 
-    // --- 5. KOLEKSI TRANSACTIONS ---
+    // --- 6. KOLEKSI TRANSAKSI & SUBSCRIPTIONS ---
     match /transactions/{transactionId} {
-      // User bisa baca transaction miliknya, admin bisa baca semua
       allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      // Auth users bisa create, hanya admin bisa update/delete
       allow create: if isSignedIn();
       allow update, delete: if isAdmin();
     }
+    match /user_subscriptions/{subId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
 
-    // --- 6. KOLEKSI LIVE CHAT ---
+    // --- 7. KOLEKSI INVOICES & RECEIPTS (KEUANGAN) ---
+    match /invoices/{invoiceId} {
+      allow read: if true; // Publik boleh baca untuk verifikasi keaslian via scan QR Code
+      allow write: if isAdmin();
+    }
+    match /receipts/{receiptId} {
+      allow read: if true; // Publik boleh baca untuk verifikasi keaslian via scan QR Code
+      allow write: if isAdmin();
+    }
+
+    // --- 8. KOLEKSI LIVE CHAT ---
     match /chats/{chatId} {
-      // User bisa read/write chat mereka sendiri, admin bisa akses semua
       allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create, update: if isSignedIn();
       allow delete: if isAdmin();
     }
 
-    // --- 7. KOLEKSI SYSTEM SETTINGS ---
+    // --- 9. KOLEKSI SYSTEM SETTINGS ---
     match /systemSettings/{document=**} {
-      // Public bisa read settings
       allow read: if true;
-      // Hanya admin yang bisa write
       allow write: if isAdmin();
     }
 
     // --- PROTEKSI GLOBAL ---
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if isAdmin();
     }
   }
 }

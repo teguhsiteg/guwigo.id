@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  Sparkles,
+  Mail,
   CreditCard,
   CheckCircle,
   Download,
@@ -12,6 +12,8 @@ import {
   Image as ImageIcon,
   LogOut,
   Upload,
+  RefreshCw,
+  Loader2,
 } from "lucide-react";
 
 export default function UndanganAIPage() {
@@ -115,7 +117,7 @@ export default function UndanganAIPage() {
             {/* Kiri: Copywriting */}
             <div className="flex-1 text-center md:text-left">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 font-bold text-xs uppercase tracking-widest mb-6 border border-blue-100">
-                <Sparkles size={16} /> Premium Tools
+                <Mail size={16} /> Premium Tools
               </div>
               <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
                 Buat Undangan Digital <br className="hidden md:block" />
@@ -202,7 +204,7 @@ export default function UndanganAIPage() {
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
                   >
                     {isProcessing ? (
-                      <Sparkles className="animate-spin" size={18} />
+                      <Loader2 className="animate-spin" size={18} />
                     ) : (
                       <CreditCard size={18} />
                     )}
@@ -235,7 +237,7 @@ export default function UndanganAIPage() {
       <div className="container mx-auto px-4 max-w-[1400px] mb-8 print:hidden flex flex-col md:flex-row items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2">
-            <Sparkles className="text-blue-600" size={24} /> Undangan Studio
+            <Mail className="text-blue-600" size={24} /> Undangan Studio
           </h1>
           <p className="text-sm font-bold text-slate-500 mt-1 uppercase tracking-widest">
             Akses Member Premium Aktif
@@ -390,9 +392,9 @@ export default function UndanganAIPage() {
             className="w-full bg-slate-900 hover:bg-blue-600 text-white font-bold py-4 rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2"
           >
             {isGenerating ? (
-              <Sparkles className="animate-spin" size={18} />
+              <RefreshCw className="animate-spin" size={18} />
             ) : (
-              <Sparkles size={18} />
+              <RefreshCw size={18} />
             )}
             {isGenerating ? "Merapikan Layout..." : "PERBARUI TAMPILAN"}
           </button>

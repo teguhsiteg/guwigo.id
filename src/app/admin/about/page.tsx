@@ -13,7 +13,7 @@ import {
   User,
   Calendar,
   Image as ImageIcon,
-  Sparkles,
+  LayoutTemplate,
 } from "lucide-react";
 
 interface AboutContent {
@@ -155,7 +155,7 @@ export default function AboutAdminPage() {
         ======================================= */}
         <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
           <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
-            <Sparkles size={20} className="text-blue-500" /> Header Halaman
+            <LayoutTemplate size={20} className="text-blue-500" /> Header Halaman
           </h2>
           <div className="space-y-6">
             <div>

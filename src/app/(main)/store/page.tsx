@@ -9,7 +9,7 @@ import {
   ArrowRight,
   Plus,
   Loader2,
-  Sparkles,
+  Tag,
   RefreshCcw,
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
@@ -43,19 +43,43 @@ export default function StorePage() {
   useEffect(() => {
     const fetchStoreProducts = async () => {
       try {
-        // Asumsi koleksi bernama 'store_products'
-        const q = query(
+        // Cek koleksi 'store_products' terlebih dahulu
+        let q = query(
           collection(db, "store_products"),
           where("status", "==", "active"),
         );
-        const querySnapshot = await getDocs(q);
-        const data: StoreProduct[] = [];
+        let querySnapshot = await getDocs(q);
+        let data: StoreProduct[] = [];
         querySnapshot.forEach((docSnapshot) => {
           data.push({
             id: docSnapshot.id,
             ...docSnapshot.data(),
           } as StoreProduct);
         });
+
+        // Jika store_products kosong, coba tarik dari 'products'
+        if (data.length === 0) {
+          const fallbackSnapshot = await getDocs(collection(db, "products"));
+          fallbackSnapshot.forEach((docSnapshot) => {
+            const p = docSnapshot.data();
+            if (p.status === "active" || !p.status) {
+              const minPrice = p.packages && p.packages.length > 0
+                ? Math.min(...p.packages.map((pkg: any) => pkg.price || 0))
+                : (p.price || 0);
+
+              data.push({
+                id: docSnapshot.id,
+                name: p.name || "Produk",
+                category: p.category || "General",
+                price: minPrice,
+                image: p.imageUrl || p.image || "",
+                desc: p.description || p.desc || "",
+                tag: p.tag || (p.packages && p.packages.length > 0 ? `${p.packages.length} Paket` : "Tersedia"),
+                status: "active",
+              } as StoreProduct);
+            }
+          });
+        }
 
         // Urutkan berdasarkan nama
         setProductsData(data.sort((a, b) => a.name.localeCompare(b.name)));
@@ -302,7 +326,7 @@ export default function StorePage() {
               <div className="flex flex-col md:flex-row items-start md:items-end justify-between relative z-10 gap-6">
                 <div className="max-w-xl">
                   <span className="text-[#00D4FF] text-[10px] font-black uppercase tracking-widest mb-3 block">
-                    <Sparkles size={14} className="inline mr-1 -mt-0.5" />{" "}
+                    <Tag size={14} className="inline mr-1 -mt-0.5" />{" "}
                     Special Offer
                   </span>
                   <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">

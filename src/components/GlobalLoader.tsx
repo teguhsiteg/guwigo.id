@@ -13,14 +13,35 @@ export default function GlobalLoader({
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(true);
 
-  // Memicu layar loading setiap kali rute URL berubah
+  // Matikan loader yang menghalangi admin dan jangan muncul terus di setiap klik rute
   useEffect(() => {
-    setIsLoading(true);
+    const isAdmin = pathname?.startsWith("/admin");
+    const isAuth = pathname?.startsWith("/login") || pathname?.startsWith("/register");
 
-    // Durasi loader disetel ke 2.8 detik agar pas dengan efek Fade & Pulse
+    // Di area admin dan auth, langsung render tanpa splash screen loader
+    if (isAdmin || isAuth) {
+      setIsLoading(false);
+      return;
+    }
+
+    // Hanya tampilkan intro sekali per sesi kunjungan browser
+    try {
+      const hasLoaded = sessionStorage.getItem("guwigo_intro_shown");
+      if (hasLoaded) {
+        setIsLoading(false);
+        return;
+      }
+    } catch {
+      // Fallback jika sessionStorage diblokir
+    }
+
+    setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2800);
+      try {
+        sessionStorage.setItem("guwigo_intro_shown", "true");
+      } catch {}
+    }, 800);
 
     return () => clearTimeout(timer);
   }, [pathname]);

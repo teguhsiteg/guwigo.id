@@ -6,7 +6,6 @@ import {
   Loader2,
   FileText,
   Building,
-  Sparkles,
   AlertCircle,
   Copy,
   CheckCircle2,
@@ -367,10 +366,10 @@ export default function AIProposalGeneratorPage() {
             <div className="flex-1 p-8 overflow-y-auto bg-white custom-scrollbar relative">
               {!proposalResult && !isLoading ? (
                 <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-                  <Sparkles size={48} className="mb-4 text-slate-400" />
+                  <FileText size={48} className="mb-4 text-slate-400" />
                   <p className="text-sm font-bold text-slate-500 max-w-xs">
                     Ruang kerja proposal. Isi parameter bisnis di samping untuk
-                    melihat hasil analisis AI.
+                    melihat hasil analisis.
                   </p>
                 </div>
               ) : isLoading ? (

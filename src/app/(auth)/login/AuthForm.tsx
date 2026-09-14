@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { auth, db } from "@/lib/firebase";
+import { useAuth } from "@/context/AuthContext";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -35,6 +36,7 @@ import { validation } from "@/utils/validation";
 function AuthContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isAuthenticated, userRole, isLoading: authLoading } = useAuth();
   const [redirectTo, setRedirectTo] = useState<string | null>(null);
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -69,6 +71,25 @@ function AuthContent() {
     setRedirectTo(searchParams?.get("redirectTo") || null);
   }, [searchParams]);
 
+  // Sinkronisasi Sesi: Hanya redirect jika Firebase Auth benar-benar terautentikasi
+  useEffect(() => {
+    if (!authLoading) {
+      if (isAuthenticated) {
+        if (userRole === "admin") {
+          router.push(redirectTo || "/admin/dashboard");
+        } else {
+          router.push(redirectTo || "/dashboard");
+        }
+      } else {
+        // Jika tidak ada user login di Firebase, bersihkan residu sesi usang untuk cegah loop redirect
+        localStorage.removeItem("guwigo_admin_session");
+        localStorage.removeItem("admin_uid");
+        localStorage.removeItem("guwigo_user_session");
+        localStorage.removeItem("user_uid");
+      }
+    }
+  }, [authLoading, isAuthenticated, userRole, router, redirectTo]);
+
   // SSO inbound: terima custom token dari /api/auth/sso/callback (?sso=),
   // tukar jadi sesi Firebase lalu arahkan sesuai role.
   useEffect(() => {
@@ -77,29 +98,45 @@ function AuthContent() {
 
     (async () => {
       try {
+        setIsLoading(true);
         const cred = await signInWithCustomToken(auth, ssoToken);
         const user = cred.user;
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        let userData = userDoc.data();
+        const userEmail = (user.email || "").toLowerCase();
+        let userData: any = null;
 
-        if (!userData) {
-          const SUPERADMIN_EMAIL = "teguhsiteg95@gmail.com";
-          const defaultRole =
-            user.email === SUPERADMIN_EMAIL ? "admin" : "member";
-          await setDoc(doc(db, "users", user.uid), {
-            uid: user.uid,
-            name: user.displayName || "User",
-            email: user.email,
-            role: defaultRole,
-            createdAt: new Date().toISOString(),
-          });
-          userData = { role: defaultRole };
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          userData = userDoc.data();
+
+          if (!userData) {
+            const isSuperAdminEmail =
+              userEmail === "parthner@guwigo.com" ||
+              userEmail === "admin@guwigo.com" ||
+              userEmail === "teguhsiteg95@gmail.com";
+            const defaultRole = isSuperAdminEmail ? "admin" : "member";
+            await setDoc(doc(db, "users", user.uid), {
+              uid: user.uid,
+              name: user.displayName || "User",
+              email: user.email,
+              role: defaultRole,
+              createdAt: new Date().toISOString(),
+            });
+            userData = { role: defaultRole };
+          }
+        } catch (docErr) {
+          console.warn("SSO Firestore read warning, continuing with fallback role:", docErr);
+          const isSuperAdminEmail =
+            userEmail === "parthner@guwigo.com" ||
+            userEmail === "admin@guwigo.com" ||
+            userEmail === "teguhsiteg95@gmail.com";
+          userData = { role: isSuperAdminEmail ? "admin" : "member" };
         }
 
         await handleLoginSuccess(user, userData);
-      } catch (err) {
+      } catch (err: any) {
         console.error("SSO inbound error:", err);
-        setError("Gagal masuk via Guwigo. Silakan login manual.");
+        setError("Gagal masuk via Guwigo SSO. Silakan login manual.");
+      } finally {
         setIsLoading(false);
       }
     })();
@@ -119,24 +156,26 @@ function AuthContent() {
   };
 
   const validateInputs = (): { valid: boolean; message?: string } => {
+    const cleanEmail = email.trim();
     if (isLogin) {
-      if (!email || !password)
+      if (!cleanEmail || !password)
         return { valid: false, message: "Email dan password harus diisi" };
-      if (!validation.isValidEmail(email))
-        return { valid: false, message: "Format email tidak valid" };
+      if (!validation.isValidEmail(cleanEmail))
+        return { valid: false, message: "Format email tidak valid. Pastikan tidak ada spasi di awal/akhir." };
       return { valid: true };
     } else {
-      if (!name || !email || !password || !confirmPassword)
+      const cleanName = name.trim();
+      if (!cleanName || !cleanEmail || !password || !confirmPassword)
         return { valid: false, message: "Semua field wajib diisi" };
-      if (!validation.isValidName(name))
+      if (!validation.isValidName(cleanName))
         return { valid: false, message: "Nama harus 3-100 karakter" };
-      if (!validation.isValidEmail(email))
+      if (!validation.isValidEmail(cleanEmail))
         return { valid: false, message: "Format email tidak valid" };
       const passwordValidation = validation.isValidPassword(password);
       if (!passwordValidation.valid) {
         return {
           valid: false,
-          message: "Password belum memenuhi syarat keamanan.",
+          message: passwordValidation.messages[0] || "Password belum memenuhi syarat keamanan.",
         };
       }
       if (password !== confirmPassword)
@@ -146,46 +185,92 @@ function AuthContent() {
   };
 
   const handleLoginSuccess = async (user: any, userData: any) => {
-    if (userData?.role === "admin" && (!redirectTo || redirectTo.startsWith("/admin"))) {
+    const userEmail = (user.email || "").toLowerCase();
+    const rawRole = (userData?.role || "").toLowerCase();
+    const isSuperAdmin =
+      userEmail === "parthner@guwigo.com" ||
+      userEmail === "admin@guwigo.com" ||
+      userEmail === "teguhsiteg95@gmail.com" ||
+      rawRole === "admin" ||
+      rawRole === "super_admin" ||
+      rawRole === "superadmin";
+
+    // Self-healing: jika userData belum ada atau role kosong/tidak valid
+    let role = rawRole;
+    if (!role) {
+      role = isSuperAdmin ? "admin" : "member";
+      try {
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            uid: user.uid,
+            name: user.displayName || userData?.name || "User",
+            email: user.email,
+            role,
+            updatedAt: new Date().toISOString(),
+          },
+          { merge: true }
+        );
+      } catch (saveErr) {
+        console.warn("Could not auto-save user role:", saveErr);
+      }
+    }
+
+    if (isSuperAdmin && (!redirectTo || redirectTo.startsWith("/admin"))) {
       localStorage.setItem("guwigo_admin_session", "ACTIVE");
       localStorage.setItem("admin_uid", user.uid);
+      localStorage.removeItem("guwigo_user_session");
+      localStorage.removeItem("user_uid");
       router.push(redirectTo || "/admin/dashboard");
-    } else if (userData?.role === "member" || userData?.role === "user" || userData?.role === "admin") {
+    } else {
       localStorage.setItem("guwigo_user_session", "ACTIVE");
       localStorage.setItem("user_uid", user.uid);
+      localStorage.removeItem("guwigo_admin_session");
+      localStorage.removeItem("admin_uid");
 
       if (redirectTo && isValidRedirectUrl(redirectTo)) {
         if (redirectTo.startsWith("/")) {
           router.push(redirectTo);
         } else {
           // SSO Flow: Eksternal URL
-          setIsSSORedirecting(true);
-          const idToken = await user.getIdToken(true);
-          
-          const response = await fetch("/api/auth/sso", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idToken }),
-          });
+          try {
+            setIsSSORedirecting(true);
+            const idToken = await user.getIdToken(true);
+            
+            const response = await fetch("/api/auth/sso", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ idToken }),
+            });
 
-          if (!response.ok) {
-            throw new Error("Gagal menginisialisasi sesi SSO.");
+            if (!response.ok) {
+              const errJson = await response.json().catch(() => ({}));
+              throw new Error(errJson.error || "Gagal menginisialisasi sesi SSO.");
+            }
+
+            const { customToken } = await response.json();
+            
+            // Membentuk URL redirect dengan token
+            const targetUrl = new URL(redirectTo);
+            targetUrl.searchParams.set("custom_token", customToken);
+            
+            window.location.href = targetUrl.toString();
+            return;
+          } catch (ssoError: any) {
+            console.error("SSO Error:", ssoError);
+            setIsSSORedirecting(false);
+            setError(ssoError.message || "Gagal menghubungkan sesi ke ekosistem SSO.");
+            setIsLoading(false);
+            return;
           }
-
-          const { customToken } = await response.json();
-          
-          // Membentuk URL redirect dengan token
-          const targetUrl = new URL(redirectTo);
-          targetUrl.searchParams.set("custom_token", customToken);
-          
-          window.location.href = targetUrl.toString();
-          return; // Stop eksekusi agar tidak redirect ke dashboard
         }
       } else {
-        router.push("/dashboard");
+        if (isSuperAdmin) {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/dashboard");
+        }
       }
-    } else {
-      throw new Error("Profil user tidak valid. Hubungi admin.");
     }
   };
 
@@ -196,27 +281,48 @@ function AuthContent() {
       const provider = new GoogleAuthProvider();
       const userCredential = await signInWithPopup(auth, provider);
       const user = userCredential.user;
-      
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      let userData = userDoc.data();
+      const userEmail = (user.email || "").toLowerCase();
+      let userData: any = null;
 
-      if (!userData) {
-        const SUPERADMIN_EMAIL = "teguhsiteg95@gmail.com";
-        const defaultRole = user.email === SUPERADMIN_EMAIL ? "admin" : "member";
-        await setDoc(doc(db, "users", user.uid), {
-          uid: user.uid,
-          name: user.displayName || "User",
-          email: user.email,
-          role: defaultRole,
-          createdAt: new Date().toISOString(),
-        });
-        userData = { role: defaultRole };
+      try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        userData = userDoc.data();
+
+        if (!userData) {
+          const isSuperAdminEmail =
+            userEmail === "parthner@guwigo.com" ||
+            userEmail === "admin@guwigo.com" ||
+            userEmail === "teguhsiteg95@gmail.com";
+          const defaultRole = isSuperAdminEmail ? "admin" : "member";
+          await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            name: user.displayName || "User",
+            email: user.email,
+            role: defaultRole,
+            createdAt: new Date().toISOString(),
+          });
+          userData = { role: defaultRole };
+        }
+      } catch (firestoreErr) {
+        console.warn("Firestore profile fetch error, continuing with default role:", firestoreErr);
+        const isSuperAdminEmail =
+          userEmail === "parthner@guwigo.com" ||
+          userEmail === "admin@guwigo.com" ||
+          userEmail === "teguhsiteg95@gmail.com";
+        userData = { role: isSuperAdminEmail ? "admin" : "member" };
       }
       
       await handleLoginSuccess(user, userData);
     } catch (error: any) {
-      if (error.code !== "auth/popup-closed-by-user" && error.code !== "auth/cancelled-popup-request") {
-        setError("Gagal masuk dengan Google. Silakan coba lagi.");
+      console.error("Google Auth Error:", error);
+      if (error.code === "auth/popup-closed-by-user" || error.code === "auth/cancelled-popup-request") {
+        setError("Jendela login Google ditutup.");
+      } else if (error.code === "auth/unauthorized-domain") {
+        setError("Domain ini belum didaftarkan di Firebase Authentication (Authorized Domains). Silakan tambahkan domain di Firebase Console.");
+      } else if (error.code === "auth/popup-blocked") {
+        setError("Popup login diblokir oleh browser. Mohon izinkan popup untuk situs ini.");
+      } else {
+        setError(`Gagal login Google: ${error.message || error.code}`);
       }
       setIsLoading(false);
     }
@@ -224,7 +330,10 @@ function AuthContent() {
 
   const handleGuwigoSSO = () => {
     const authUrl = process.env.NEXT_PUBLIC_AUTH_URL;
-    if (!authUrl) return;
+    if (!authUrl) {
+      setError("Fitur SSO belum dikonfigurasi (NEXT_PUBLIC_AUTH_URL tidak ditemukan).");
+      return;
+    }
 
     // Arahkan ke IdP (guwigo-auth); IdP cek sesinya dan balik dengan token.
     const callbackUrl = `${window.location.origin}/api/auth/sso/callback`;
@@ -245,71 +354,103 @@ function AuthContent() {
     }
 
     setIsLoading(true);
+    const cleanEmail = email.trim();
 
     try {
       if (isLogin) {
         const userCredential = await signInWithEmailAndPassword(
           auth,
-          email,
+          cleanEmail,
           password,
         );
         const user = userCredential.user;
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        let userData = userDoc.data();
+        const userEmail = (user.email || cleanEmail).toLowerCase();
 
-        if (!userData) {
-          const SUPERADMIN_EMAIL = "teguhsiteg95@gmail.com";
-          const defaultRole =
-            user.email === SUPERADMIN_EMAIL ? "admin" : "member";
-          await setDoc(doc(db, "users", user.uid), {
-            uid: user.uid,
-            name: user.displayName || "User",
-            email: user.email,
-            role: defaultRole,
-            createdAt: new Date().toISOString(),
-          });
-          userData = { role: defaultRole };
+        let userData: any = null;
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          userData = userDoc.data();
+
+          if (!userData) {
+            const isSuperAdminEmail =
+              userEmail === "parthner@guwigo.com" ||
+              userEmail === "admin@guwigo.com" ||
+              userEmail === "teguhsiteg95@gmail.com";
+            const defaultRole = isSuperAdminEmail ? "admin" : "member";
+            await setDoc(doc(db, "users", user.uid), {
+              uid: user.uid,
+              name: user.displayName || "User",
+              email: user.email || cleanEmail,
+              role: defaultRole,
+              createdAt: new Date().toISOString(),
+            });
+            userData = { role: defaultRole };
+          }
+        } catch (firestoreErr) {
+          console.warn("Firestore profile fetch error, continuing with default role:", firestoreErr);
+          const isSuperAdminEmail =
+            userEmail === "parthner@guwigo.com" ||
+            userEmail === "admin@guwigo.com" ||
+            userEmail === "teguhsiteg95@gmail.com";
+          userData = { role: isSuperAdminEmail ? "admin" : "member" };
         }
 
         await handleLoginSuccess(user, userData);
       } else {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
-          email,
+          cleanEmail,
           password,
         );
         const user = userCredential.user;
-        await updateProfile(user, { displayName: name });
-        await setDoc(doc(db, "users", user.uid), {
-          uid: user.uid,
-          name,
-          email,
-          role: "member",
-          createdAt: new Date().toISOString(),
-        });
+        const cleanName = name.trim();
+        await updateProfile(user, { displayName: cleanName });
+        const userEmail = cleanEmail.toLowerCase();
+        const isSuperAdminEmail =
+          userEmail === "parthner@guwigo.com" ||
+          userEmail === "admin@guwigo.com" ||
+          userEmail === "teguhsiteg95@gmail.com";
+        try {
+          await setDoc(doc(db, "users", user.uid), {
+            uid: user.uid,
+            name: cleanName,
+            email: cleanEmail,
+            role: isSuperAdminEmail ? "admin" : "member",
+            createdAt: new Date().toISOString(),
+          });
+        } catch (fsErr) {
+          console.warn("Firestore user registration warning:", fsErr);
+        }
         setError(null);
         alert("Akun berhasil dibuat! Silakan login.");
         toggleMode();
       }
     } catch (error: any) {
-      const errorCode = error.code;
-      let message = "Terjadi kesalahan. Silakan coba lagi.";
+      console.error("Auth error:", error);
+      const errorCode = error.code || "";
+      let message = "Terjadi kesalahan saat masuk. Silakan coba lagi.";
       if (
         errorCode === "auth/user-not-found" ||
+        errorCode === "auth/wrong-password" ||
         errorCode === "auth/invalid-credential"
       ) {
-        message = "Email atau password salah.";
+        message = "Email atau password salah. Silakan periksa kembali data Anda.";
+      } else if (errorCode === "auth/invalid-email") {
+        message = "Format email tidak valid. Pastikan penulisan email sudah benar.";
       } else if (errorCode === "auth/email-already-in-use") {
-        message = "Email sudah terdaftar. Silakan login.";
+        message = "Email sudah terdaftar. Silakan login langsung.";
       } else if (errorCode === "auth/too-many-requests") {
-        message = "Terlalu banyak percobaan. Coba lagi nanti.";
+        message = "Terlalu banyak percobaan login gagal. Mohon tunggu beberapa saat sebelum mencoba lagi.";
+      } else if (errorCode === "auth/user-disabled") {
+        message = "Akun ini telah dinonaktifkan oleh administrator.";
       } else if (errorCode === "auth/network-request-failed") {
-        message = "Koneksi internet terputus.";
+        message = "Koneksi internet bermasalah. Periksa jaringan Anda.";
+      } else if (error.message && !error.message.includes("Firebase:")) {
+        message = error.message;
       }
       setError(message);
     } finally {
       setIsLoading(false);
-      // Jangan matikan isSSORedirecting jika error tidak terjadi agar overlay transisi tetap muncul
     }
   };
 

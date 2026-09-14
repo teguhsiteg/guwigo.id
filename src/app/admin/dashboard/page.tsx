@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   collection,
   getDocs,
@@ -19,7 +20,6 @@ import {
   Activity,
   BarChart3,
   Loader2,
-  LogOut,
   Settings,
   TrendingUp,
   Clock,
@@ -53,43 +53,31 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     setIsMounted(true);
-    // Check admin access
+    // Check admin access (Basic fast check before Layout handles it fully)
     const adminSession = localStorage.getItem("guwigo_admin_session");
     if (!adminSession) {
       router.push("/login");
       return;
     }
 
-    // Verify admin role in Firestore
-    const verifyAdmin = async () => {
+    // We don't need to manually kick the user out here because 
+    // src/app/admin/layout.tsx and AuthContext.tsx already handle it correctly 
+    // including the SuperAdmin email fallback. 
+    // We just get the admin name for the UI.
+    const getAdminDetails = async () => {
       try {
         const user = auth.currentUser;
-        if (!user) {
-          router.push("/login");
-          return;
+        if (user) {
+          setAdminName(user.displayName || "Admin");
         }
-
-        // Simply read the user document by ID instead of complex query
-        const userDocRef = doc(db, "users", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (!userDocSnap.exists() || userDocSnap.data()?.role !== "admin") {
-          // Not authorized as admin
-          localStorage.removeItem("guwigo_admin_session");
-          router.push("/login");
-          return;
-        }
-
-        setAdminName(user.displayName || "Admin");
         setIsAuthorized(true);
       } catch (error) {
-        console.error("Error verifying admin:", error);
-        // Allow to continue anyway for now (AuthContext will handle permission)
+        console.error("Error getting admin details:", error);
         setIsAuthorized(true);
       }
     };
 
-    verifyAdmin();
+    getAdminDetails();
   }, [router]);
 
   useEffect(() => {
@@ -175,13 +163,6 @@ export default function AdminDashboardPage() {
     }
   }, [isMounted, isAuthorized]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("guwigo_admin_session");
-    localStorage.removeItem("guwigo_user_session");
-    auth.signOut();
-    router.push("/login");
-  };
-
   if (!isMounted || !isAuthorized) {
     return <TopLoadingBar />;
   }
@@ -210,49 +191,21 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen font-sans">
-      {/* Admin Navbar */}
-      <div className="bg-white border-b border-slate-200 sticky top-0 z-40">
-        <div className="p-6 lg:p-8 flex justify-between items-center max-w-7xl mx-auto">
-          <div>
-            <h2 className="text-lg font-black text-slate-900">Admin Panel</h2>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">
-              Selamat datang, {adminName}
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
-              title="Settings"
-            >
-              <Settings size={20} className="text-slate-600" />
-            </button>
-            <button
-              onClick={handleLogout}
-              className="text-slate-400 hover:text-red-500 transition-colors"
-              title="Logout"
-            >
-              <LogOut size={20} />
-            </button>
-          </div>
+    <div className="space-y-8 font-sans">
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-black text-slate-900">
+            Dashboard Overview
+          </h1>
+          <p className="text-slate-500 text-sm mt-1 font-medium">
+            Selamat datang kembali, <span className="font-bold text-slate-700">{adminName}</span>. Pantau performa bisnis Guwigo secara real-time.
+          </p>
+        </div>
+        <div className="bg-white px-4 py-2 rounded-full border border-slate-200 text-xs font-bold shadow-sm flex items-center gap-2 text-green-600 uppercase tracking-widest w-fit">
+          <Activity size={14} /> System Online
         </div>
       </div>
-
-      <div className="p-8 lg:p-12 font-sans max-w-7xl mx-auto">
-        {/* HEADER */}
-        <div className="flex justify-between items-center mb-10">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-black text-slate-900">
-              Dashboard Overview
-            </h1>
-            <p className="text-slate-500 text-sm mt-1 font-medium">
-              Pantau performa bisnis Guwigo Anda secara real-time.
-            </p>
-          </div>
-          <div className="bg-white px-4 py-2 rounded-full border border-slate-200 text-xs font-bold shadow-sm flex items-center gap-2 text-green-600 uppercase tracking-widest">
-            <Activity size={14} /> System Online
-          </div>
-        </div>
 
         {/* STATS WIDGETS */}
         {isLoading ? (
@@ -261,6 +214,58 @@ export default function AdminDashboardPage() {
           </div>
         ) : (
           <>
+            {/* QUICK OPERATIONS / MANAGEMENT SHORTCUTS */}
+            <div className="mb-10 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+              <h2 className="text-base font-black text-slate-900 mb-4 flex items-center gap-2">
+                <Settings size={18} className="text-blue-600" />
+                Pusat Operasional Cepat
+              </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <Link
+                  href="/admin/hero"
+                  className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-blue-500 hover:bg-blue-50/50 transition-all text-left group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <Activity size={20} />
+                  </div>
+                  <p className="font-bold text-sm text-slate-900">Landing Page</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Hero & Branding Web</p>
+                </Link>
+
+                <Link
+                  href="/admin/portfolio"
+                  className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-amber-500 hover:bg-amber-50/50 transition-all text-left group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <BarChart3 size={20} />
+                  </div>
+                  <p className="font-bold text-sm text-slate-900">Portofolio</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Tambah / Edit Karya</p>
+                </Link>
+
+                <Link
+                  href="/admin/products"
+                  className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-emerald-500 hover:bg-emerald-50/50 transition-all text-left group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <DollarSign size={20} />
+                  </div>
+                  <p className="font-bold text-sm text-slate-900">Guwigo Store</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Kelola Produk & Jasa</p>
+                </Link>
+
+                <Link
+                  href="/admin/services"
+                  className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-purple-500 hover:bg-purple-50/50 transition-all text-left group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <Users size={20} />
+                  </div>
+                  <p className="font-bold text-sm text-slate-900">Layanan Platform</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Atur Ekosistem & Solusi</p>
+                </Link>
+              </div>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {/* Total Revenue Card */}
               <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 relative overflow-hidden group hover:border-blue-200 transition-colors">
@@ -431,7 +436,6 @@ export default function AdminDashboardPage() {
             </div>
           </>
         )}
-      </div>
     </div>
   );
 }

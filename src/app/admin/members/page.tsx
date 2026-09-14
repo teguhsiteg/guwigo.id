@@ -145,10 +145,18 @@ export default function MembersAdminPage() {
       setIsLoading(true);
       const q = query(collection(db, "users"), orderBy("createdAt", "desc"));
       const snapshot = await getDocs(q);
-      const data = snapshot.docs.map((doc) => ({
-        uid: doc.id,
-        ...doc.data(),
-      })) as Member[];
+      const data = snapshot.docs.map((doc) => {
+        const d = doc.data();
+        return {
+          uid: doc.id,
+          name: d.name || d.displayName || d.fullName || (d.email ? d.email.split("@")[0] : "Pengguna"),
+          email: d.email || "-",
+          role: d.role === "admin" ? "admin" : "member",
+          createdAt: d.createdAt || null,
+          lastLogin: d.lastLogin || null,
+          ...d,
+        } as Member;
+      });
       setMembers(data);
     } catch (error) {
       console.error("Error fetching members:", error);
@@ -161,10 +169,11 @@ export default function MembersAdminPage() {
   const filterMembers = () => {
     let filtered = members;
     if (searchQuery) {
+      const q = searchQuery.toLowerCase();
       filtered = filtered.filter(
         (m) =>
-          m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          m.email.toLowerCase().includes(searchQuery.toLowerCase()),
+          (m.name || "").toLowerCase().includes(q) ||
+          (m.email || "").toLowerCase().includes(q),
       );
     }
     if (roleFilter !== "all") {
@@ -359,14 +368,14 @@ export default function MembersAdminPage() {
                                 : "bg-blue-600"
                             }`}
                           >
-                            {member.name.charAt(0).toUpperCase()}
+                            {(member.name || member.email || "U").charAt(0).toUpperCase()}
                           </div>
                           <div>
                             <p className="font-bold text-slate-900 text-base">
-                              {member.name}
+                              {member.name || member.email?.split("@")[0] || "Pengguna"}
                             </p>
                             <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5">
-                              <Mail size={12} /> {member.email}
+                              <Mail size={12} /> {member.email || "-"}
                             </div>
                           </div>
                         </div>
@@ -403,7 +412,7 @@ export default function MembersAdminPage() {
                                 setConfirmAction({
                                   type: "promote",
                                   uid: member.uid,
-                                  name: member.name,
+                                  name: member.name || member.email || "Pengguna",
                                 })
                               }
                               className="px-3 py-2 bg-white hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 border border-slate-200 hover:border-emerald-200 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
@@ -417,7 +426,7 @@ export default function MembersAdminPage() {
                                 setConfirmAction({
                                   type: "demote",
                                   uid: member.uid,
-                                  name: member.name,
+                                  name: member.name || member.email || "Pengguna",
                                 })
                               }
                               className="px-3 py-2 bg-white hover:bg-orange-50 text-slate-600 hover:text-orange-700 border border-slate-200 hover:border-orange-200 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
@@ -431,7 +440,7 @@ export default function MembersAdminPage() {
                               setConfirmAction({
                                 type: "delete",
                                 uid: member.uid,
-                                name: member.name,
+                                name: member.name || member.email || "Pengguna",
                               })
                             }
                             className="p-2 bg-white hover:bg-red-50 text-slate-400 hover:text-red-600 border border-slate-200 hover:border-red-200 rounded-xl transition-all shadow-sm"

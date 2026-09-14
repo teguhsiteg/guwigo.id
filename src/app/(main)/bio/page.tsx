@@ -16,7 +16,7 @@ import {
   MessageCircle,
   ExternalLink,
   Briefcase,
-  Sparkles,
+  ShieldCheck,
   Loader2,
   ArrowRight,
 } from "lucide-react";
@@ -289,11 +289,11 @@ export default function LinkInBioPage() {
           {/* ========================================= */}
           <motion.div variants={itemVariants} className="mb-10">
             <div className="flex items-center gap-2 mb-4 justify-center">
-              <Sparkles size={16} className="text-[#00D4FF]" />
+              <ShieldCheck size={16} className="text-[#00D4FF]" />
               <h2 className="text-xs font-black text-slate-300 tracking-widest uppercase">
                 Priority Access
               </h2>
-              <Sparkles size={16} className="text-[#00D4FF]" />
+              <ShieldCheck size={16} className="text-[#00D4FF]" />
             </div>
 
             <div className="space-y-4">

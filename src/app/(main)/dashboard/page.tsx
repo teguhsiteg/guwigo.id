@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  Sparkles,
+  Mail,
+  Layers,
   User,
   LogOut,
   ArrowRight,
@@ -295,13 +296,13 @@ export default function UserDashboard() {
                 {/* Card: Undangan AI */}
                 <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all group flex flex-col">
                   <div className="w-14 h-14 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6">
-                    <Sparkles size={28} />
+                    <Mail size={28} />
                   </div>
                   <div className="inline-block px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full mb-3 w-max uppercase tracking-widest">
                     Premium
                   </div>
                   <h3 className="text-xl font-bold text-slate-900 mb-3">
-                    Undangan AI Studio
+                    Undangan Studio
                   </h3>
                   <p className="text-slate-500 text-sm leading-relaxed mb-8 flex-1">
                     Editor visual cerdas untuk mencetak undangan
@@ -340,7 +341,7 @@ export default function UserDashboard() {
 
                 {/* Card: Browse More Services */}
                 <div className="bg-blue-50 rounded-3xl p-8 border border-blue-200 shadow-sm hover:shadow-md transition-all group flex flex-col justify-center items-center text-center">
-                  <Sparkles size={48} className="text-blue-600 mb-4" />
+                  <Layers size={48} className="text-blue-600 mb-4" />
                   <h3 className="text-xl font-bold text-slate-900 mb-3">
                     Lebih Banyak Layanan
                   </h3>

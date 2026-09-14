@@ -37,10 +37,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       try {
         if (user) {
-          // Get user role from Firestore
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          const userData = userDoc.data();
-          const role = (userData?.role as UserRole) || "member";
+          const isSuperAdminEmail =
+            user.email === "parthner@guwigo.com" ||
+            user.email === "admin@guwigo.com" ||
+            user.email === "teguhsiteg95@gmail.com";
+          let role: UserRole = isSuperAdminEmail ? "admin" : "member";
+
+          try {
+            // Get user role from Firestore
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            const userData = userDoc.data();
+            const rawRole = (userData?.role || "").toLowerCase();
+
+            const isAdminRole =
+              isSuperAdminEmail ||
+              rawRole === "admin" ||
+              rawRole === "super_admin" ||
+              rawRole === "superadmin";
+
+            role = isAdminRole ? "admin" : "member";
+          } catch (docErr) {
+            console.warn("Could not fetch user document from Firestore, using email fallback:", docErr);
+          }
 
           setCurrentUser(user);
           setActualRole(role);
@@ -70,10 +88,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           localStorage.removeItem("guwigo_role_override");
         }
       } catch (error) {
-        console.error("Error fetching user role:", error);
-        setCurrentUser(null);
-        setUserRole(null);
-        setActualRole(null);
+        console.error("Error in onAuthStateChanged:", error);
       } finally {
         setIsLoading(false);
       }

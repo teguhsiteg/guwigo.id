@@ -33,11 +33,11 @@ export default function AdminLayout({
 
   if (isLoading) {
     return (
-      <div className="flex flex-col md:flex-row h-screen bg-gray-50">
+      <div className="flex flex-col md:flex-row h-screen bg-slate-50">
         <TopLoadingBar />
         {/* Render shell layout while loading so it doesn't look blank */}
         <div className="hidden md:block w-72 bg-white border-r border-slate-200" />
-        <main className="flex-1 bg-gray-50" />
+        <main className="flex-1 bg-slate-50" />
       </div>
     );
   }
@@ -47,10 +47,10 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-50">
+    <div className="flex flex-col md:flex-row h-screen bg-slate-50">
       <AdminSidebar />
-      <main className="flex-1 md:ml-72 overflow-auto bg-gray-50">
-        <div className="p-4 sm:p-6 md:p-8">{children}</div>
+      <main className="flex-1 md:ml-72 overflow-auto bg-slate-50">
+        <div className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto">{children}</div>
       </main>
     </div>
   );

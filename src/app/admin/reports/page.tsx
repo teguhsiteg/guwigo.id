@@ -20,7 +20,7 @@ import {
   Award,
   Activity,
   CreditCard,
-  Sparkles,
+  FileText,
   AlertCircle, // <--- Tambahkan ini di baris terakhir
 } from "lucide-react";
 
@@ -310,7 +310,7 @@ export default function ReportsAdminPage() {
 
           <div className="relative z-10">
             <h2 className="text-xl font-black mb-6 flex items-center gap-2 text-blue-400">
-              <Sparkles size={20} /> Executive Summary
+              <FileText size={20} /> Executive Summary
             </h2>
 
             <div className="space-y-6">

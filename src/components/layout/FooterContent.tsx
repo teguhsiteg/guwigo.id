@@ -29,6 +29,7 @@ const FOOTER_LINKS = [
     items: [
       { label: "The Journey", href: "/about" },
       { label: "Enterprise Services", href: "/services" },
+      { label: "News & Wawasan", href: "/news" },
       { label: "Guwigo Store", href: "/store" },
       { label: "Hire Us", href: "/contact", isSpecial: true },
     ],
@@ -58,10 +59,11 @@ export function FooterContent() {
 
   // --- LOGIKA PENYEMBUNYIAN FOOTER BERDASARKAN URL ---
   const isAuthPage =
-    pathname?.startsWith("/login") || pathname?.startsWith("/register");
+    pathname?.startsWith("/login") || pathname?.startsWith("/register") || pathname?.startsWith("/bio");
   const isAdminPage = pathname?.startsWith("/admin");
+  const isVerifyPage = pathname?.startsWith("/verify");
 
-  if (isAdminPage || isAuthPage) {
+  if (isAdminPage || isAuthPage || isVerifyPage) {
     return null;
   }
 

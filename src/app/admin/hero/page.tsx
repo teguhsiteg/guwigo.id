@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
 import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import {
-  Sparkles,
+  LayoutTemplate,
   Save,
   Loader2,
   AlertCircle,
@@ -118,7 +118,7 @@ export default function HeroAdminPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
         <div>
           <h1 className="text-2xl md:text-3xl font-black text-slate-900 flex items-center gap-3">
-            <Sparkles className="text-blue-600" /> Hero & Branding
+            <LayoutTemplate className="text-blue-600" /> Hero & Branding
           </h1>
           <p className="text-slate-500 text-sm mt-1 font-medium">
             Atur teks, warna, dan tombol utama halaman depan website Anda di
@@ -129,14 +129,14 @@ export default function HeroAdminPage() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-lg shadow-blue-600/20 disabled:opacity-70 w-full md:w-auto justify-center"
+          className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 transition-all disabled:opacity-50"
         >
           {isSaving ? (
-            <Loader2 size={18} className="animate-spin" />
+            <Loader2 className="animate-spin" size={18} />
           ) : (
             <Save size={18} />
           )}
-          {isSaving ? "Menyimpan..." : "Simpan Perubahan"}
+          <span>Simpan Perubahan</span>
         </button>
       </div>
 
@@ -156,49 +156,52 @@ export default function HeroAdminPage() {
 
       <div className="space-y-8">
         {/* =======================================
-            SECTION 1: BRANDING INFO
+            SECTION 1: IDENTITAS UTAMA WEBSITE
         ======================================= */}
         <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
           <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
-            <Type size={20} className="text-blue-500" /> Identitas Website
+            <Type size={20} className="text-blue-500" /> Identitas Dasar
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">
-                Nama Website
+                Nama Website / Bisnis
               </label>
               <input
                 type="text"
                 value={data.siteName}
                 onChange={(e) => setData({ ...data, siteName: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-blue-500 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                placeholder="Misal: Guwigo"
               />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">
-                Tagline (Mini Text / SEO)
+                Tagline Singkat (Label Badge)
               </label>
               <input
                 type="text"
                 value={data.tagline}
                 onChange={(e) => setData({ ...data, tagline: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-blue-500 transition-all"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                placeholder="Misal: Guwigo Ecosystem"
               />
             </div>
 
             <div className="md:col-span-2">
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">
-                Deskripsi Singkat (Meta Description)
+                Deskripsi Singkat (Meta / Ringkasan)
               </label>
               <textarea
+                rows={2}
                 value={data.description}
                 onChange={(e) =>
                   setData({ ...data, description: e.target.value })
                 }
-                rows={2}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-blue-500 transition-all resize-none"
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all resize-none"
+                placeholder="Deskripsi singkat seputar apa itu Guwigo..."
               />
             </div>
 
@@ -230,7 +233,7 @@ export default function HeroAdminPage() {
         ======================================= */}
         <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm">
           <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
-            <Sparkles size={20} className="text-blue-500" /> Teks Hero Utama
+            <LayoutTemplate size={20} className="text-blue-500" /> Teks Hero Utama
           </h2>
 
           <div className="space-y-6">

@@ -14,7 +14,11 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-const SUPERADMIN_EMAIL = "teguhsiteg95@gmail.com";
+const SUPERADMIN_EMAILS = [
+  "parthner@guwigo.com",
+  "admin@guwigo.com",
+  "teguhsiteg95@gmail.com",
+];
 
 /**
  * Verify that the superadmin account exists in Firestore
@@ -25,13 +29,13 @@ export async function verifySuperadminExists(): Promise<boolean> {
     const usersRef = collection(db, "users");
     const superadminQuery = query(
       usersRef,
-      where("email", "==", SUPERADMIN_EMAIL),
+      where("email", "in", SUPERADMIN_EMAILS),
     );
     const snapshot = await getDocs(superadminQuery);
 
     if (snapshot.empty) {
       console.warn(
-        `⚠️ Superadmin account (${SUPERADMIN_EMAIL}) not found in Firestore`,
+        `⚠️ Superadmin account (${SUPERADMIN_EMAILS.join(", ")}) not found in Firestore`,
       );
       return false;
     }
@@ -46,7 +50,7 @@ export async function verifySuperadminExists(): Promise<boolean> {
       return false;
     }
 
-    console.log(`✅ Superadmin account verified (${SUPERADMIN_EMAIL})`);
+    console.log(`✅ Superadmin account verified (${superadminData?.email || SUPERADMIN_EMAILS[0]})`);
     return true;
   } catch (error) {
     console.error("Error verifying superadmin:", error);
@@ -58,7 +62,7 @@ export async function verifySuperadminExists(): Promise<boolean> {
  * Get superadmin email (used for configuration)
  */
 export function getSuperadminEmail(): string {
-  return SUPERADMIN_EMAIL;
+  return SUPERADMIN_EMAILS[0];
 }
 
 /**
@@ -107,7 +111,7 @@ export async function initializeDatabase() {
       console.warn(`To create the superadmin account, run:`);
       console.warn(`  npm run setup:superadmin`);
       console.warn(`\nOr manually create in Firebase Console:`);
-      console.warn(`  Email: ${SUPERADMIN_EMAIL}`);
+      console.warn(`  Email: ${SUPERADMIN_EMAILS[0]}`);
       console.warn(`  Role: admin\n`);
     }
 
