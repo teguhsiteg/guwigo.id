@@ -17,6 +17,7 @@ import {
   Loader2,
   ShieldCheck,
   Download,
+  Settings as SettingsIcon,
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { Button, Badge } from "@/components/ui";
@@ -205,6 +206,16 @@ export default function ReceiptDetailPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          <Link href="/admin/invoices/settings">
+            <Button
+              variant="outline"
+              size="sm"
+              icon={<SettingsIcon size={16} />}
+              title="Kustomisasi Template Dokumen (Ukuran Gambar, Font, Stempel)"
+            >
+              Atur Tampilan Dokumen
+            </Button>
+          </Link>
           <Button
             size="sm"
             isLoading={isExportingPdf}
@@ -230,7 +241,19 @@ export default function ReceiptDetailPage() {
         {/* Formal Indonesian Kuitansi Sheet (PDF Capture Target) - Murni kertas A4 tanpa bingkai card */}
         <div
           id="receipt-printable-doc"
-          className="print-a4-sheet bg-white text-slate-900 w-full relative overflow-hidden"
+          className={`print-a4-sheet bg-white text-slate-900 w-full relative overflow-hidden ${
+            settings.fontFamily === "font-serif"
+              ? "font-serif"
+              : settings.fontFamily === "font-mono"
+              ? "font-mono"
+              : "font-sans"
+          } ${
+            settings.fontSize === "compact"
+              ? "text-[11px]"
+              : settings.fontSize === "large"
+              ? "text-sm"
+              : "text-xs"
+          }`}
           style={{ boxSizing: "border-box", border: "none", borderRadius: 0, boxShadow: "none" }}
         >
         {/* Subtle Watermark Stamp */}
@@ -245,7 +268,13 @@ export default function ReceiptDetailPage() {
           <div>
             <div className="flex items-center gap-3 mb-1">
               {settings.logoUrl ? (
-                <div className="relative w-32 h-8">
+                <div
+                  className="relative"
+                  style={{
+                    width: `${settings.logoWidth || 144}px`,
+                    height: `${settings.logoHeight || 36}px`,
+                  }}
+                >
                   <Image
                     src={settings.logoUrl}
                     alt={settings.companyName}
@@ -254,7 +283,10 @@ export default function ReceiptDetailPage() {
                   />
                 </div>
               ) : (
-                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-lg">
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-lg"
+                  style={{ backgroundColor: settings.primaryColor || "#2563eb" }}
+                >
                   G
                 </div>
               )}
@@ -432,25 +464,38 @@ export default function ReceiptDetailPage() {
               
               {/* Tanda Tangan (Jika ada) */}
               {settings.signatureUrl && (
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-5 w-32 h-18 pointer-events-none select-none z-10">
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 bottom-5 pointer-events-none select-none z-10"
+                  style={{
+                    width: `${settings.signatureWidth || 128}px`,
+                    height: `${settings.signatureHeight || 72}px`,
+                  }}
+                >
                   <Image
                     src={settings.signatureUrl}
                     alt="Tanda Tangan"
-                    width={128}
-                    height={72}
+                    width={settings.signatureWidth || 128}
+                    height={settings.signatureHeight || 72}
                     className="object-contain"
                   />
                 </div>
               )}
 
-              {/* Stempel Resmi (Lebih besar, agak miring, di kiri tanda tangan & menyentuh ttd) */}
+              {/* Stempel Resmi (Dapat diatur ukuran & derajat kemiringannya) */}
               {settings.stampUrl && (
-                <div className="absolute -left-10 -bottom-2 w-36 h-36 pointer-events-none select-none opacity-90 rotate-[-14deg] z-15">
+                <div
+                  className="absolute -left-10 -bottom-2 pointer-events-none select-none opacity-90 z-15"
+                  style={{
+                    width: `${settings.stampSize || 144}px`,
+                    height: `${settings.stampSize || 144}px`,
+                    transform: `rotate(${settings.stampRotation ?? -14}deg)`,
+                  }}
+                >
                   <Image
                     src={settings.stampUrl}
                     alt="Stempel Resmi"
-                    width={144}
-                    height={144}
+                    width={settings.stampSize || 144}
+                    height={settings.stampSize || 144}
                     className="object-contain"
                   />
                 </div>

@@ -24,6 +24,7 @@ import {
   Download,
   Pencil,
   Trash2,
+  Settings as SettingsIcon,
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { Button, Badge } from "@/components/ui";
@@ -294,6 +295,17 @@ export default function InvoiceDetailPage() {
             </Button>
           </Link>
 
+          <Link href="/admin/invoices/settings">
+            <Button
+              variant="outline"
+              size="sm"
+              icon={<SettingsIcon size={16} />}
+              title="Kustomisasi Template Dokumen (Ukuran Gambar, Font, Stempel)"
+            >
+              Atur Tampilan Dokumen
+            </Button>
+          </Link>
+
           <Button
             size="sm"
             isLoading={isExportingPdf}
@@ -331,7 +343,19 @@ export default function InvoiceDetailPage() {
         {/* Invoice Printable Document (Captured for PDF) - Murni kertas A4 tanpa bingkai card */}
         <div
           id="invoice-printable-doc"
-          className="print-a4-sheet w-full bg-white text-slate-800"
+          className={`print-a4-sheet w-full bg-white text-slate-800 ${
+            settings.fontFamily === "font-serif"
+              ? "font-serif"
+              : settings.fontFamily === "font-mono"
+              ? "font-mono"
+              : "font-sans"
+          } ${
+            settings.fontSize === "compact"
+              ? "text-[11px]"
+              : settings.fontSize === "large"
+              ? "text-sm"
+              : "text-xs"
+          }`}
           style={{ boxSizing: "border-box", border: "none", borderRadius: 0, boxShadow: "none" }}
         >
         {/* Invoice Header */}
@@ -339,7 +363,13 @@ export default function InvoiceDetailPage() {
           <div>
             <div className="flex items-center gap-3 mb-1.5">
               {settings.logoUrl ? (
-                <div className="relative w-36 h-9">
+                <div
+                  className="relative"
+                  style={{
+                    width: `${settings.logoWidth || 144}px`,
+                    height: `${settings.logoHeight || 36}px`,
+                  }}
+                >
                   <Image
                     src={settings.logoUrl}
                     alt={settings.companyName}
@@ -348,7 +378,10 @@ export default function InvoiceDetailPage() {
                   />
                 </div>
               ) : (
-                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-lg">
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-lg"
+                  style={{ backgroundColor: settings.primaryColor || "#2563eb" }}
+                >
                   G
                 </div>
               )}
@@ -368,7 +401,10 @@ export default function InvoiceDetailPage() {
           </div>
 
           <div className="text-left sm:text-right">
-            <h2 className="text-2xl sm:text-3xl font-black text-blue-600 uppercase tracking-wider mb-1">
+            <h2
+              className="text-2xl sm:text-3xl font-black uppercase tracking-wider mb-1"
+              style={{ color: settings.primaryColor || "#2563eb" }}
+            >
               INVOICE
             </h2>
             <p className="text-sm font-bold font-mono text-slate-800">
@@ -532,7 +568,10 @@ export default function InvoiceDetailPage() {
             )}
             <div className="border-t-2 border-slate-800 pt-2 flex justify-between items-center">
               <span className="font-bold text-slate-900 text-sm">TOTAL:</span>
-              <span className="text-xl sm:text-2xl font-black text-blue-600 font-mono">
+              <span
+                className="text-xl sm:text-2xl font-black font-mono"
+                style={{ color: settings.primaryColor || "#2563eb" }}
+              >
                 {formatCurrency(invoice.total)}
               </span>
             </div>
@@ -556,7 +595,10 @@ export default function InvoiceDetailPage() {
                 />
               </div>
               <div className="space-y-0.5">
-                <div className="flex items-center gap-1.5 text-blue-600 font-bold text-[11px] uppercase tracking-wide">
+                <div
+                  className="flex items-center gap-1.5 font-bold text-[11px] uppercase tracking-wide"
+                  style={{ color: settings.primaryColor || "#2563eb" }}
+                >
                   <ShieldCheck size={14} />
                   Dokumen Sah & Terverifikasi
                 </div>
@@ -619,25 +661,38 @@ export default function InvoiceDetailPage() {
               
               {/* Tanda Tangan (Jika diisi) */}
               {settings.signatureUrl && (
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-5 w-32 h-18 pointer-events-none select-none z-10">
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 bottom-5 pointer-events-none select-none z-10"
+                  style={{
+                    width: `${settings.signatureWidth || 128}px`,
+                    height: `${settings.signatureHeight || 72}px`,
+                  }}
+                >
                   <Image
                     src={settings.signatureUrl}
                     alt="Tanda Tangan"
-                    width={128}
-                    height={72}
+                    width={settings.signatureWidth || 128}
+                    height={settings.signatureHeight || 72}
                     className="object-contain"
                   />
                 </div>
               )}
 
-              {/* Stempel Perusahaan (Lebih besar, agak miring, di kiri tanda tangan & menyentuh ttd) */}
+              {/* Stempel Perusahaan (Dapat diatur ukuran & kemiringan derajatnya) */}
               {settings.stampUrl && (
-                <div className="absolute -left-10 -bottom-2 w-36 h-36 pointer-events-none select-none opacity-90 rotate-[-14deg] z-15">
+                <div
+                  className="absolute -left-10 -bottom-2 pointer-events-none select-none opacity-90 z-15"
+                  style={{
+                    width: `${settings.stampSize || 144}px`,
+                    height: `${settings.stampSize || 144}px`,
+                    transform: `rotate(${settings.stampRotation ?? -14}deg)`,
+                  }}
+                >
                   <Image
                     src={settings.stampUrl}
                     alt="Stempel Resmi"
-                    width={144}
-                    height={144}
+                    width={settings.stampSize || 144}
+                    height={settings.stampSize || 144}
                     className="object-contain"
                   />
                 </div>

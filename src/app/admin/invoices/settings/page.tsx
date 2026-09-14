@@ -12,6 +12,10 @@ import {
   Image as ImageIcon,
   CheckCircle2,
   Loader2,
+  Type,
+  Palette,
+  Maximize2,
+  RotateCw,
 } from "lucide-react";
 import { Button } from "@/components/ui";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -33,6 +37,17 @@ export interface InvoiceSettings {
   signerTitle: string;
   bankAccounts: string;
   invoiceFooterNote: string;
+  // Typography & Styling Options
+  fontFamily?: string;
+  fontSize?: "compact" | "normal" | "large";
+  primaryColor?: string;
+  // Image sizing & positioning
+  logoWidth?: number;
+  logoHeight?: number;
+  stampSize?: number;
+  stampRotation?: number;
+  signatureWidth?: number;
+  signatureHeight?: number;
 }
 
 export const defaultInvoiceSettings: InvoiceSettings = {
@@ -49,6 +64,16 @@ export const defaultInvoiceSettings: InvoiceSettings = {
   signerTitle: "Bagian Keuangan / Finance",
   bankAccounts: "Bank Mandiri / Bank BCA\na.n. PT Guwigo Teknologi Indonesia\n(Rekening Perusahaan)",
   invoiceFooterNote: "Invoice ini sah dan diproses otomatis oleh Guwigo Billing System.",
+  // Default Typography & Styling
+  fontFamily: "font-sans",
+  fontSize: "normal",
+  primaryColor: "#2563eb",
+  logoWidth: 144,
+  logoHeight: 36,
+  stampSize: 144,
+  stampRotation: -14,
+  signatureWidth: 128,
+  signatureHeight: 72,
 };
 
 export default function InvoiceSettingsPage() {
@@ -199,13 +224,35 @@ export default function InvoiceSettingsPage() {
                   <Image
                     src={settings.logoUrl}
                     alt="Preview Logo"
-                    width={120}
-                    height={40}
-                    className="object-contain max-h-16"
+                    width={settings.logoWidth || 144}
+                    height={settings.logoHeight || 36}
+                    style={{
+                      width: `${settings.logoWidth || 144}px`,
+                      height: `${settings.logoHeight || 36}px`,
+                    }}
+                    className="object-contain"
                   />
                 ) : (
                   <span className="text-xs text-slate-400">Belum ada logo</span>
                 )}
+              </div>
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <div>
+                  <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Lebar (px)</label>
+                  <Input
+                    type="number"
+                    value={settings.logoWidth ?? 144}
+                    onChange={(e) => setSettings({ ...settings, logoWidth: Number(e.target.value) || 144 })}
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Tinggi (px)</label>
+                  <Input
+                    type="number"
+                    value={settings.logoHeight ?? 36}
+                    onChange={(e) => setSettings({ ...settings, logoHeight: Number(e.target.value) || 36 })}
+                  />
+                </div>
               </div>
             </div>
 
@@ -216,18 +263,41 @@ export default function InvoiceSettingsPage() {
                 value={settings.stampUrl}
                 onChange={(e) => setSettings({ ...settings, stampUrl: e.target.value })}
               />
-              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center h-28 relative">
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center h-28 relative overflow-hidden">
                 {settings.stampUrl ? (
                   <Image
                     src={settings.stampUrl}
                     alt="Preview Stempel"
-                    width={80}
-                    height={80}
-                    className="object-contain max-h-20"
+                    width={settings.stampSize || 144}
+                    height={settings.stampSize || 144}
+                    style={{
+                      transform: `rotate(${settings.stampRotation ?? -14}deg)`,
+                      width: `${(settings.stampSize || 144) * 0.6}px`,
+                      height: `${(settings.stampSize || 144) * 0.6}px`,
+                    }}
+                    className="object-contain"
                   />
                 ) : (
                   <span className="text-xs text-slate-400">Belum ada stempel</span>
                 )}
+              </div>
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <div>
+                  <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Ukuran (px)</label>
+                  <Input
+                    type="number"
+                    value={settings.stampSize ?? 144}
+                    onChange={(e) => setSettings({ ...settings, stampSize: Number(e.target.value) || 144 })}
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Derajat Miring (°)</label>
+                  <Input
+                    type="number"
+                    value={settings.stampRotation ?? -14}
+                    onChange={(e) => setSettings({ ...settings, stampRotation: Number(e.target.value) || 0 })}
+                  />
+                </div>
               </div>
             </div>
 
@@ -244,13 +314,35 @@ export default function InvoiceSettingsPage() {
                   <Image
                     src={settings.signatureUrl}
                     alt="Preview Tanda Tangan"
-                    width={100}
-                    height={60}
-                    className="object-contain max-h-16"
+                    width={settings.signatureWidth || 128}
+                    height={settings.signatureHeight || 72}
+                    style={{
+                      width: `${settings.signatureWidth || 128}px`,
+                      height: `${settings.signatureHeight || 72}px`,
+                    }}
+                    className="object-contain"
                   />
                 ) : (
                   <span className="text-xs text-slate-400">Tanda Tangan Teks/Manual</span>
                 )}
+              </div>
+              <div className="grid grid-cols-2 gap-2 pt-1">
+                <div>
+                  <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Lebar (px)</label>
+                  <Input
+                    type="number"
+                    value={settings.signatureWidth ?? 128}
+                    onChange={(e) => setSettings({ ...settings, signatureWidth: Number(e.target.value) || 128 })}
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-semibold text-slate-500 mb-1 block">Tinggi (px)</label>
+                  <Input
+                    type="number"
+                    value={settings.signatureHeight ?? 72}
+                    onChange={(e) => setSettings({ ...settings, signatureHeight: Number(e.target.value) || 72 })}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -268,6 +360,79 @@ export default function InvoiceSettingsPage() {
               value={settings.signerName}
               onChange={(e) => setSettings({ ...settings, signerName: e.target.value })}
             />
+          </div>
+        </Card>
+
+        {/* Tipografi & Gaya Dokumen Cetak */}
+        <Card>
+          <CardHeader
+            title="Tipografi & Tampilan Dokumen Cetak"
+            subtitle="Atur jenis font, skala teks, dan warna aksen utama yang dicetak"
+            icon={<Type size={20} />}
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+              <label className="text-xs font-semibold text-slate-700 mb-2 block">
+                Jenis Font (Font Family)
+              </label>
+              <select
+                className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                value={settings.fontFamily || "font-sans"}
+                onChange={(e) => setSettings({ ...settings, fontFamily: e.target.value })}
+              >
+                <option value="font-sans">Default Sans-Serif (Modern & Bersih)</option>
+                <option value="font-serif">Serif (Formal & Tradisional)</option>
+                <option value="font-mono">Monospace (Teknis & Presisi)</option>
+              </select>
+              <p className="text-[11px] text-slate-400 mt-1">
+                Berlaku untuk seluruh teks pada lembar cetak invoice & kuitansi.
+              </p>
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-slate-700 mb-2 block">
+                Skala Ukuran Teks
+              </label>
+              <select
+                className="w-full h-10 px-3 rounded-xl border border-slate-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                value={settings.fontSize || "normal"}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    fontSize: e.target.value as "compact" | "normal" | "large",
+                  })
+                }
+              >
+                <option value="compact">Compact (Lebih padat, aman untuk item banyak)</option>
+                <option value="normal">Standar / Proporsional (Rekomendasi 1 Lembar)</option>
+                <option value="large">Besar / Luwes</option>
+              </select>
+              <p className="text-[11px] text-slate-400 mt-1">
+                Gunakan Compact jika item layanan panjang agar tetap 1 lembar A4.
+              </p>
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-slate-700 mb-2 block">
+                Warna Aksen Dokumen
+              </label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="color"
+                  className="w-10 h-10 rounded-lg cursor-pointer border border-slate-200 p-0.5 bg-white"
+                  value={settings.primaryColor || "#2563eb"}
+                  onChange={(e) => setSettings({ ...settings, primaryColor: e.target.value })}
+                />
+                <Input
+                  value={settings.primaryColor || "#2563eb"}
+                  onChange={(e) => setSettings({ ...settings, primaryColor: e.target.value })}
+                  placeholder="#2563eb"
+                />
+              </div>
+              <p className="text-[11px] text-slate-400 mt-1">
+                Warna judul INVOICE dan nominal total tagihan.
+              </p>
+            </div>
           </div>
         </Card>
 
