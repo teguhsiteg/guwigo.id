@@ -101,7 +101,7 @@ export default function ReceiptDetailPage() {
       const cleanNumber = receipt.receiptNumber.replace(/[\/\\]/g, "_");
       const clientClean = (receipt.receivedFrom || "Receipt").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
-        margin: [8, 8, 8, 8],
+        margin: [12, 12, 12, 12],
         filename: `${cleanNumber}_${clientClean}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
@@ -141,7 +141,7 @@ export default function ReceiptDetailPage() {
       const cleanNumber = receipt.receiptNumber.replace(/[\/\\]/g, "_");
       const clientClean = (receipt.receivedFrom || "Receipt").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
-        margin: [8, 8, 8, 8],
+        margin: [12, 12, 12, 12],
         filename: `${cleanNumber}_${clientClean}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
@@ -225,11 +225,14 @@ export default function ReceiptDetailPage() {
         </div>
       </div>
 
-      {/* Formal Indonesian Kuitansi Sheet */}
-      <div
-        id="receipt-printable-doc"
-        className="print-a4-sheet p-8 sm:p-12 shadow-sm border-2 border-slate-300 bg-white relative overflow-hidden rounded-xl print:border-none print:shadow-none print:p-0"
-      >
+      {/* Screen Preview Container */}
+      <div className="max-w-3xl mx-auto bg-white p-6 sm:p-10 shadow-sm border border-slate-200 rounded-xl print:border-none print:shadow-none print:p-0">
+        {/* Formal Indonesian Kuitansi Sheet (PDF Capture Target) - Murni kertas A4 tanpa bingkai card */}
+        <div
+          id="receipt-printable-doc"
+          className="print-a4-sheet bg-white text-slate-900 w-full relative overflow-hidden"
+          style={{ boxSizing: "border-box", border: "none", borderRadius: 0, boxShadow: "none" }}
+        >
         {/* Subtle Watermark Stamp */}
         <div className="absolute right-12 bottom-24 opacity-[0.03] select-none pointer-events-none">
           <div className="text-9xl font-black border-8 border-slate-900 rounded-3xl p-6 rotate-[-15deg]">
@@ -455,6 +458,7 @@ export default function ReceiptDetailPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

@@ -140,7 +140,7 @@ export default function InvoiceDetailPage() {
       const cleanNumber = invoice.invoiceNumber.replace(/[\/\\]/g, "_");
       const clientClean = (invoice.client?.name || "Client").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
-        margin: [8, 8, 8, 8],
+        margin: [12, 12, 12, 12],
         filename: `${cleanNumber}_${clientClean}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
@@ -180,7 +180,7 @@ export default function InvoiceDetailPage() {
       const cleanNumber = invoice.invoiceNumber.replace(/[\/\\]/g, "_");
       const clientClean = (invoice.client?.name || "Client").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
-        margin: [8, 8, 8, 8],
+        margin: [12, 12, 12, 12],
         filename: `${cleanNumber}_${clientClean}.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
@@ -326,12 +326,14 @@ export default function InvoiceDetailPage() {
         </div>
       </div>
 
-      {/* Invoice Sheet Preview (Fixed A4 Portrait Layout) */}
-      <div
-        id="invoice-printable-doc"
-        className="print-a4-sheet w-full max-w-[210mm] mx-auto bg-white p-8 sm:p-12 shadow-sm border border-slate-200 rounded-2xl print:shadow-none print:border-none print:p-0 print:m-0 print:w-full print:max-w-none text-slate-800"
-        style={{ minHeight: "297mm", boxSizing: "border-box" }}
-      >
+      {/* Screen Preview Container */}
+      <div className="w-full max-w-[210mm] mx-auto bg-white p-6 sm:p-10 shadow-sm border border-slate-200 rounded-xl print:border-none print:shadow-none print:p-0">
+        {/* Invoice Printable Document (Captured for PDF) - Murni kertas A4 tanpa bingkai card */}
+        <div
+          id="invoice-printable-doc"
+          className="print-a4-sheet w-full bg-white text-slate-800"
+          style={{ boxSizing: "border-box", border: "none", borderRadius: 0, boxShadow: "none" }}
+        >
         {/* Invoice Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start gap-8 pb-8 border-b border-slate-200">
           <div>
@@ -643,6 +645,7 @@ export default function InvoiceDetailPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
