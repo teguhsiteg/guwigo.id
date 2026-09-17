@@ -110,6 +110,7 @@ export default function ReceiptDetailPage() {
           useCORS: true,
           logging: false,
           scrollY: 0,
+          windowWidth: 800,
         },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         pagebreak: { mode: ["avoid-all", "css", "legacy"] },
@@ -150,6 +151,7 @@ export default function ReceiptDetailPage() {
           useCORS: true,
           logging: false,
           scrollY: 0,
+          windowWidth: 800,
         },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         pagebreak: { mode: ["avoid-all", "css", "legacy"] },
@@ -241,7 +243,7 @@ export default function ReceiptDetailPage() {
         {/* Formal Indonesian Kuitansi Sheet (PDF Capture Target) - Murni kertas A4 tanpa bingkai card */}
         <div
           id="receipt-printable-doc"
-          className={`print-a4-sheet bg-white text-slate-900 w-full relative overflow-hidden ${
+          className={`print-a4-sheet pb-10 bg-white text-slate-900 w-full relative overflow-hidden ${
             settings.fontFamily === "font-serif"
               ? "font-serif"
               : settings.fontFamily === "font-mono"
@@ -340,11 +342,6 @@ export default function ReceiptDetailPage() {
             <span className="sm:col-span-1 hidden sm:inline text-center">:</span>
             <span className="sm:col-span-8 font-medium text-slate-800 leading-relaxed border-b border-dotted border-slate-300 pb-1">
               {receipt.purpose}
-              {receipt.invoiceNumber && (
-                <span className="ml-2 text-xs font-bold text-blue-600">
-                  (Ref: {receipt.invoiceNumber})
-                </span>
-              )}
             </span>
           </div>
 
@@ -484,7 +481,7 @@ export default function ReceiptDetailPage() {
               {/* Stempel Resmi (Dapat diatur ukuran & derajat kemiringannya) */}
               {settings.stampUrl && (
                 <div
-                  className="absolute -left-10 -bottom-2 pointer-events-none select-none opacity-90 z-15"
+                  className="absolute -left-10 -top-8 pointer-events-none select-none opacity-90 z-10"
                   style={{
                     width: `${settings.stampSize || 144}px`,
                     height: `${settings.stampSize || 144}px`,

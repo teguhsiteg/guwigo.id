@@ -88,12 +88,7 @@ export function generateReceiptNumber(count: number): string {
 }
 
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
+  return "Rp " + (amount || 0).toLocaleString("id-ID");
 }
 
 export function amountToWords(num: number): string {

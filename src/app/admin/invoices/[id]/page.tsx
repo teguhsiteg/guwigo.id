@@ -149,6 +149,7 @@ export default function InvoiceDetailPage() {
           useCORS: true,
           logging: false,
           scrollY: 0,
+          windowWidth: 800,
         },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         pagebreak: { mode: ["avoid-all", "css", "legacy"] },
@@ -189,6 +190,7 @@ export default function InvoiceDetailPage() {
           useCORS: true,
           logging: false,
           scrollY: 0,
+          windowWidth: 800,
         },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         pagebreak: { mode: ["avoid-all", "css", "legacy"] },
@@ -343,7 +345,7 @@ export default function InvoiceDetailPage() {
         {/* Invoice Printable Document (Captured for PDF) - Murni kertas A4 tanpa bingkai card */}
         <div
           id="invoice-printable-doc"
-          className={`print-a4-sheet w-full bg-white text-slate-800 ${
+          className={`print-a4-sheet pb-10 w-full bg-white text-slate-800 ${
             settings.fontFamily === "font-serif"
               ? "font-serif"
               : settings.fontFamily === "font-mono"
@@ -681,7 +683,7 @@ export default function InvoiceDetailPage() {
               {/* Stempel Perusahaan (Dapat diatur ukuran & kemiringan derajatnya) */}
               {settings.stampUrl && (
                 <div
-                  className="absolute -left-10 -bottom-2 pointer-events-none select-none opacity-90 z-15"
+                  className="absolute -left-10 -top-8 pointer-events-none select-none opacity-90 z-10"
                   style={{
                     width: `${settings.stampSize || 144}px`,
                     height: `${settings.stampSize || 144}px`,
