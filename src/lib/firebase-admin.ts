@@ -6,10 +6,13 @@ if (!admin.apps.length) {
   // Coba gunakan raw JSON dari environment variable (paling disarankan untuk Vercel/Serverless)
   if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
     try {
-      const serviceAccount = JSON.parse(
+      const parsed = JSON.parse(
         process.env.FIREBASE_SERVICE_ACCOUNT_KEY,
       );
-      credential = admin.credential.cert(serviceAccount);
+      if (parsed.private_key) {
+        parsed.private_key = parsed.private_key.replace(/\\n/g, '\n');
+      }
+      credential = admin.credential.cert(parsed);
     } catch (error) {
       console.error(
         "❌ Error parsing FIREBASE_SERVICE_ACCOUNT_KEY JSON:",
@@ -36,9 +39,17 @@ if (!admin.apps.length) {
       credential,
       projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
     });
-    console.log("✅ Firebase Admin initialized successfully.");
+    console.log("✅ Firebase Admin initialized successfully using provided credentials.");
   } else {
-    console.error("❌ Firebase Admin could not be initialized. Missing credentials.");
+    try {
+      // Fallback to Application Default Credentials (works automatically on Firebase Functions / Google Cloud)
+      admin.initializeApp({
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      });
+      console.log("✅ Firebase Admin initialized using Application Default Credentials.");
+    } catch (error) {
+      console.error("❌ Firebase Admin could not be initialized. Missing credentials.", error);
+    }
   }
 }
 

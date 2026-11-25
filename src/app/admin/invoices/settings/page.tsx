@@ -22,59 +22,7 @@ import { Input, Textarea } from "@/components/ui/Input";
 import Card, { CardHeader } from "@/components/ui/Card";
 import { toast } from "sonner";
 import Image from "next/image";
-
-export interface InvoiceSettings {
-  companyName: string;
-  tagline: string;
-  address: string;
-  email: string;
-  phone: string;
-  website: string;
-  logoUrl: string;
-  stampUrl: string;
-  signatureUrl: string;
-  signerName: string;
-  signerTitle: string;
-  bankAccounts: string;
-  invoiceFooterNote: string;
-  // Typography & Styling Options
-  fontFamily?: string;
-  fontSize?: "compact" | "normal" | "large";
-  primaryColor?: string;
-  // Image sizing & positioning
-  logoWidth?: number;
-  logoHeight?: number;
-  stampSize?: number;
-  stampRotation?: number;
-  signatureWidth?: number;
-  signatureHeight?: number;
-}
-
-export const defaultInvoiceSettings: InvoiceSettings = {
-  companyName: "PT GUWIGO TEKNOLOGI INDONESIA",
-  tagline: "Software House & Enterprise Digital Solutions",
-  address: "Yogyakarta, D.I. Yogyakarta, Indonesia",
-  email: "billing@guwigo.com",
-  phone: "+62 812-0000-0000",
-  website: "https://guwigo.com",
-  logoUrl: "/images/branding/logo-guwigo-new.png",
-  stampUrl: "/images/branding/stempel.png",
-  signatureUrl: "/images/branding/ttd-finance.png",
-  signerName: "PT Guwigo Teknologi Indonesia",
-  signerTitle: "Bagian Keuangan / Finance",
-  bankAccounts: "Bank Mandiri / Bank BCA\na.n. PT Guwigo Teknologi Indonesia\n(Rekening Perusahaan)",
-  invoiceFooterNote: "Invoice ini sah dan diproses otomatis oleh Guwigo Billing System.",
-  // Default Typography & Styling
-  fontFamily: "font-sans",
-  fontSize: "normal",
-  primaryColor: "#2563eb",
-  logoWidth: 144,
-  logoHeight: 36,
-  stampSize: 144,
-  stampRotation: -14,
-  signatureWidth: 128,
-  signatureHeight: 72,
-};
+import { InvoiceSettings, defaultInvoiceSettings } from "@/types/invoice";
 
 export default function InvoiceSettingsPage() {
   const [settings, setSettings] = useState<InvoiceSettings>(defaultInvoiceSettings);
@@ -173,6 +121,12 @@ export default function InvoiceSettingsPage() {
               label="Nomor Telepon / WhatsApp"
               value={settings.phone}
               onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
+            />
+            <Input
+              label="Kode Dokumen (Singkatan Perusahaan)"
+              placeholder="Contoh: GWG / MYCORP"
+              value={settings.documentPrefix || ""}
+              onChange={(e) => setSettings({ ...settings, documentPrefix: e.target.value.toUpperCase() })}
             />
             <div className="sm:col-span-2">
               <Textarea

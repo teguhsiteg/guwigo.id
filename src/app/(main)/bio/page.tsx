@@ -60,14 +60,14 @@ const getIconConfig = (iconName: string) => {
       };
     case "ShoppingBag":
       return {
-        icon: <ShoppingBag size={22} className="text-[#0B1324]" />,
-        bg: "bg-gradient-to-br from-amber-400 to-orange-500",
+        icon: <ShoppingBag size={22} className="text-white" />,
+        bg: "bg-gradient-to-br from-amber-500 to-orange-600",
         shadow: "shadow-amber-500/20",
       };
     case "Globe":
       return {
         icon: <Globe size={22} className="text-white" />,
-        bg: "bg-gradient-to-br from-emerald-400 to-teal-500",
+        bg: "bg-gradient-to-br from-emerald-500 to-teal-600",
         shadow: "shadow-emerald-500/20",
       };
     case "Terminal":
@@ -79,14 +79,14 @@ const getIconConfig = (iconName: string) => {
     case "Code2":
       return {
         icon: <Code2 size={22} className="text-white" />,
-        bg: "bg-gradient-to-br from-indigo-500 to-purple-600",
+        bg: "bg-gradient-to-br from-indigo-500 to-blue-600",
         shadow: "shadow-indigo-500/20",
       };
     case "Briefcase":
       return {
-        icon: <Briefcase size={22} className="text-[#0B1324]" />,
-        bg: "bg-gradient-to-br from-[#00D4FF] to-blue-400",
-        shadow: "shadow-[#00D4FF]/20",
+        icon: <Briefcase size={22} className="text-white" />,
+        bg: "bg-gradient-to-br from-[#2563EB] to-[#06B6D4]",
+        shadow: "shadow-blue-500/20",
       };
     default:
       return {
@@ -228,11 +228,11 @@ export default function LinkInBioPage() {
         }}
       />
 
-      <div className="min-h-screen bg-[#09090B] flex justify-center pt-10 md:pt-20 pb-24 font-sans text-slate-200 selection:bg-[#00D4FF]/30 relative overflow-hidden">
-        {/* Background Visual Effects (Premium Dark Glow) */}
+      <div className="min-h-screen bg-[#0A0F1D] flex justify-center pt-10 md:pt-20 pb-24 font-sans text-slate-200 selection:bg-[#2563EB]/30 selection:text-white relative overflow-hidden">
+        {/* Background Visual Effects (Editorial Dark Glow) */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00D4FF]/10 via-indigo-900/5 to-transparent blur-[100px] rounded-full"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-gradient-to-b from-[#2563EB]/15 via-[#06B6D4]/10 to-transparent blur-[120px] rounded-full"></div>
         </div>
 
         <motion.div
@@ -250,8 +250,8 @@ export default function LinkInBioPage() {
           >
             <div className="relative mb-6 group cursor-pointer">
               {/* Outer Glow Animation */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#00D4FF] to-blue-600 rounded-full blur opacity-20 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative w-20 h-20 rounded-full bg-[#18181B] border border-white/10 flex items-center justify-center p-2 shadow-2xl overflow-hidden">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#2563EB] to-[#06B6D4] rounded-full blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+              <div className="relative w-20 h-20 rounded-full bg-[#0F172A] border border-[#1E293B] flex items-center justify-center p-2 shadow-2xl overflow-hidden">
                 <Image
                   src={profileData.avatar}
                   alt="Logo"
@@ -262,21 +262,21 @@ export default function LinkInBioPage() {
               </div>
             </div>
 
-            <h1 className="text-2xl font-black tracking-tight text-white mb-2">
-              {profileData.name}
+            <h1 className="text-2xl md:text-3xl font-serif font-normal tracking-tight text-white mb-2">
+              Guwigo <span className="italic text-[#38BDF8]">Ecosystem</span>
             </h1>
-            <p className="text-slate-400 text-sm leading-relaxed mb-6 font-medium max-w-[350px]">
+            <p className="text-slate-400 text-sm leading-relaxed mb-6 font-normal max-w-[360px]">
               {profileData.description}
             </p>
 
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {profileData.socials.map((social, index) => (
                 <a
                   key={index}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center text-slate-400 hover:bg-white/10 hover:text-white hover:-translate-y-1 hover:shadow-lg hover:shadow-[#00D4FF]/10 transition-all duration-300"
+                  className="w-11 h-11 rounded-xl bg-[#0F172A]/80 backdrop-blur-md border border-[#1E293B] flex items-center justify-center text-slate-400 hover:bg-[#1E293B] hover:text-[#38BDF8] hover:border-[#2563EB]/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[#2563EB]/10 transition-all duration-300"
                 >
                   {social.icon}
                 </a>
@@ -289,23 +289,23 @@ export default function LinkInBioPage() {
           {/* ========================================= */}
           <motion.div variants={itemVariants} className="mb-10">
             <div className="flex items-center gap-2 mb-4 justify-center">
-              <ShieldCheck size={16} className="text-[#00D4FF]" />
-              <h2 className="text-xs font-black text-slate-300 tracking-widest uppercase">
+              <ShieldCheck size={16} className="text-[#38BDF8]" />
+              <h2 className="text-xs font-mono font-medium text-slate-400 tracking-wider uppercase">
                 Priority Access
               </h2>
-              <ShieldCheck size={16} className="text-[#00D4FF]" />
+              <ShieldCheck size={16} className="text-[#38BDF8]" />
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3.5">
               {/* Primary Link (Dari Data Statis) */}
               <a
                 href={profileData.primaryLink.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-[#00D4FF]/50 hover:bg-white/10 transition-all duration-300 shadow-lg group relative overflow-hidden"
+                className="flex items-center gap-4 p-4 rounded-xl bg-[#0F172A]/70 backdrop-blur-xl border border-[#1E293B] hover:border-[#2563EB]/60 hover:bg-[#0F172A] transition-all duration-300 shadow-lg group relative overflow-hidden"
               >
                 {/* Subtle highlight effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF]/0 via-[#00D4FF]/5 to-[#00D4FF]/0 opacity-0 group-hover:opacity-100 group-hover:translate-x-full transition-all duration-1000 -skew-x-12"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#2563EB]/0 via-[#2563EB]/10 to-[#2563EB]/0 opacity-0 group-hover:opacity-100 group-hover:translate-x-full transition-all duration-1000 -skew-x-12"></div>
 
                 {(() => {
                   const config = getIconConfig(
@@ -313,23 +313,23 @@ export default function LinkInBioPage() {
                   );
                   return (
                     <div
-                      className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${config.bg} shadow-lg ${config.shadow} group-hover:scale-105 transition-transform`}
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${config.bg} shadow-md ${config.shadow} group-hover:scale-105 transition-transform`}
                     >
                       {config.icon}
                     </div>
                   );
                 })()}
                 <div className="flex-1">
-                  <h3 className="text-base font-bold text-white mb-1 group-hover:text-[#00D4FF] transition-colors">
+                  <h3 className="text-sm font-semibold text-white mb-0.5 group-hover:text-[#38BDF8] transition-colors">
                     {profileData.primaryLink.title}
                   </h3>
-                  <p className="text-xs text-slate-400 font-medium">
+                  <p className="text-xs text-slate-400 font-normal">
                     {profileData.primaryLink.desc}
                   </p>
                 </div>
                 <ArrowRight
-                  size={18}
-                  className="text-slate-500 group-hover:text-[#00D4FF] group-hover:translate-x-1 transition-all"
+                  size={16}
+                  className="text-slate-500 group-hover:text-[#38BDF8] group-hover:translate-x-1 transition-all"
                 />
               </a>
 
@@ -342,25 +342,25 @@ export default function LinkInBioPage() {
                     href={formatUrl(link.url)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-4 p-4 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 shadow-sm group"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-[#0F172A]/70 backdrop-blur-xl border border-[#1E293B] hover:border-[#2563EB]/60 hover:bg-[#0F172A] transition-all duration-300 shadow-sm group"
                   >
                     <div
-                      className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${config.bg} shadow-lg ${config.shadow} group-hover:scale-105 transition-transform`}
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${config.bg} shadow-md ${config.shadow} group-hover:scale-105 transition-transform`}
                     >
                       {config.icon}
                     </div>
                     <div className="flex-1 pr-2">
-                      <div className="flex items-center justify-between mb-1">
-                        <h3 className="text-base font-bold text-white">
+                      <div className="flex items-center justify-between mb-0.5">
+                        <h3 className="text-sm font-semibold text-white group-hover:text-[#38BDF8] transition-colors">
                           {link.title}
                         </h3>
                         {link.order === 1 && (
-                          <span className="bg-[#00D4FF]/10 text-[#00D4FF] border border-[#00D4FF]/20 text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
-                            New
+                          <span className="bg-[#2563EB]/15 text-[#38BDF8] border border-[#2563EB]/30 text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full">
+                            Featured
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-slate-400 font-medium">
+                      <p className="text-xs text-slate-400 font-normal">
                         {link.desc}
                       </p>
                     </div>
@@ -375,19 +375,19 @@ export default function LinkInBioPage() {
           {/* ========================================= */}
           <motion.div variants={itemVariants}>
             <div className="flex items-center justify-center mb-6">
-              <div className="h-px bg-white/10 flex-1"></div>
-              <h2 className="text-[10px] font-black text-slate-500 tracking-widest uppercase px-4">
+              <div className="h-px bg-[#1E293B] flex-1"></div>
+              <h2 className="text-[11px] font-mono uppercase tracking-widest text-slate-500 px-4">
                 Explore Ecosystem
               </h2>
-              <div className="h-px bg-white/10 flex-1"></div>
+              <div className="h-px bg-[#1E293B] flex-1"></div>
             </div>
 
             {isLoading ? (
               <div className="flex justify-center py-10">
-                <Loader2 size={24} className="text-[#00D4FF] animate-spin" />
+                <Loader2 size={24} className="text-[#2563EB] animate-spin" />
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3.5">
                 {/* Grid Links (Dari Firebase) */}
                 {gridLinks.map((link) => {
                   const config = getIconConfig(link.iconName);
@@ -397,18 +397,18 @@ export default function LinkInBioPage() {
                       href={formatUrl(link.url)}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex flex-col p-5 rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 group"
+                      className="flex flex-col p-4 rounded-xl bg-[#0F172A]/60 backdrop-blur-md border border-[#1E293B] hover:border-[#2563EB]/50 hover:bg-[#0F172A] transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-0.5 group"
                     >
                       <div
-                        className={`w-12 h-12 rounded-[14px] flex items-center justify-center mb-4 ${config.bg} shadow-md ${config.shadow}`}
+                        className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3.5 ${config.bg} shadow-md ${config.shadow}`}
                       >
                         {config.icon}
                       </div>
                       <div>
-                        <h3 className="text-sm font-bold text-white mb-1.5 leading-tight group-hover:text-blue-400 transition-colors">
+                        <h3 className="text-sm font-semibold text-white mb-1 leading-snug group-hover:text-[#38BDF8] transition-colors">
                           {link.title}
                         </h3>
-                        <p className="text-[11px] text-slate-400 leading-relaxed font-medium">
+                        <p className="text-[11px] text-slate-400 leading-relaxed font-normal">
                           {link.desc}
                         </p>
                       </div>
@@ -420,10 +420,10 @@ export default function LinkInBioPage() {
           </motion.div>
 
           {/* Footer Brand */}
-          <motion.div variants={itemVariants} className="mt-16 text-center">
+          <motion.div variants={itemVariants} className="mt-14 text-center">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-400 transition-colors text-[10px] font-black uppercase tracking-widest"
+              className="inline-flex items-center gap-1.5 text-slate-500 hover:text-[#38BDF8] transition-colors text-xs font-mono uppercase tracking-wider"
             >
               <Code2 size={12} />
               Powered by Guwigo

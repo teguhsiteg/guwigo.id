@@ -25,7 +25,7 @@ export default function MemberDashboard() {
     <div className="bg-slate-50 min-h-screen pt-32 pb-20 font-sans selection:bg-blue-200">
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
         {/* HEADER DASHBOARD */}
-        <header className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-8 md:p-10 text-white mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-2xl shadow-slate-900/20 relative overflow-hidden">
+        <header className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-lg p-8 md:p-10 text-white mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-2xl shadow-slate-900/20 relative overflow-hidden">
           {/* Efek Cahaya Latar */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
 
@@ -38,9 +38,9 @@ export default function MemberDashboard() {
             </p>
           </div>
 
-          <div className="relative z-10 bg-white/10 border border-white/10 p-5 rounded-2xl flex items-center gap-5 backdrop-blur-md">
+          <div className="relative z-10 bg-white/10 border border-white/10 p-5 rounded-lg flex items-center gap-5 backdrop-blur-md">
             <div
-              className={`w-14 h-14 rounded-xl flex items-center justify-center shadow-inner ${
+              className={`w-14 h-14 rounded-md flex items-center justify-center shadow-inner ${
                 user.plan === "vip" || user.plan === "pro"
                   ? "bg-gradient-to-br from-yellow-400 to-yellow-600 text-white"
                   : "bg-gradient-to-br from-blue-500 to-blue-600 text-white"
@@ -63,7 +63,7 @@ export default function MemberDashboard() {
         {user.plan === "trial" && (
           <section
             aria-label="Peringatan Status Trial"
-            className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 p-6 md:p-8 rounded-2xl mb-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm"
+            className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 p-6 md:p-8 rounded-lg mb-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm"
           >
             <div className="flex items-center gap-5 text-blue-900">
               <div className="bg-white p-3 rounded-full shadow-sm shrink-0">
@@ -80,7 +80,7 @@ export default function MemberDashboard() {
                 </p>
               </div>
             </div>
-            <button className="whitespace-nowrap bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-blue-600/30 active:scale-95 flex items-center gap-2">
+            <button className="whitespace-nowrap bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 text-white px-8 py-3.5 rounded-md font-bold transition-all shadow-lg hover:shadow-blue-600/30 active:scale-95 flex items-center gap-2">
               Upgrade ke Pro <ChevronRight size={20} />
             </button>
           </section>
@@ -99,7 +99,7 @@ export default function MemberDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Modul 1: Terbuka */}
           <button
-            className="text-left bg-white p-7 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300 group focus:outline-none focus:ring-4 focus:ring-blue-100"
+            className="text-left bg-white p-7 rounded-lg border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300 group focus:outline-none focus:ring-4 focus:ring-blue-100"
             aria-label="Mulai Modul 1: Database Design & ERD"
           >
             <div className="flex justify-between items-start mb-5">
@@ -122,7 +122,7 @@ export default function MemberDashboard() {
 
           {/* Modul 2: Terbuka */}
           <button
-            className="text-left bg-white p-7 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300 group focus:outline-none focus:ring-4 focus:ring-blue-100"
+            className="text-left bg-white p-7 rounded-lg border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-300 hover:-translate-y-1 transition-all duration-300 group focus:outline-none focus:ring-4 focus:ring-blue-100"
             aria-label="Mulai Modul 2: CRUD & Logika Dasar"
           >
             <div className="flex justify-between items-start mb-5">
@@ -145,7 +145,7 @@ export default function MemberDashboard() {
 
           {/* Modul 3: Terkunci */}
           <div
-            className="bg-slate-50 p-7 rounded-2xl border border-slate-200 relative overflow-hidden group select-none"
+            className="bg-slate-50 p-7 rounded-lg border border-slate-200 relative overflow-hidden group select-none"
             aria-disabled="true"
           >
             {/* Overlay Glassmorphism */}
@@ -176,7 +176,7 @@ export default function MemberDashboard() {
           </div>
 
           {/* Boilerplate Download (Terkunci untuk Trial) */}
-          <div className="bg-slate-50 p-7 rounded-2xl border border-slate-200 relative overflow-hidden select-none">
+          <div className="bg-slate-50 p-7 rounded-lg border border-slate-200 relative overflow-hidden select-none">
             {user.plan === "trial" && (
               <div className="absolute inset-0 bg-slate-50/80 backdrop-blur-sm flex flex-col items-center justify-center z-10 transition-all duration-300 hover:bg-slate-50/90">
                 <div className="bg-white p-4 rounded-full shadow-sm mb-3">
@@ -209,7 +209,7 @@ export default function MemberDashboard() {
 
             {/* Tombol Download (Hanya muncul jika bukan trial) */}
             {user.plan !== "trial" && (
-              <button className="mt-5 w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold py-2.5 rounded-xl transition-colors focus:ring-4 focus:ring-emerald-100 focus:outline-none flex items-center justify-center gap-2">
+              <button className="mt-5 w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold py-2.5 rounded-md transition-colors focus:ring-4 focus:ring-emerald-100 focus:outline-none flex items-center justify-center gap-2">
                 <Download size={18} /> Download ZIP
               </button>
             )}

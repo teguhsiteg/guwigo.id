@@ -28,13 +28,13 @@ export default function AnimatedLogo() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] p-12 bg-[#0B1324] rounded-[3rem] border border-white/5 shadow-2xl">
+    <div className="flex flex-col items-center justify-center min-h-[400px] p-12 bg-[#0A0F1D] rounded-lg border border-[#1E293B] shadow-2xl">
       {/* Animasi Container Utama: Fade In, Scale Up, dan Glowing Pulse */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative w-48 h-48 drop-shadow-[0_0_30px_rgba(0,188,254,0.4)] mb-8 flex items-center justify-center"
+        className="relative w-48 h-48 drop-shadow-[0_0_30px_rgba(37,99,235,0.4)] mb-8 flex items-center justify-center"
       >
         {/* Animasi mengambang (floating) berulang secara konstan */}
         <motion.div
@@ -64,10 +64,10 @@ export default function AnimatedLogo() {
         animate="visible"
         className="text-center"
       >
-        <h2 className="text-3xl md:text-4xl font-black text-white tracking-[0.2em] uppercase font-sans leading-none mb-2 drop-shadow-md">
+        <h2 className="text-3xl md:text-4xl font-serif text-[#FAF9F6] tracking-[0.15em] uppercase leading-none mb-2">
           GUWIGO
         </h2>
-        <p className="text-[9px] md:text-[11px] font-black text-[#00D4FF] uppercase tracking-[0.5em] opacity-90 drop-shadow-sm">
+        <p className="text-[10px] md:text-[11px] font-sans font-semibold text-[#06B6D4] uppercase tracking-[0.4em]">
           Teknologi Indonesia
         </p>
       </motion.div>

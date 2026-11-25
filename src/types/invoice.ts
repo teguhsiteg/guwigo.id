@@ -65,26 +65,82 @@ export interface Receipt {
   createdAt: Timestamp;
 }
 
+/* ─── Invoice Settings Types ─── */
+
+export interface InvoiceSettings {
+  companyName: string;
+  tagline: string;
+  address: string;
+  email: string;
+  phone: string;
+  website: string;
+  logoUrl: string;
+  stampUrl: string;
+  signatureUrl: string;
+  signerName: string;
+  signerTitle: string;
+  bankAccounts: string;
+  invoiceFooterNote: string;
+  // Typography & Styling Options
+  fontFamily?: string;
+  fontSize?: "compact" | "normal" | "large";
+  primaryColor?: string;
+  // Image sizing & positioning
+  logoWidth?: number;
+  logoHeight?: number;
+  stampSize?: number;
+  stampRotation?: number;
+  signatureWidth?: number;
+  signatureHeight?: number;
+  documentPrefix?: string;
+}
+
+export const defaultInvoiceSettings: InvoiceSettings = {
+  companyName: "PT GUWIGO TEKNOLOGI INDONESIA",
+  tagline: "Software House & Enterprise Digital Solutions",
+  address: "Yogyakarta, D.I. Yogyakarta, Indonesia",
+  email: "billing@guwigo.com",
+  phone: "+62 812-0000-0000",
+  website: "https://guwigo.com",
+  logoUrl: "/images/branding/logo-guwigo-new.png",
+  stampUrl: "/images/branding/stempel.png",
+  signatureUrl: "/images/branding/ttd-finance.png",
+  signerName: "PT Guwigo Teknologi Indonesia",
+  signerTitle: "Bagian Keuangan / Finance",
+  bankAccounts: "Bank Mandiri / Bank BCA\na.n. PT Guwigo Teknologi Indonesia\n(Rekening Perusahaan)",
+  invoiceFooterNote: "Invoice ini sah dan diproses otomatis oleh Guwigo Billing System.",
+  fontFamily: "font-sans",
+  fontSize: "normal",
+  primaryColor: "#2563eb",
+  logoWidth: 144,
+  logoHeight: 36,
+  stampSize: 144,
+  stampRotation: -14,
+  signatureWidth: 128,
+  signatureHeight: 72,
+  documentPrefix: "GWG",
+};
+
 /* ─── Helpers ─── */
 
 const ROMAN_MONTHS = [
   "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"
 ];
 
-export function generateInvoiceNumber(count: number): string {
+export function generateInvoiceNumber(count: number, prefix: string = "GWG"): string {
   const now = new Date();
   const year = now.getFullYear();
   const month = ROMAN_MONTHS[now.getMonth()];
   const padded = String(count + 1).padStart(3, "0");
-  return `INV/GWG/${padded}/${month}/${year}`;
+  return `INV/${prefix}/${padded}/${month}/${year}`;
 }
 
-export function generateReceiptNumber(count: number): string {
+export function generateReceiptNumber(count: number, prefix: string = "GWG"): string {
   const now = new Date();
   const year = now.getFullYear();
   const month = ROMAN_MONTHS[now.getMonth()];
   const padded = String(count + 1).padStart(3, "0");
-  return `KWT/GWG/${padded}/${month}/${year}`;
+  return `KWT/${prefix}/${padded}/${month}/${year}`;
 }
 
 export function formatCurrency(amount: number): string {

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { db } from "@/lib/firebase";
-import { collection, addDoc, getDocs, Timestamp } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc, Timestamp } from "firebase/firestore";
 import {
   FileSpreadsheet,
   Plus,
@@ -73,9 +73,14 @@ function CreateInvoiceForm() {
     const generate = async () => {
       try {
         const snap = await getDocs(collection(db, "invoices"));
-        setInvoiceNumber(generateInvoiceNumber(snap.size));
+        const settingsSnap = await getDoc(doc(db, "admin", "invoice-settings"));
+        const prefix = settingsSnap.exists() && settingsSnap.data().documentPrefix 
+            ? settingsSnap.data().documentPrefix 
+            : "GWG";
+        
+        setInvoiceNumber(generateInvoiceNumber(snap.size, prefix));
       } catch {
-        setInvoiceNumber(generateInvoiceNumber(0));
+        setInvoiceNumber(generateInvoiceNumber(0, "GWG"));
       }
     };
     generate();

@@ -11,31 +11,23 @@ export default function GlobalLoader({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [isLoading, setIsLoading] = useState(true);
+  const isBypassedRoute = pathname?.startsWith("/admin") || pathname?.startsWith("/login") || pathname?.startsWith("/register");
+  
+  const [isLoading, setIsLoading] = useState(!isBypassedRoute);
 
-  // Matikan loader yang menghalangi admin dan jangan muncul terus di setiap klik rute
   useEffect(() => {
-    const isAdmin = pathname?.startsWith("/admin");
-    const isAuth = pathname?.startsWith("/login") || pathname?.startsWith("/register");
-
-    // Di area admin dan auth, langsung render tanpa splash screen loader
-    if (isAdmin || isAuth) {
+    if (isBypassedRoute) {
       setIsLoading(false);
       return;
     }
 
-    // Hanya tampilkan intro sekali per sesi kunjungan browser
     try {
-      const hasLoaded = sessionStorage.getItem("guwigo_intro_shown");
-      if (hasLoaded) {
+      if (sessionStorage.getItem("guwigo_intro_shown")) {
         setIsLoading(false);
         return;
       }
-    } catch {
-      // Fallback jika sessionStorage diblokir
-    }
+    } catch {}
 
-    setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
       try {
@@ -44,7 +36,7 @@ export default function GlobalLoader({
     }, 800);
 
     return () => clearTimeout(timer);
-  }, [pathname]);
+  }, [isBypassedRoute]);
 
   // KONFIGURASI ANIMASI CONTAINER DENGAN TIPE VARIANTS
   const containerVariants: Variants = {
@@ -84,16 +76,16 @@ export default function GlobalLoader({
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#0B1324]"
+            className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#0A0F1D]"
           >
-            {/* Animasi Container Utama: Fade In, Scale Up, dan Glowing Pulse */}
+            {/* Animasi Container Utama: Fade In, Scale Up */}
             <motion.div
               variants={containerVariants}
-              className="relative w-40 h-40 md:w-56 md:h-56 mb-8 drop-shadow-[0_0_30px_rgba(0,188,254,0.4)] flex items-center justify-center"
+              className="relative w-36 h-36 md:w-48 md:h-48 mb-8 drop-shadow-[0_0_24px_rgba(37,99,235,0.35)] flex items-center justify-center"
             >
               {/* Animasi mengambang (floating) berulang */}
               <motion.div
-                animate={{ y: [0, -10, 0] }}
+                animate={{ y: [0, -8, 0] }}
                 transition={{
                   duration: 4,
                   repeat: Infinity,
@@ -119,10 +111,10 @@ export default function GlobalLoader({
               animate="visible"
               className="text-center"
             >
-              <h2 className="text-3xl md:text-4xl font-black text-white tracking-[0.2em] uppercase font-sans leading-none mb-2 drop-shadow-md">
+              <h2 className="text-2xl md:text-3xl font-serif text-white tracking-[0.2em] uppercase leading-none mb-2 font-normal">
                 GUWIGO
               </h2>
-              <p className="text-[9px] md:text-[11px] font-black text-[#00D4FF] uppercase tracking-[0.5em] opacity-90 drop-shadow-sm">
+              <p className="text-[10px] md:text-[11px] font-semibold text-[#06B6D4] uppercase tracking-[0.3em]">
                 Teknologi Indonesia
               </p>
             </motion.div>

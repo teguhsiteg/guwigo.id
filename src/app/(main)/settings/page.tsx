@@ -184,7 +184,7 @@ export default function SettingsPage() {
         {/* Message Alert */}
         {message && (
           <div
-            className={`mb-6 p-4 rounded-xl flex gap-3 ${
+            className={`mb-6 p-4 rounded-md flex gap-3 ${
               message.type === "success"
                 ? "bg-green-50 border border-green-200 text-green-700"
                 : "bg-red-50 border border-red-200 text-red-700"
@@ -200,7 +200,7 @@ export default function SettingsPage() {
         )}
 
         {/* Profile Card */}
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 mb-6">
+        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8 mb-6">
           <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
             <User size={24} className="text-blue-600" />
             Informasi Profil
@@ -212,7 +212,7 @@ export default function SettingsPage() {
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">
                 Nama Lengkap
               </label>
-              <div className="mt-2 p-4 bg-slate-50 rounded-xl text-slate-900 font-bold border border-slate-200">
+              <div className="mt-2 p-4 bg-slate-50 rounded-md text-slate-900 font-bold border border-slate-200">
                 {profile?.name || "-"}
               </div>
             </div>
@@ -222,7 +222,7 @@ export default function SettingsPage() {
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">
                 Email
               </label>
-              <div className="mt-2 flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200">
+              <div className="mt-2 flex items-center gap-3 p-4 bg-slate-50 rounded-md border border-slate-200">
                 <Mail size={20} className="text-blue-600 shrink-0" />
                 <span className="text-slate-900 font-bold">
                   {profile?.email}
@@ -246,7 +246,7 @@ export default function SettingsPage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="08xx atau +62x"
-                  className="w-full bg-white border border-slate-200 rounded-xl py-4 pl-12 pr-4 text-slate-900 font-bold focus:border-blue-500 focus:bg-blue-50 transition-all outline-none"
+                  className="w-full bg-white border border-slate-200 rounded-md py-4 pl-12 pr-4 text-slate-900 font-bold focus:border-blue-500 focus:bg-blue-50 transition-all outline-none"
                 />
               </div>
               <p className="text-xs text-slate-500 mt-2">
@@ -258,7 +258,7 @@ export default function SettingsPage() {
             <button
               type="submit"
               disabled={isSaving}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all"
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-400 text-white font-bold py-4 rounded-md flex items-center justify-center gap-2 transition-all"
             >
               {isSaving ? (
                 <Loader2 size={20} className="animate-spin" />
@@ -272,7 +272,7 @@ export default function SettingsPage() {
 
         {/* Subscriptions Card */}
         {subscriptions.length > 0 && (
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 mb-6">
+          <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8 mb-6">
             <h2 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
               <Package size={24} className="text-green-600" />
               Langganan Aktif ({subscriptions.length})
@@ -282,7 +282,7 @@ export default function SettingsPage() {
               {subscriptions.map((sub, idx) => (
                 <div
                   key={idx}
-                  className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200 flex justify-between items-start"
+                  className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-md border border-green-200 flex justify-between items-start"
                 >
                   <div>
                     <h3 className="font-bold text-slate-900">
@@ -312,7 +312,7 @@ export default function SettingsPage() {
         {/* Logout Button */}
         <button
           onClick={handleLogout}
-          className="w-full bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all"
+          className="w-full bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-4 rounded-md flex items-center justify-center gap-2 transition-all"
         >
           <LogOut size={20} />
           Logout

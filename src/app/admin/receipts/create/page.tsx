@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { db } from "@/lib/firebase";
-import { collection, addDoc, getDocs, Timestamp } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc, Timestamp } from "firebase/firestore";
 import Link from "next/link";
 import { ArrowLeft, Receipt, Save } from "lucide-react";
 import { Button } from "@/components/ui";
@@ -55,9 +55,14 @@ function CreateReceiptForm() {
     const fetchNextNumber = async () => {
       try {
         const snap = await getDocs(collection(db, "receipts"));
-        setReceiptNumber(generateReceiptNumber(snap.size));
+        const settingsSnap = await getDoc(doc(db, "admin", "invoice-settings"));
+        const prefix = settingsSnap.exists() && settingsSnap.data().documentPrefix 
+            ? settingsSnap.data().documentPrefix 
+            : "GWG";
+        
+        setReceiptNumber(generateReceiptNumber(snap.size, prefix));
       } catch {
-        setReceiptNumber(generateReceiptNumber(0));
+        setReceiptNumber(generateReceiptNumber(0, "GWG"));
       }
     };
     fetchNextNumber();
@@ -172,10 +177,10 @@ function CreateReceiptForm() {
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
             options={[
-              { value: "Transfer Bank", label: "Transfer Bank" },
+              { value: "Transfer Bank (Manual)", label: "Transfer Bank (Manual)" },
               { value: "Tunai / Cash", label: "Tunai / Cash" },
               { value: "QRIS", label: "QRIS" },
-              { value: "Midtrans / Payment Gateway", label: "Midtrans / Payment Gateway" },
+              { value: "Xendit (Payment Gateway)", label: "Xendit (Payment Gateway)" },
               { value: "Lainnya", label: "Lainnya" },
             ]}
           />

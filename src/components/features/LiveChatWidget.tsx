@@ -104,42 +104,42 @@ export default function LiveChatWidget() {
     <div className="fixed bottom-6 right-6 z-50 font-sans">
       {/* Jendela Chat */}
       {isOpen && (
-        <div className="absolute bottom-20 right-0 w-[350px] sm:w-[380px] h-[550px] max-h-[80vh] bg-white rounded-2xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
-          {/* Header (Kaku, tidak bisa tergencet) */}
-          <div className="bg-[#0B1324] p-4 flex items-center justify-between shrink-0">
+        <div className="absolute bottom-20 right-0 w-[350px] sm:w-[380px] h-[550px] max-h-[80vh] bg-white rounded-lg shadow-2xl border border-[#E2E8F0] flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
+          {/* Header */}
+          <div className="bg-[#0A0F1D] p-4 flex items-center justify-between shrink-0 border-b border-[#1E293B]">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#00D4FF]/20 flex items-center justify-center border border-[#00D4FF]/30 relative">
-                <Bot size={18} className="text-[#00D4FF]" />
-                <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-[#0B1324] rounded-full"></span>
+              <div className="w-9 h-9 rounded-md bg-[#2563EB]/20 flex items-center justify-center border border-[#2563EB]/40 relative text-[#60A5FA]">
+                <Bot size={17} />
+                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-[#0A0F1D] rounded-md"></span>
               </div>
               <div>
-                <h3 className="text-white font-bold text-sm">
+                <h3 className="text-white font-serif text-sm font-normal">
                   Guwigo Assistant
                 </h3>
-                <p className="text-xs text-[#00D4FF]">AI Support 24/7</p>
+                <p className="text-[11px] text-[#38BDF8]">Konsultasi Sistem 24/7</p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-slate-400 hover:text-white transition-colors p-1"
+              className="text-[#94A3B8] hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10"
             >
-              <X size={20} />
+              <X size={18} />
             </button>
           </div>
 
-          {/* Area Pesan (Bisa di-scroll) */}
-          <div className="flex-1 bg-slate-50 p-4 overflow-y-auto custom-scrollbar flex flex-col gap-4">
+          {/* Area Pesan */}
+          <div className="flex-1 bg-[#FAF9F6] p-4 overflow-y-auto custom-scrollbar flex flex-col gap-4">
             {messages.map((msg, index) => (
               <div
                 key={index}
                 className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[90%] p-3.5 rounded-2xl text-sm leading-relaxed
+                  className={`max-w-[90%] p-3.5 rounded-md text-xs leading-relaxed
                     ${
                       msg.role === "user"
-                        ? "bg-[#0B1324] text-white rounded-tr-none"
-                        : "bg-white text-slate-700 border border-slate-200 rounded-tl-none shadow-sm"
+                        ? "bg-[#2563EB] text-white rounded-tr-none shadow-sm"
+                        : "bg-white text-[#0F172A] border border-[#E2E8F0] rounded-tl-none shadow-sm"
                     }`}
                 >
                   {formatChatMessage(msg.content)}
@@ -148,14 +148,14 @@ export default function LiveChatWidget() {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-white border border-slate-200 p-4 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2">
-                  <span className="w-2 h-2 bg-[#00D4FF] rounded-full animate-bounce"></span>
+                <div className="bg-white border border-[#E2E8F0] p-3.5 rounded-md rounded-tl-none shadow-sm flex items-center gap-2">
+                  <span className="w-2 h-2 bg-[#2563EB] rounded-full animate-bounce"></span>
                   <span
-                    className="w-2 h-2 bg-[#00D4FF] rounded-full animate-bounce"
+                    className="w-2 h-2 bg-[#2563EB] rounded-full animate-bounce"
                     style={{ animationDelay: "0.2s" }}
                   ></span>
                   <span
-                    className="w-2 h-2 bg-[#00D4FF] rounded-full animate-bounce"
+                    className="w-2 h-2 bg-[#2563EB] rounded-full animate-bounce"
                     style={{ animationDelay: "0.4s" }}
                   ></span>
                 </div>
@@ -164,27 +164,27 @@ export default function LiveChatWidget() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Area Footer (Tombol WA & Input - Kaku, di paling bawah) */}
-          <div className="shrink-0 bg-white p-3 border-t border-slate-100 flex flex-col gap-3 z-10 relative">
+          {/* Area Footer */}
+          <div className="shrink-0 bg-white p-3 border-t border-[#E2E8F0] flex flex-col gap-2.5 z-10 relative">
             <a
               href="https://wa.me/6285179594146"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-xl transition-colors border border-emerald-200"
+              className="flex items-center justify-center gap-2 w-full py-2 bg-[#F1F5F9] hover:bg-[#E2E8F0] text-[#1E40AF] text-xs font-medium rounded-lg transition-colors border border-[#E2E8F0]"
             >
-              <MessageCircle size={14} /> Sambungkan ke Tim Manusia
+              <MessageCircle size={14} className="text-[#2563EB]" /> Hubungkan ke Tim Engineer
             </a>
 
             <form
               onSubmit={handleSendMessage}
-              className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl p-1 focus-within:border-[#00D4FF] transition-colors"
+              className="flex items-center gap-2 bg-[#FAF9F6] border border-[#E2E8F0] rounded-md p-1 focus-within:border-[#2563EB] transition-colors"
             >
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Ketik pertanyaan..."
-                className="flex-1 bg-transparent border-none outline-none text-sm text-slate-700 px-3 py-2"
+                placeholder="Ketik pertanyaan teknis..."
+                className="flex-1 bg-transparent border-none outline-none text-xs text-[#0F172A] px-3 py-2 placeholder:text-[#94A3B8]"
               />
               <button
                 type="submit"
@@ -192,14 +192,14 @@ export default function LiveChatWidget() {
                 className={`p-2 rounded-lg transition-colors
                   ${
                     !inputValue.trim() || isLoading
-                      ? "bg-slate-200 text-slate-400"
-                      : "bg-[#00D4FF] text-[#0B1324] hover:bg-blue-500 hover:text-white"
+                      ? "bg-[#E2E8F0] text-[#94A3B8]"
+                      : "bg-[#2563EB] text-white hover:bg-[#1D4ED8]"
                   }`}
               >
                 {isLoading ? (
-                  <Loader2 size={18} className="animate-spin" />
+                  <Loader2 size={16} className="animate-spin" />
                 ) : (
-                  <Send size={18} />
+                  <Send size={16} />
                 )}
               </button>
             </form>
@@ -210,14 +210,15 @@ export default function LiveChatWidget() {
       {/* Tombol Terapung (Floating Button) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-[#0B1324] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform border border-white/10"
+        className="w-13 h-13 p-3.5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-lg flex items-center justify-center shadow-xl shadow-blue-500/25 hover:scale-105 transition-all border border-blue-400/30"
+        aria-label="Buka Live Chat"
       >
         {isOpen ? (
-          <X size={24} />
+          <X size={22} className="text-white" />
         ) : (
           <div className="relative">
-            <MessageSquare size={24} className="text-[#00D4FF]" />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-[#0B1324]"></span>
+            <MessageSquare size={22} className="text-white" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#06B6D4] rounded-full animate-pulse border-2 border-[#2563EB]"></span>
           </div>
         )}
       </button>

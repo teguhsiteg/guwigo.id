@@ -22,9 +22,13 @@ import {
 import { QRCodeSVG } from "qrcode.react";
 import { Button, Badge } from "@/components/ui";
 import Card from "@/components/ui/Card";
-import { Receipt as ReceiptType, formatCurrency } from "@/types/invoice";
+import {
+  Receipt as ReceiptType,
+  formatCurrency,
+  InvoiceSettings,
+  defaultInvoiceSettings,
+} from "@/types/invoice";
 import { toast } from "sonner";
-import { InvoiceSettings, defaultInvoiceSettings } from "../../invoices/settings/page";
 
 export default function ReceiptDetailPage() {
   const params = useParams();
@@ -91,14 +95,16 @@ export default function ReceiptDetailPage() {
               <div style="text-align: center;">
                 <div class="spinner"></div>
                 <h3 style="margin: 0 0 8px; font-size: 16px; font-weight: 700;">Menyiapkan Dokumen Kuitansi A4...</h3>
-                <p style="margin: 0; font-size: 13px; color: #64748b;">Membuka format cetak PDF blob...</p>
+                <p style="margin: 0; font-size: 13px; color: #64748b;">Membuat format cetak PDF blob...</p>
               </div>
             </body>
           </html>
         `);
       }
 
-      const html2pdf = (await import("html2pdf.js")).default;
+      const html2pdfModule = await import("html2pdf.js");
+      const html2pdf = html2pdfModule.default || html2pdfModule;
+      
       const cleanNumber = receipt.receiptNumber.replace(/[\/\\]/g, "_");
       const clientClean = (receipt.receivedFrom || "Receipt").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
@@ -121,7 +127,19 @@ export default function ReceiptDetailPage() {
       const blobUrl = URL.createObjectURL(pdfBlob);
 
       if (printWindow) {
-        printWindow.location.href = blobUrl;
+        printWindow.document.open();
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>Dokumen Cetak - ${receipt.receiptNumber}</title>
+            </head>
+            <body style="margin: 0; padding: 0; height: 100vh; overflow: hidden; background: #f8fafc;">
+              <iframe src="${blobUrl}" width="100%" height="100%" style="border: none;"></iframe>
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
       } else {
         window.open(blobUrl, "_blank");
       }
@@ -211,27 +229,27 @@ export default function ReceiptDetailPage() {
           <Link href="/admin/invoices/settings">
             <Button
               variant="outline"
-              size="sm"
-              icon={<SettingsIcon size={16} />}
+              size="xs"
+              icon={<SettingsIcon size={14} />}
               title="Kustomisasi Template Dokumen (Ukuran Gambar, Font, Stempel)"
             >
               Atur Tampilan Dokumen
             </Button>
           </Link>
           <Button
-            size="sm"
+            size="xs"
             isLoading={isExportingPdf}
             onClick={handleDownloadPdf}
-            icon={<Download size={16} />}
+            icon={<Download size={14} />}
           >
             Unduh PDF (A4)
           </Button>
           <Button
             variant="secondary"
-            size="sm"
+            size="xs"
             isLoading={isPrintingPdf}
             onClick={handlePrint}
-            icon={<Printer size={16} />}
+            icon={<Printer size={14} />}
           >
             Cetak (PDF)
           </Button>
@@ -330,7 +348,7 @@ export default function ReceiptDetailPage() {
               Uang Sejumlah
             </span>
             <span className="sm:col-span-1 hidden sm:inline text-center">:</span>
-            <span className="sm:col-span-8 font-bold text-emerald-800 bg-emerald-50/70 px-3 py-2 rounded-xl italic border border-emerald-100">
+            <span className="sm:col-span-8 font-bold text-emerald-800 bg-emerald-50 px-3 py-2 rounded-xl italic border border-emerald-100">
               &ldquo;{receipt.amountInWords}&rdquo;
             </span>
           </div>
@@ -371,11 +389,14 @@ export default function ReceiptDetailPage() {
         {/* Amount Box, Verification QR Code, and Signature */}
         <div className="pt-8 border-t-2 border-slate-200 flex flex-col sm:flex-row justify-between items-end gap-6">
           <div className="space-y-4">
-            <div className="p-4 bg-slate-100 rounded-2xl border-2 border-slate-300 inline-block min-w-[220px]">
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+            <div 
+              className="p-4 rounded-xl min-w-[220px] max-w-fit"
+              style={{ backgroundColor: "#f1f5f9", border: "2px solid #cbd5e1" }}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: "#64748b" }}>
                 Jumlah Terbayar
               </p>
-              <p className="text-2xl font-black text-slate-900 font-mono">
+              <p className="text-2xl font-black font-mono" style={{ color: "#0f172a" }}>
                 {formatCurrency(receipt.amount)}
               </p>
             </div>
@@ -406,44 +427,34 @@ export default function ReceiptDetailPage() {
           </div>
 
           <div className="flex items-end gap-6 sm:gap-8 justify-end">
-            {/* E-METERAI SLOT / SPACE */}
-            <div className="w-28 h-28 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-center bg-slate-50/40 relative overflow-hidden shrink-0">
-              {receipt.emeteraiUrl ? (
-                <Image
-                  src={receipt.emeteraiUrl}
-                  alt="E-Meterai Resmi"
-                  fill
-                  className="object-contain p-1"
-                />
-              ) : receipt.useEmeterai ? (
-                <>
-                  <div className="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-[10px] mb-1">
-                    M
-                  </div>
-                  <span className="text-[10px] font-black text-red-700 tracking-wider uppercase">
-                    E-METERAI
-                  </span>
-                  <span className="text-[9px] font-bold text-red-600 font-mono">
-                    Rp 10.000
-                  </span>
-                  <span className="text-[8px] text-red-400 mt-1 uppercase font-semibold">
-                    PERURI
-                  </span>
-                </>
-              ) : (
-                <div className="text-center opacity-60">
-                  <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">
-                    Ruang
-                  </span>
-                  <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">
-                    E-Meterai
-                  </span>
-                  <span className="block text-[8px] text-slate-400 mt-1 font-mono">
-                    Rp 10.000
-                  </span>
-                </div>
-              )}
-            </div>
+            {/* E-METERAI SLOT / SPACE (Hanya tampil bila ada / aktif) */}
+            {(receipt.emeteraiUrl || receipt.useEmeterai) && (
+              <div className="w-28 h-28 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-center bg-slate-50 relative overflow-hidden shrink-0">
+                {receipt.emeteraiUrl ? (
+                  <Image
+                    src={receipt.emeteraiUrl}
+                    alt="E-Meterai Resmi"
+                    fill
+                    className="object-contain p-1"
+                  />
+                ) : (
+                  <>
+                    <div className="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-[10px] mb-1">
+                      M
+                    </div>
+                    <span className="text-[10px] font-black text-red-700 tracking-wider uppercase">
+                      E-METERAI
+                    </span>
+                    <span className="text-[9px] font-bold text-red-600 font-mono">
+                      Rp 10.000
+                    </span>
+                    <span className="text-[8px] text-red-400 mt-1 uppercase font-semibold">
+                      PERURI
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
 
             {/* TANDA TANGAN & STEMPEL */}
             <div className="text-center w-56 relative">

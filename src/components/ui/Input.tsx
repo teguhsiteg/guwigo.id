@@ -19,14 +19,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs font-bold text-slate-600 uppercase tracking-wider"
+            className="block text-xs font-medium text-[#64748B] tracking-tight"
           >
             {label}
           </label>
         )}
         <div className="relative">
           {icon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+            <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#64748B]">
               {icon}
             </div>
           )}
@@ -34,20 +34,20 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={cn(
-              "w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-900",
-              "placeholder:text-slate-400",
-              "focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500",
+              "w-full bg-white border border-[#E2E8F0] rounded-lg px-4 py-2.5 text-sm font-normal text-[#0F172A]",
+              "placeholder:text-[#94A3B8] shadow-sm",
+              "focus:outline-none focus:ring-4 focus:ring-[#2563EB]/15 focus:border-[#2563EB]",
               "transition-all duration-200",
-              "disabled:bg-slate-50 disabled:text-slate-400 disabled:cursor-not-allowed",
+              "disabled:bg-[#F8FAFC] disabled:text-[#94A3B8] disabled:cursor-not-allowed",
               icon && "pl-10",
-              error && "border-red-300 focus:ring-red-500/20 focus:border-red-500",
+              error && "border-[#EF4444] focus:ring-[#EF4444]/15 focus:border-[#EF4444]",
               className
             )}
             {...props}
           />
         </div>
-        {error && <p className="text-xs font-medium text-red-500">{error}</p>}
-        {hint && !error && <p className="text-xs text-slate-400">{hint}</p>}
+        {error && <p className="text-xs font-medium text-[#EF4444]">{error}</p>}
+        {hint && !error && <p className="text-xs text-[#64748B]">{hint}</p>}
       </div>
     );
   }
@@ -68,7 +68,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs font-bold text-slate-600 uppercase tracking-wider"
+            className="block text-xs font-medium text-[#64748B] tracking-tight"
           >
             {label}
           </label>
@@ -77,16 +77,16 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-900",
-            "placeholder:text-slate-400 resize-none",
-            "focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500",
+            "w-full bg-white border border-[#E2E8F0] rounded-lg px-4 py-2.5 text-sm font-normal text-[#0F172A]",
+            "placeholder:text-[#94A3B8] shadow-sm resize-none",
+            "focus:outline-none focus:ring-4 focus:ring-[#2563EB]/15 focus:border-[#2563EB]",
             "transition-all duration-200",
-            error && "border-red-300 focus:ring-red-500/20 focus:border-red-500",
+            error && "border-[#EF4444] focus:ring-[#EF4444]/15 focus:border-[#EF4444]",
             className
           )}
           {...props}
         />
-        {error && <p className="text-xs font-medium text-red-500">{error}</p>}
+        {error && <p className="text-xs font-medium text-[#EF4444]">{error}</p>}
       </div>
     );
   }
@@ -109,7 +109,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-xs font-bold text-slate-600 uppercase tracking-wider"
+            className="block text-xs font-medium text-[#64748B] tracking-tight"
           >
             {label}
           </label>
@@ -118,10 +118,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           ref={ref}
           id={inputId}
           className={cn(
-            "w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-900",
-            "focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500",
-            "transition-all duration-200 cursor-pointer",
-            error && "border-red-300 focus:ring-red-500/20 focus:border-red-500",
+            "w-full bg-white border border-[#E2E8F0] rounded-lg px-4 py-2.5 text-sm font-normal text-[#0F172A]",
+            "focus:outline-none focus:ring-4 focus:ring-[#2563EB]/15 focus:border-[#2563EB]",
+            "transition-all duration-200 cursor-pointer shadow-sm",
+            error && "border-[#EF4444] focus:ring-[#EF4444]/15 focus:border-[#EF4444]",
             className
           )}
           {...props}
@@ -137,7 +137,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             </option>
           ))}
         </select>
-        {error && <p className="text-xs font-medium text-red-500">{error}</p>}
+        {error && <p className="text-xs font-medium text-[#C94040]">{error}</p>}
       </div>
     );
   }

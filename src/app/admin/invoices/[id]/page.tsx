@@ -35,9 +35,10 @@ import {
   INVOICE_STATUS_MAP,
   formatCurrency,
   amountToWords,
+  InvoiceSettings,
+  defaultInvoiceSettings,
 } from "@/types/invoice";
 import { toast } from "sonner";
-import { InvoiceSettings, defaultInvoiceSettings } from "../settings/page";
 
 export default function InvoiceDetailPage() {
   const params = useParams();
@@ -130,14 +131,16 @@ export default function InvoiceDetailPage() {
               <div style="text-align: center;">
                 <div class="spinner"></div>
                 <h3 style="margin: 0 0 8px; font-size: 16px; font-weight: 700;">Menyiapkan Dokumen PDF A4...</h3>
-                <p style="margin: 0; font-size: 13px; color: #64748b;">Membuka format cetak PDF blob...</p>
+                <p style="margin: 0; font-size: 13px; color: #64748b;">Membuat format cetak PDF blob...</p>
               </div>
             </body>
           </html>
         `);
       }
 
-      const html2pdf = (await import("html2pdf.js")).default;
+      const html2pdfModule = await import("html2pdf.js");
+      const html2pdf = html2pdfModule.default || html2pdfModule;
+      
       const cleanNumber = invoice.invoiceNumber.replace(/[\/\\]/g, "_");
       const clientClean = (invoice.client?.name || "Client").replace(/[^a-zA-Z0-9_-]/g, "_");
       const opt: any = {
@@ -160,7 +163,19 @@ export default function InvoiceDetailPage() {
       const blobUrl = URL.createObjectURL(pdfBlob);
 
       if (printWindow) {
-        printWindow.location.href = blobUrl;
+        printWindow.document.open();
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>Dokumen Cetak - ${invoice.invoiceNumber}</title>
+            </head>
+            <body style="margin: 0; padding: 0; height: 100vh; overflow: hidden; background: #f8fafc;">
+              <iframe src="${blobUrl}" width="100%" height="100%" style="border: none;"></iframe>
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
       } else {
         window.open(blobUrl, "_blank");
       }
@@ -270,17 +285,17 @@ export default function InvoiceDetailPage() {
           {invoice.status !== "paid" && (
             <Button
               variant="success"
-              size="sm"
+              size="xs"
               isLoading={isUpdating}
               onClick={() => handleUpdateStatus("paid")}
-              icon={<CheckCircle2 size={16} />}
+              icon={<CheckCircle2 size={14} />}
             >
               Tandai Lunas
             </Button>
           )}
 
           <Link href={`/admin/invoices/${invoice.id}/edit`}>
-            <Button variant="outline" size="sm" icon={<Pencil size={16} />}>
+            <Button variant="outline" size="xs" icon={<Pencil size={14} />}>
               Edit
             </Button>
           </Link>
@@ -292,7 +307,7 @@ export default function InvoiceDetailPage() {
               invoice.client.name
             )}&amount=${invoice.total}`}
           >
-            <Button variant="outline" size="sm" icon={<Receipt size={16} />}>
+            <Button variant="outline" size="xs" icon={<Receipt size={14} />}>
               Buat Kuitansi
             </Button>
           </Link>
@@ -300,8 +315,8 @@ export default function InvoiceDetailPage() {
           <Link href="/admin/invoices/settings">
             <Button
               variant="outline"
-              size="sm"
-              icon={<SettingsIcon size={16} />}
+              size="xs"
+              icon={<SettingsIcon size={14} />}
               title="Kustomisasi Template Dokumen (Ukuran Gambar, Font, Stempel)"
             >
               Atur Tampilan Dokumen
@@ -309,31 +324,31 @@ export default function InvoiceDetailPage() {
           </Link>
 
           <Button
-            size="sm"
+            size="xs"
             isLoading={isExportingPdf}
             onClick={handleDownloadPdf}
-            icon={<Download size={16} />}
+            icon={<Download size={14} />}
           >
             Unduh PDF (A4)
           </Button>
 
           <Button
             variant="secondary"
-            size="sm"
+            size="xs"
             isLoading={isPrintingPdf}
             onClick={handlePrint}
-            icon={<Printer size={16} />}
+            icon={<Printer size={14} />}
           >
             Cetak (PDF)
           </Button>
 
           <Button
             variant="outline"
-            size="sm"
+            size="xs"
             className="text-red-600 hover:bg-red-50 hover:border-red-200"
             isLoading={isDeleting}
             onClick={handleDeleteInvoice}
-            icon={<Trash2 size={16} />}
+            icon={<Trash2 size={14} />}
           >
             Hapus
           </Button>
@@ -517,27 +532,34 @@ export default function InvoiceDetailPage() {
         </div>
 
         {/* Calculations */}
-        <div className="pt-3 border-t border-slate-200 flex flex-col sm:flex-row justify-between gap-4">
-          <div className="max-w-xs space-y-2">
+        <div className="pt-4 mt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between gap-6 sm:gap-8">
+          <div className="w-full sm:w-1/2 flex flex-col gap-4 order-2 sm:order-1">
             {invoice.notes && (
               <div>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">
+                <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
                   Catatan / Keterangan:
-                </p>
+                </h4>
                 <p className="text-xs text-slate-600 whitespace-pre-line leading-relaxed">
                   {invoice.notes}
                 </p>
               </div>
             )}
-            <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-200 text-[10px] text-slate-600 leading-relaxed">
-              <p className="font-bold text-slate-800 mb-0.5">Rekening Pembayaran:</p>
-              <div className="whitespace-pre-line font-medium text-slate-700">
-                {settings.bankAccounts}
+            
+            {settings.bankAccounts && (
+              <div>
+                <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                  Instruksi Pembayaran:
+                </h4>
+                <div className="px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 shadow-sm w-full max-w-sm">
+                  <div className="whitespace-pre-line text-xs font-semibold text-slate-700 leading-relaxed">
+                    {settings.bankAccounts}
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
-          <div className="w-full sm:w-68 space-y-1.5 text-xs sm:text-sm">
+          <div className="w-full sm:w-72 space-y-2 text-xs sm:text-sm order-1 sm:order-2 shrink-0">
             <div className="flex justify-between text-slate-600">
               <span>Subtotal:</span>
               <span className="font-mono font-medium">
@@ -568,10 +590,10 @@ export default function InvoiceDetailPage() {
                 </span>
               </div>
             )}
-            <div className="border-t-2 border-slate-800 pt-2 flex justify-between items-center">
-              <span className="font-bold text-slate-900 text-sm">TOTAL:</span>
+            <div className="border-t-2 border-slate-800 pt-2.5 mt-2 flex justify-between items-center">
+              <span className="font-bold text-slate-900 text-[13px]">TOTAL TAGIHAN</span>
               <span
-                className="text-xl sm:text-2xl font-black font-mono"
+                className="text-lg sm:text-xl font-black font-mono"
                 style={{ color: settings.primaryColor || "#2563eb" }}
               >
                 {formatCurrency(invoice.total)}
@@ -618,44 +640,34 @@ export default function InvoiceDetailPage() {
             </div>
           </div>
           <div className="flex items-end gap-6 sm:gap-8 justify-end">
-            {/* E-METERAI SLOT / SPACE */}
-            <div className="w-28 h-28 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-center bg-slate-50/40 relative overflow-hidden shrink-0">
-              {invoice.emeteraiUrl ? (
-                <Image
-                  src={invoice.emeteraiUrl}
-                  alt="E-Meterai Resmi"
-                  fill
-                  className="object-contain p-1"
-                />
-              ) : invoice.useEmeterai ? (
-                <>
-                  <div className="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-[10px] mb-1">
-                    M
-                  </div>
-                  <span className="text-[10px] font-black text-red-700 tracking-wider uppercase">
-                    E-METERAI
-                  </span>
-                  <span className="text-[9px] font-bold text-red-600 font-mono">
-                    Rp 10.000
-                  </span>
-                  <span className="text-[8px] text-red-400 mt-1 uppercase font-semibold">
-                    PERURI
-                  </span>
-                </>
-              ) : (
-                <div className="text-center opacity-60">
-                  <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">
-                    Ruang
-                  </span>
-                  <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">
-                    E-Meterai
-                  </span>
-                  <span className="block text-[8px] text-slate-400 mt-1 font-mono">
-                    Rp 10.000
-                  </span>
-                </div>
-              )}
-            </div>
+            {/* E-METERAI SLOT / SPACE (Hanya tampil bila ada / aktif) */}
+            {(invoice.emeteraiUrl || invoice.useEmeterai) && (
+              <div className="w-28 h-28 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-center bg-slate-50 relative overflow-hidden shrink-0">
+                {invoice.emeteraiUrl ? (
+                  <Image
+                    src={invoice.emeteraiUrl}
+                    alt="E-Meterai Resmi"
+                    fill
+                    className="object-contain p-1"
+                  />
+                ) : (
+                  <>
+                    <div className="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-[10px] mb-1">
+                      M
+                    </div>
+                    <span className="text-[10px] font-black text-red-700 tracking-wider uppercase">
+                      E-METERAI
+                    </span>
+                    <span className="text-[9px] font-bold text-red-600 font-mono">
+                      Rp 10.000
+                    </span>
+                    <span className="text-[8px] text-red-400 mt-1 uppercase font-semibold">
+                      PERURI
+                    </span>
+                  </>
+                )}
+              </div>
+            )}
 
             {/* TANDA TANGAN & STEMPEL */}
             <div className="text-center w-56 relative">

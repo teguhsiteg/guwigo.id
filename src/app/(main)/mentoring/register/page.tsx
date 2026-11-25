@@ -91,7 +91,7 @@ function CheckoutForm() {
       {/* POPUP SUKSES CUSTOM (Hanya muncul jika showPopup === true) */}
       {showPopup && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl animate-in fade-in zoom-in duration-300">
+          <div className="bg-white rounded-lg p-8 max-w-sm w-full text-center shadow-2xl animate-in fade-in zoom-in duration-300">
             <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
               <CheckCircle size={40} />
             </div>
@@ -102,7 +102,7 @@ function CheckoutForm() {
               Akun <strong>{formData.name || "Siswa"}</strong> berhasil dibuat.
               Waktu Trial 3 Hari Anda dimulai SEKARANG! 🚀
             </p>
-            <div className="flex items-center justify-center gap-2 text-sm text-blue-600 font-bold bg-blue-50 py-3 rounded-xl">
+            <div className="flex items-center justify-center gap-2 text-sm text-blue-600 font-bold bg-blue-50 py-3 rounded-md">
               <Loader2 size={16} className="animate-spin" /> Mengalihkan ke Area
               Member...
             </div>
@@ -124,7 +124,7 @@ function CheckoutForm() {
 
           <form
             onSubmit={handleProcess}
-            className="space-y-6 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm"
+            className="space-y-6 bg-white p-8 rounded-lg border border-slate-200 shadow-sm"
           >
             <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
               <Lock size={20} className="text-blue-500" /> Informasi Akun
@@ -138,7 +138,7 @@ function CheckoutForm() {
                 <input
                   type="text"
                   required
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-md px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                   placeholder="John Doe"
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
@@ -154,7 +154,7 @@ function CheckoutForm() {
                   <input
                     type="email"
                     required
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-md px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                     placeholder="john@example.com"
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
@@ -168,7 +168,7 @@ function CheckoutForm() {
                   <input
                     type="tel"
                     required
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-md px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                     placeholder="0812xxxxxx"
                     onChange={(e) =>
                       setFormData({ ...formData, whatsapp: e.target.value })
@@ -185,7 +185,7 @@ function CheckoutForm() {
                   type="password"
                   required
                   minLength={6}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-md px-4 py-3 text-slate-900 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                   placeholder="Minimal 6 karakter"
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
@@ -201,7 +201,7 @@ function CheckoutForm() {
 
         {/* KOLOM KANAN: ORDER SUMMARY */}
         <div className="w-full lg:w-[400px]">
-          <div className="bg-slate-900 rounded-3xl p-8 text-white sticky top-24 shadow-2xl shadow-blue-900/20">
+          <div className="bg-slate-900 rounded-lg p-8 text-white sticky top-24 shadow-2xl shadow-blue-900/20">
             <h3 className="text-xl font-bold mb-6 border-b border-white/10 pb-4">
               Ringkasan Pesanan
             </h3>
@@ -229,7 +229,7 @@ function CheckoutForm() {
             </ul>
 
             {selectedPlan.price === 0 && (
-              <div className="bg-red-500/10 border border-red-500/30 p-3 rounded-xl mb-6 flex items-start gap-2 text-xs text-red-200">
+              <div className="bg-red-500/10 border border-red-500/30 p-3 rounded-md mb-6 flex items-start gap-2 text-xs text-red-200">
                 <AlertCircle
                   size={16}
                   className="shrink-0 mt-0.5 text-red-400"
@@ -254,7 +254,7 @@ function CheckoutForm() {
             <button
               onClick={handleProcess}
               disabled={isLoading || showPopup}
-              className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg ${
+              className={`w-full py-4 rounded-md font-bold flex items-center justify-center gap-2 transition-all shadow-lg ${
                 selectedPlan.price === 0
                   ? "bg-white text-slate-900 hover:bg-slate-200"
                   : "bg-blue-600 text-white hover:bg-blue-500"

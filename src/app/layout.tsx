@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins, Roboto } from "next/font/google";
-import Script from "next/script";
+import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -11,16 +10,17 @@ import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "sonner";
 import GlobalLoader from "@/components/GlobalLoader";
 
-const poppins = Poppins({
+const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-poppins",
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
+  variable: "--font-serif",
 });
 
-const roboto = Roboto({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-  variable: "--font-roboto",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
 });
 
 // Metadata SEO & Social Media Share (Open Graph)
@@ -83,15 +83,14 @@ export default function RootLayout({
       <head>
         <meta name="facebook-domain-verification" content="4y1otfhgq0nwyd56ro4pexr9xt0wv7" />
         {/* === GOOGLE ADSENSE SCRIPT === */}
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1681916260628500"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
       </head>
       <body
-        className={`${poppins.variable} ${roboto.variable} font-poppins bg-slate-50`}
+        className={`${newsreader.variable} ${plusJakartaSans.variable} font-sans bg-[#FAF9F6] text-[#0F172A]`}
       >
         <AuthProvider>
           <LanguageProvider>

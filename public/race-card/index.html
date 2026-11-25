@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PaceCard Pro — Multi-Event Race Card Generator</title>
+  <meta name="description" content="Platform pembuat finisher card & race card lari profesional untuk berbagai event marathon, half-marathon, 10K, dan 5K.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,800&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-electric-blue">
+  <!-- Top Navigation -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+            <line x1="4" y1="22" x2="4" y2="15"></line>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">PaceCard<span class="accent-text">Pro</span></span>
+          <span class="brand-tagline">White-label Race Card Platform</span>
+        </div>
+      </div>
+      
+      <!-- Event Quick Selector / Client Customizer -->
+      <div class="header-actions">
+        <button id="toggleConfigBtn" class="btn btn-outline" type="button" title="Kustomisasi Event">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <span class="btn-text">Kustomisasi Event (Client)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Client Customizer Modal / Drawer -->
+  <div id="configDrawer" class="drawer" aria-hidden="true">
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <h3>Kustomisasi Event & Branding Klien</h3>
+        <button id="closeConfigBtn" class="close-btn" type="button">&times;</button>
+      </div>
+      <div class="drawer-body">
+        <p class="drawer-desc">Ubah tema, nama lomba, kategori jarak, dan warna untuk disesuaikan dengan event klien Anda.</p>
+        
+        <div class="form-group">
+          <label>Preset Event Populer</label>
+          <select id="presetEventSelect" class="form-control">
+            <option value="custom">-- Kustom Manual --</option>
+            <option value="pocari" selected>Pocari Sweat Run 2026</option>
+            <option value="maybank">Maybank Marathon Bali 2026</option>
+            <option value="borobudur">Borobudur Marathon 2026</option>
+            <option value="jakarta">Jakarta Running Fest 2026</option>
+            <option value="sunset">Sunset Trail Run 2026</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Nama Event Utama</label>
+          <input type="text" id="cfgEventTitle" class="form-control" value="POCARI SWEAT RUN 2026">
+        </div>
+
+        <div class="form-group">
+          <label>Sub-title / Lokasi Event</label>
+          <input type="text" id="cfgEventSubtitle" class="form-control" value="BANDUNG · GEDUNG SATE">
+        </div>
+
+        <div class="form-group">
+          <label>Tema Warna (Theme Palette)</label>
+          <div class="theme-palette-grid">
+            <button type="button" class="color-chip theme-pocari active" data-theme="theme-pocari" title="Electric Blue (Pocari)"></button>
+            <button type="button" class="color-chip theme-maybank" data-theme="theme-maybank" title="Maybank Yellow & Black"></button>
+            <button type="button" class="color-chip theme-borobudur" data-theme="theme-borobudur" title="Borobudur Crimson & Gold"></button>
+            <button type="button" class="color-chip theme-sunset" data-theme="theme-sunset" title="Neon Sunset Orange"></button>
+            <button type="button" class="color-chip theme-cyber" data-theme="theme-cyber" title="Cyber Lime & Charcoal"></button>
+            <button type="button" class="color-chip theme-emerald" data-theme="theme-emerald" title="Forest Trail Emerald"></button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Kategori Jarak Tersedia (Pisahkan dengan koma)</label>
+          <input type="text" id="cfgCategories" class="form-control" value="5K, 10K, 21K, 42K">
+        </div>
+
+        <div class="form-group">
+          <label>Hashtag / Watermark Footer</label>
+          <input type="text" id="cfgHashtag" class="form-control" value="#PocariRun2026 #BandungLari">
+        </div>
+      </div>
+      <div class="drawer-footer">
+        <button id="applyConfigBtn" class="btn btn-primary w-full" type="button">Terapkan Pengaturan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App Layout -->
+  <main class="main-layout">
+    <!-- Left Column: Step Builder Form -->
+    <section class="builder-section">
+      <!-- Wizard Progress Steps -->
+      <nav class="wizard-steps" aria-label="Progress">
+        <button class="step-btn active" data-step="0">
+          <span class="step-num">1</span>
+          <span class="step-label">Pelari & Lomba</span>
+        </button>
+        <button class="step-btn" data-step="1">
+          <span class="step-num">2</span>
+          <span class="step-label">Waktu & Metrik</span>
+        </button>
+        <button class="step-btn" data-step="2">
+          <span class="step-num">3</span>
+          <span class="step-label">Foto Race</span>
+        </button>
+        <button class="step-btn" data-step="3">
+          <span class="step-num">4</span>
+          <span class="step-label">Simpan / Share</span>
+        </button>
+      </nav>
+
+      <div class="form-card">
+        <!-- Step 1: Runner & Race Category -->
+        <div class="step-content active" id="step1">
+          <div class="step-header">
+            <h2 class="step-title">Informasi Pelari & Kategori</h2>
+            <p class="step-subtitle">Isi nama pelari dan nomor BIB untuk kartu finisher Anda.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="runnerNameInput">Nama Lengkap / Panggilan Pelari *</label>
+            <input type="text" id="runnerNameInput" class="form-control form-control-lg" placeholder="Contoh: TEGUH SITEG" maxlength="28" value="TEGUH SITEG" required>
+            <span class="input-hint">Nama akan otomatis disesuaikan ukurannya pada kartu.</span>
+          </div>
+
+          <div class="form-group">
+            <label>Kategori Jarak (Distance Category) *</label>
+            <div id="categoryButtonGroup" class="pill-group">
+              <!-- Dynamically populated from config -->
+              <button type="button" class="pill-btn" data-cat="5K">5K</button>
+              <button type="button" class="pill-btn" data-cat="10K">10K</button>
+              <button type="button" class="pill-btn active" data-cat="21K">21K (Half Marathon)</button>
+              <button type="button" class="pill-btn" data-cat="42K">42K (Full Marathon)</button>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="bibNumberInput">Nomor BIB / Dada</label>
+              <input type="text" id="bibNumberInput" class="form-control" placeholder="Contoh: 21088" value="21088" maxlength="10">
+            </div>
+            <div class="form-group">
+              <label for="runningClubInput">Running Club / Komunitas</label>
+              <input type="text" id="runningClubInput" class="form-control" placeholder="Contoh: Bandung Runners" value="GUWIGO RUN CLUB" maxlength="24">
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Time & Metrics -->
+        <div class="step-content" id="step2">
+          <div class="step-header">
+            <h2 class="step-title">Catatan Waktu & Statistik</h2>
+            <p class="step-subtitle">Masukkan catatan waktu resmi (Gun Time / Chip Time) Anda.</p>
+          </div>
+
+          <div class="form-group">
+            <label>Finish Time (Jam : Menit : Detik) *</label>
+            <div class="time-input-row">
+              <div class="time-field">
+                <input type="number" id="timeHour" class="form-control time-box" min="0" max="23" placeholder="01" value="01">
+                <span class="time-label">JAM</span>
+              </div>
+              <span class="time-separator">:</span>
+              <div class="time-field">
+                <input type="number" id="timeMin" class="form-control time-box" min="0" max="59" placeholder="48" value="48">
+                <span class="time-label">MENIT</span>
+              </div>
+              <span class="time-separator">:</span>
+              <div class="time-field">
+                <input type="number" id="timeSec" class="form-control time-box" min="0" max="59" placeholder="25" value="25">
+                <span class="time-label">DETIK</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <div class="flex-between">
+                <label for="paceInput">Average Pace (/km)</label>
+                <button type="button" id="btnAutoPace" class="btn-link">Auto Hitung</button>
+              </div>
+              <input type="text" id="paceInput" class="form-control" placeholder="05:08" value="05:08">
+            </div>
+
+            <div class="form-group">
+              <label for="avgHeartRateInput">Avg Heart Rate (bpm)</label>
+              <input type="number" id="avgHeartRateInput" class="form-control" placeholder="162" value="158" min="40" max="230">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="toggle-container">
+              <input type="checkbox" id="pbBadgeToggle" checked>
+              <span class="toggle-switch"></span>
+              <span class="toggle-text">
+                <strong>Tampilkan Badge Personal Best (PB)! 🏆</strong>
+                <small>Beri highlight pencapaian rekor lari pribadi terbaik Anda.</small>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Step 3: Photo Upload & Adjustment -->
+        <div class="step-content" id="step3">
+          <div class="step-header">
+            <h2 class="step-title">Foto Dokumentasi Lomba</h2>
+            <p class="step-subtitle">Upload foto saat berlari atau saat memegang medali finisher.</p>
+          </div>
+
+          <!-- Drop Zone -->
+          <div class="drop-zone" id="photoDropZone">
+            <input type="file" id="photoFileInput" accept="image/jpeg,image/png,image/webp" hidden>
+            <div class="drop-zone-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <div class="drop-zone-text">
+              <p><strong>Klik atau drag & drop foto lari di sini</strong></p>
+              <span>Format JPG, PNG, WEBP (Otomatis dikompres & diproses di browser)</span>
+            </div>
+          </div>
+
+          <!-- Photo Controls (Show when photo loaded) -->
+          <div id="photoControlsWrapper" class="photo-controls-panel hidden">
+            <div class="photo-meta-info">
+              <span id="photoFileName">photo.jpg</span>
+              <button type="button" id="btnRemovePhoto" class="btn-text-danger">Hapus Foto</button>
+            </div>
+
+            <div class="slider-group">
+              <div class="flex-between">
+                <label for="zoomSlider">Zoom Foto</label>
+                <span id="zoomVal">1.0x</span>
+              </div>
+              <input type="range" id="zoomSlider" min="1" max="2.8" step="0.05" value="1" class="custom-slider">
+            </div>
+
+            <div class="photo-touch-tip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <span>Tips: Anda juga bisa <strong>drag / geser foto langsung</strong> pada area preview kanan.</span>
+            </div>
+
+            <div class="quick-pos-buttons">
+              <button type="button" class="btn btn-sm btn-outline" id="btnRecenter">Reset Posisi</button>
+              <button type="button" class="btn btn-sm btn-outline" id="btnFitCover">Fit ke Layar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Preview & Download/Share -->
+        <div class="step-content" id="step4">
+          <div class="step-header">
+            <h2 class="step-title">Kartu Siap Diunduh!</h2>
+            <p class="step-subtitle">Export dengan resolusi tajam 1080 × 1920 px (Format Instagram Story / Status).</p>
+          </div>
+
+          <div class="export-summary-box">
+            <div class="summary-row">
+              <span>Event:</span>
+              <strong id="sumEventName">POCARI SWEAT RUN 2026</strong>
+            </div>
+            <div class="summary-row">
+              <span>Pelari:</span>
+              <strong id="sumRunnerName">TEGUH SITEG</strong>
+            </div>
+            <div class="summary-row">
+              <span>Kategori & Waktu:</span>
+              <strong id="sumTime">21K · 01:48:25 (Pace 05:08)</strong>
+            </div>
+          </div>
+
+          <div class="export-actions-grid">
+            <button type="button" id="btnDownloadPNG" class="btn btn-primary btn-lg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Download Race Card (PNG)
+            </button>
+
+            <button type="button" id="btnShareStory" class="btn btn-accent btn-lg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/>
+                <circle cx="6" cy="12" r="3"/>
+                <circle cx="18" cy="19" r="3"/>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+              Share ke Instagram / WA
+            </button>
+
+            <button type="button" id="btnExportTemplate" class="btn btn-outline">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <line x1="9" y1="3" x2="9" y2="21"/>
+              </svg>
+              Export Template Transparan (Overlay Only)
+            </button>
+          </div>
+        </div>
+
+        <!-- Wizard Navigation Footer -->
+        <div class="wizard-footer">
+          <button type="button" id="btnPrevStep" class="btn btn-outline" style="visibility: hidden;">
+            Kembali
+          </button>
+          <button type="button" id="btnNextStep" class="btn btn-primary">
+            Lanjut ke Tahap Berikutnya
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Live Interactive Interactive Race Card Preview -->
+    <section class="preview-section">
+      <div class="preview-sticky-wrapper">
+        <div class="preview-header">
+          <span class="live-tag"><span class="dot"></span> Live 9:16 Story Preview</span>
+          <span class="preview-dim">1080 × 1920 px</span>
+        </div>
+
+        <!-- The 9:16 Interactive Card Canvas Wrapper -->
+        <div class="card-aspect-ratio-box">
+          <div id="raceCardPreview" class="race-card-container">
+            <!-- Background User Photo Layer -->
+            <div class="photo-layer-wrapper" id="photoLayerWrapper">
+              <img id="cardUserPhoto" class="card-bg-photo" alt="Race Photo" style="display: none;">
+              <div id="photoPlaceholder" class="photo-empty-state">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <span>Upload foto lari Anda di Step 3<br>atau geser/zoom langsung</span>
+              </div>
+            </div>
+
+            <!-- Gradient Dark Vignette Overlays for readability -->
+            <div class="card-overlay-top"></div>
+            <div class="card-overlay-bottom"></div>
+
+            <!-- Card Elements (Dynamic Data Overlay) -->
+            <div class="card-ui-content">
+              <!-- Top Header: Event Name & Badge -->
+              <div class="card-top-bar">
+                <div class="event-branding">
+                  <span class="event-main-title" id="cardEventTitle">POCARI SWEAT RUN 2026</span>
+                  <span class="event-sub-title" id="cardEventSubtitle">BANDUNG · GEDUNG SATE</span>
+                </div>
+                <div class="card-top-right">
+                  <div class="category-badge" id="cardCategoryBadge">21K</div>
+                </div>
+              </div>
+
+              <!-- Personal Best Badge (Optional) -->
+              <div class="pb-badge-wrapper" id="cardPbBadge">
+                <span class="pb-badge">PERSONAL BEST</span>
+              </div>
+
+              <!-- Bottom Data Cluster -->
+              <div class="card-bottom-cluster">
+                <!-- Runner Details -->
+                <div class="runner-info-block">
+                  <div class="runner-name-line" id="cardRunnerName">TEGUH SITEG</div>
+                  <div class="runner-sub-meta">
+                    <span class="meta-item" id="cardBib">BIB 21088</span>
+                    <span class="meta-dot">·</span>
+                    <span class="meta-item" id="cardClub">GUWIGO RUN CLUB</span>
+                  </div>
+                </div>
+
+                <!-- Metrics Grid (Finish Time & Pace) -->
+                <div class="metrics-dashboard">
+                  <div class="metric-card metric-primary">
+                    <span class="metric-label">FINISH TIME</span>
+                    <span class="metric-val" id="cardFinishTime">01:48:25</span>
+                  </div>
+                  <div class="metric-card">
+                    <span class="metric-label">AVG PACE</span>
+                    <span class="metric-val" id="cardPace">05:08<small>/KM</small></span>
+                  </div>
+                  <div class="metric-card" id="cardHrBlock">
+                    <span class="metric-label">AVG HR</span>
+                    <span class="metric-val" id="cardHr">158<small>BPM</small></span>
+                  </div>
+                </div>
+
+                <!-- Footer Hashtags / Event Footer -->
+                <div class="card-footer-strip">
+                  <div class="footer-hashtag" id="cardHashtag">#PocariRun2026 #BandungLari</div>
+                  <div class="footer-watermark">PACECARD.PRO</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Hidden 1080x1920 High-Res Render Canvas -->
+  <canvas id="exportCanvas" width="1080" height="1920" style="display: none;"></canvas>
+
+  <!-- Notification Toast -->
+  <div id="toastNotification" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Application Logic Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>

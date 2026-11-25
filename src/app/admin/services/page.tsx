@@ -637,7 +637,7 @@ export default function AdminServicesPage() {
       {/* MODAL FORM CREATE / EDIT */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm">
-          <div className="bg-slate-50 w-full max-w-4xl h-[95vh] flex flex-col rounded-[2.5rem] shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-hidden border border-white/10">
+          <div className="bg-slate-50 w-full max-w-4xl h-[95vh] flex flex-col rounded-2xl shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-hidden border border-white/10">
             {/* Modal Header */}
             <div className="bg-[#0B1120] text-white px-8 py-6 flex justify-between items-center shrink-0 border-b border-white/10">
               <div>
@@ -678,7 +678,7 @@ export default function AdminServicesPage() {
                 className="space-y-8"
               >
                 {/* 1. INFO DASAR */}
-                <div className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm space-y-6">
+                <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm space-y-6">
                   <h3 className="font-black text-lg text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-4">
                     <Settings size={20} className="text-[#22D3EE]" /> Profil
                     Layanan
@@ -834,7 +834,7 @@ export default function AdminServicesPage() {
                   </div>
 
                   {formData.packages.length === 0 && (
-                    <div className="text-center p-16 bg-white border-2 border-dashed border-slate-200 rounded-[2rem] text-slate-500">
+                    <div className="text-center p-16 bg-white border-2 border-dashed border-slate-200 rounded-xl text-slate-500">
                       <Layers
                         size={48}
                         className="mx-auto mb-4 text-slate-300"
@@ -856,7 +856,7 @@ export default function AdminServicesPage() {
                       return (
                         <div
                           key={pkgIndex}
-                          className={`bg-white rounded-[2rem] border shadow-sm relative overflow-hidden transition-all duration-300 ${
+                          className={`bg-white rounded-xl border shadow-sm relative overflow-hidden transition-all duration-300 ${
                             formErrors.packages?.[pkgIndex]
                               ? "border-red-300"
                               : pkg.isPopular

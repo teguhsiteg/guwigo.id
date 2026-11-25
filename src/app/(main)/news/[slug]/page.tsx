@@ -80,8 +80,8 @@ export default function SingleNewsPage() {
   if (!article) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-        <div className="max-w-md w-full bg-white rounded-3xl p-8 border border-slate-200 text-center space-y-4">
-          <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto">
+        <div className="max-w-md w-full bg-white rounded-lg p-8 border border-slate-200 text-center space-y-4">
+          <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mx-auto">
             <Newspaper size={32} />
           </div>
           <h1 className="text-xl font-bold text-slate-900">Artikel Tidak Ditemukan</h1>
@@ -90,7 +90,7 @@ export default function SingleNewsPage() {
           </p>
           <Link
             href="/news"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-md text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition-colors"
           >
             <ArrowLeft size={14} /> Kembali ke Newsroom
           </Link>
@@ -112,7 +112,7 @@ export default function SingleNewsPage() {
           </Link>
           <button
             onClick={handleShare}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 hover:border-blue-500 hover:text-blue-600 transition-all shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white border border-slate-200 rounded-md text-xs font-bold text-slate-700 hover:border-blue-500 hover:text-blue-600 transition-all shadow-sm"
           >
             {copied ? <Check size={14} className="text-emerald-600" /> : <Share2 size={14} />}
             {copied ? "Tersalin!" : "Bagikan"}
@@ -161,7 +161,7 @@ export default function SingleNewsPage() {
 
         {/* COVER IMAGE */}
         {article.coverImage && (
-          <div className="relative w-full h-80 sm:h-[420px] rounded-3xl overflow-hidden mb-10 shadow-sm border border-slate-200">
+          <div className="relative w-full h-80 sm:h-[420px] rounded-lg overflow-hidden mb-10 shadow-sm border border-slate-200">
             <Image
               src={article.coverImage}
               alt={article.title}
@@ -173,7 +173,7 @@ export default function SingleNewsPage() {
         )}
 
         {/* ARTICLE BODY */}
-        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm">
+        <div className="bg-white rounded-lg p-8 sm:p-12 border border-slate-200 shadow-sm">
           <div className="prose prose-slate max-w-none text-slate-800 text-base sm:text-lg leading-relaxed whitespace-pre-line space-y-4">
             {article.content}
           </div>
@@ -196,7 +196,7 @@ export default function SingleNewsPage() {
           )}
 
           {/* ABOUT GUWIGO BOX */}
-          <div className="mt-10 p-6 bg-slate-50 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center gap-5">
+          <div className="mt-10 p-6 bg-slate-50 rounded-lg border border-slate-200 flex flex-col sm:flex-row items-center gap-5">
             <div className="relative w-28 h-8 shrink-0">
               <Image
                 src="/images/branding/logo-guwigo-new.png"

@@ -15,49 +15,51 @@ export function StatCard({
   trend,
   onClick,
 }: StatCardProps) {
-  const colorClasses: Record<string, string> = {
-    blue: "from-blue-50 to-blue-50 border-blue-200",
-    green: "from-green-50 to-green-50 border-green-200",
-    red: "from-red-50 to-red-50 border-red-200",
-    yellow: "from-yellow-50 to-yellow-50 border-yellow-200",
-    purple: "from-purple-50 to-purple-50 border-purple-200",
-    indigo: "from-indigo-50 to-indigo-50 border-indigo-200",
-  };
-
-  const iconClasses: Record<string, string> = {
-    blue: "text-blue-600",
-    green: "text-green-600",
-    red: "text-red-600",
-    yellow: "text-yellow-600",
-    purple: "text-purple-600",
-    indigo: "text-indigo-600",
+  const colorBgMap: Record<string, string> = {
+    blue: "bg-[#0071E3]/10 text-[#0071E3]",
+    green: "bg-[#34C759]/10 text-[#248A3D]",
+    red: "bg-[#FF3B30]/10 text-[#D70015]",
+    yellow: "bg-[#FF9500]/10 text-[#C96B00]",
+    purple: "bg-[#AF52DE]/10 text-[#8944AB]",
+    indigo: "bg-[#5856D6]/10 text-[#5856D6]",
   };
 
   return (
     <div
       onClick={onClick}
-      className={`bg-gradient-to-br ${colorClasses[color]} border rounded-lg p-6 transition-all cursor-pointer ${
-        onClick ? "hover:shadow-lg hover:shadow-blue-500/10" : ""
+      className={`bg-white/90 backdrop-blur-md border border-black/[0.06] rounded-2xl p-5 shadow-apple-sm transition-all duration-200 ${
+        onClick
+          ? "cursor-pointer hover:-translate-y-0.5 hover:shadow-apple-md hover:border-black/[0.12] active:scale-[0.98]"
+          : ""
       }`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-gray-600 text-sm">{title}</p>
-          <div className="flex items-baseline gap-2 mt-2">
-            <p className="text-gray-900 text-2xl font-bold">{value}</p>
-            {unit && <span className="text-gray-600 text-sm">{unit}</span>}
+          <p className="text-xs font-semibold text-[#86868B] tracking-tight">{title}</p>
+          <div className="flex items-baseline gap-1.5 mt-2">
+            <p className="text-2xl font-bold text-[#1D1D1F] tracking-tight">{value}</p>
+            {unit && <span className="text-xs font-medium text-[#86868B]">{unit}</span>}
           </div>
           {trend && (
             <div
-              className={`mt-2 text-xs font-medium ${
-                trend.direction === "up" ? "text-green-600" : "text-red-600"
+              className={`mt-2.5 inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                trend.direction === "up"
+                  ? "bg-[#34C759]/10 text-[#248A3D]"
+                  : "bg-[#FF3B30]/10 text-[#D70015]"
               }`}
             >
-              {trend.direction === "up" ? "↑" : "↓"} {trend.value}%
+              <span>{trend.direction === "up" ? "↑" : "↓"}</span>
+              <span>{trend.value}%</span>
             </div>
           )}
         </div>
-        <div className={`${iconClasses[color]} opacity-50`}>{icon}</div>
+        <div
+          className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${
+            colorBgMap[color] || "bg-[#0071E3]/10 text-[#0071E3]"
+          }`}
+        >
+          {icon}
+        </div>
       </div>
     </div>
   );

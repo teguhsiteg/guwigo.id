@@ -96,7 +96,7 @@ export default function DocumentVerificationPage() {
         </div>
 
         {loading && (
-          <div className="bg-white rounded-3xl p-12 border border-slate-200 shadow-xl text-center space-y-4">
+          <div className="bg-white rounded-lg p-12 border border-slate-200 shadow-xl text-center space-y-4">
             <Loader2 size={40} className="animate-spin text-blue-600 mx-auto" />
             <p className="text-sm font-semibold text-slate-600">
               Menghubungkan ke basis data Guwigo & memvalidasi keaslian dokumen...
@@ -105,7 +105,7 @@ export default function DocumentVerificationPage() {
         )}
 
         {!loading && notFound && (
-          <div className="bg-white rounded-3xl p-8 sm:p-10 border border-red-200 shadow-xl text-center space-y-4">
+          <div className="bg-white rounded-lg p-8 sm:p-10 border border-red-200 shadow-xl text-center space-y-4">
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto text-red-600">
               <AlertTriangle size={32} />
             </div>
@@ -118,7 +118,7 @@ export default function DocumentVerificationPage() {
             <div className="pt-4">
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-medium transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-md text-sm font-medium transition-colors"
               >
                 Kembali ke Beranda
               </Link>
@@ -127,7 +127,7 @@ export default function DocumentVerificationPage() {
         )}
 
         {!loading && !notFound && data && (
-          <div className="bg-white rounded-3xl border-2 border-emerald-500/30 shadow-2xl shadow-emerald-500/5 overflow-hidden">
+          <div className="bg-white rounded-lg border-2 border-emerald-500/30 shadow-2xl shadow-emerald-500/5 overflow-hidden">
             <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-5 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
@@ -171,7 +171,7 @@ export default function DocumentVerificationPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                <div className="p-4 rounded-lg bg-slate-50 border border-slate-100">
                   <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
                     Nomor Dokumen
                   </p>
@@ -179,7 +179,7 @@ export default function DocumentVerificationPage() {
                     {docNumber}
                   </p>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                <div className="p-4 rounded-lg bg-slate-50 border border-slate-100">
                   <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
                     Nilai Dokumen
                   </p>
@@ -233,7 +233,7 @@ export default function DocumentVerificationPage() {
                     <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                       Rincian Pekerjaan ({data.items.length} Item):
                     </p>
-                    <div className="space-y-1.5 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <div className="space-y-1.5 bg-slate-50 p-3 rounded-md border border-slate-100">
                       {data.items.map((item: any, idx: number) => (
                         <div key={idx} className="flex justify-between text-xs">
                           <span className="text-slate-700 font-medium">
@@ -274,7 +274,7 @@ export default function DocumentVerificationPage() {
                 )}
               </div>
 
-              <div className="bg-blue-50/60 p-4 rounded-2xl border border-blue-100 text-[11px] text-blue-900 leading-relaxed text-center">
+              <div className="bg-blue-50/60 p-4 rounded-lg border border-blue-100 text-[11px] text-blue-900 leading-relaxed text-center">
                 Dokumen ini merupakan salinan data otentik yang tersimpan pada basis data resmi <strong>PT GUWIGO TEKNOLOGI INDONESIA</strong>. Segala bentuk pemalsuan dokumen fisik tanpa rekonsiliasi sistem ini tidak memiliki kekuatan hukum.
               </div>
             </div>

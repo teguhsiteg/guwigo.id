@@ -245,23 +245,29 @@ export default function EduPromptPage() {
   };
 
   return (
-    <div className="bg-slate-50 text-slate-800 min-h-screen font-sans selection:bg-amber-500 selection:text-white pb-20">
+    <div className="bg-[#FAF9F6] text-[#0F172A] min-h-screen font-sans selection:bg-[#2563EB]/20 selection:text-[#0F172A] pb-24">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-slate-900 to-slate-800 text-white py-24 lg:py-32 rounded-b-[3rem] shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center justify-center gap-2 bg-amber-500/10 text-amber-500 px-4 py-2 rounded-full mb-6 border border-amber-500/20 text-sm font-bold uppercase tracking-widest">
-            <GraduationCap size={18} /> Guwigo Free Tools
+      <section className="bg-[#0A0F1D] text-white py-20 lg:py-28 border-b border-[#1E293B] relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-[#2563EB]/15 via-[#06B6D4]/10 to-transparent blur-[120px] pointer-events-none"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <Link
+            href="/tools"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-[#38BDF8] transition-colors mb-4"
+          >
+            ← Kembali ke Tools Hub
+          </Link>
+          <div className="block"></div>
+          <div className="inline-flex items-center justify-center gap-2 bg-[#2563EB]/10 text-[#38BDF8] px-3.5 py-1.5 rounded-full mb-6 border border-[#2563EB]/25 text-xs font-mono font-medium tracking-wide">
+            <GraduationCap size={16} /> Guwigo Education Suite
           </div>
-          <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight tracking-tight">
-            Buat Desain Pendaftaran <br className="hidden md:block" />{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">
-              Lebih Cepat & Profesional
+          <h1 className="text-3xl md:text-5xl font-serif font-normal mb-6 leading-tight tracking-tight text-white">
+            Generator Prompt Desain <br className="hidden md:block" />{" "}
+            <span className="italic text-[#38BDF8]">
+              Edukasi & Pendaftaran Kampus
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
-            Hasilkan prompt spesifik untuk AI Image Generator atau Desainer
-            Grafis dalam hitungan detik. Cocok untuk Sekolah, Kampus, dan
-            Lembaga Pendidikan.
+          <p className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto mb-8 font-normal leading-relaxed">
+            Hasilkan prompt spesifik untuk AI Image Generator (Midjourney, DALL-E, Imagen) atau Desainer Grafis dalam hitungan detik.
           </p>
         </div>
       </section>
@@ -269,22 +275,22 @@ export default function EduPromptPage() {
       {/* Main Content */}
       <main
         id="generator"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 -mt-10 relative z-10"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
           {/* LEFT COLUMN: FORM */}
           <div className="lg:col-span-8 space-y-8">
             {/* Section 1 */}
-            <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200">
-              <h2 className="text-xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center gap-3">
-                <div className="p-2 bg-amber-100 rounded-xl text-amber-600">
+            <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-[#E2E8F0]">
+              <h2 className="text-lg font-serif font-normal text-[#0F172A] mb-6 border-b border-[#E2E8F0] pb-4 flex items-center gap-3">
+                <div className="p-2 bg-[#2563EB]/10 rounded-lg text-[#2563EB]">
                   <Building2 size={20} />
                 </div>
                 1. Identitas Lembaga
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Nama Sekolah/Univ
                   </label>
                   <input
@@ -292,12 +298,12 @@ export default function EduPromptPage() {
                     name="nama"
                     value={formData.nama}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none transition-all font-normal text-sm text-[#0F172A]"
                     placeholder="Contoh: Universitas Gemilang"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Tagline
                   </label>
                   <input
@@ -305,12 +311,12 @@ export default function EduPromptPage() {
                     name="tagline"
                     value={formData.tagline}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none transition-all font-normal text-sm text-[#0F172A]"
                     placeholder="Contoh: Mencetak Generasi Emas"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Akreditasi
                   </label>
                   <input
@@ -318,12 +324,12 @@ export default function EduPromptPage() {
                     name="akreditasi"
                     value={formData.akreditasi}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none transition-all font-normal text-sm text-[#0F172A]"
                     placeholder="Contoh: Akreditasi A (Unggul)"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Instruksi Logo
                   </label>
                   <input
@@ -331,12 +337,12 @@ export default function EduPromptPage() {
                     name="logo"
                     value={formData.logo}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none transition-all font-normal text-sm text-[#0F172A]"
                     placeholder="Sediakan ruang logo di kiri atas"
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Alamat Lengkap
                   </label>
                   <textarea
@@ -344,12 +350,12 @@ export default function EduPromptPage() {
                     value={formData.alamat}
                     onChange={handleChange}
                     rows={2}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all font-medium resize-none"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none transition-all font-normal text-sm text-[#0F172A] resize-none"
                     placeholder="Jl. Pendidikan No.1, Kota Cerdas"
                   ></textarea>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     No WhatsApp & Nama
                   </label>
                   <input
@@ -357,12 +363,12 @@ export default function EduPromptPage() {
                     name="wa"
                     value={formData.wa}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none transition-all font-normal text-sm text-[#0F172A]"
                     placeholder="0812-3456-7890 (Admin)"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Media Sosial
                   </label>
                   <input
@@ -370,7 +376,7 @@ export default function EduPromptPage() {
                     name="sosmed"
                     value={formData.sosmed}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none transition-all font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none transition-all font-normal text-sm text-[#0F172A]"
                     placeholder="IG/Tiktok: @kampusgemilang"
                   />
                 </div>
@@ -378,23 +384,23 @@ export default function EduPromptPage() {
             </div>
 
             {/* Section 2 */}
-            <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200">
-              <h2 className="text-xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center gap-3">
-                <div className="p-2 bg-amber-100 rounded-xl text-amber-600">
+            <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-[#E2E8F0]">
+              <h2 className="text-lg font-serif font-normal text-[#0F172A] mb-6 border-b border-[#E2E8F0] pb-4 flex items-center gap-3">
+                <div className="p-2 bg-[#2563EB]/10 rounded-lg text-[#2563EB]">
                   <Target size={20} />
                 </div>
                 2. Tujuan & Format Desain
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Tujuan Desain
                   </label>
                   <select
                     name="tujuan"
                     value={formData.tujuan}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none font-medium cursor-pointer"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A] cursor-pointer"
                   >
                     <option value="Pendaftaran siswa baru">
                       Pendaftaran Siswa Baru (PPDB)
@@ -412,14 +418,14 @@ export default function EduPromptPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Format Desain
                   </label>
                   <select
                     name="format"
                     value={formData.format}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none font-medium cursor-pointer"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A] cursor-pointer"
                   >
                     <option value="Poster A4">Poster A4</option>
                     <option value="Brosur lipat tiga (Trifold)">
@@ -440,14 +446,14 @@ export default function EduPromptPage() {
                   </select>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Target Audiens Utama
                   </label>
                   <select
                     name="audiens"
                     value={formData.audiens}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-slate-900 outline-none font-medium cursor-pointer"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A] cursor-pointer"
                   >
                     <option value="Calon mahasiswa dan orang tua">
                       Calon Mahasiswa & Orang Tua
@@ -471,9 +477,9 @@ export default function EduPromptPage() {
             </div>
 
             {/* Section 3 */}
-            <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200">
-              <h2 className="text-xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center gap-3">
-                <div className="p-2 bg-amber-100 rounded-xl text-amber-600">
+            <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-[#E2E8F0]">
+              <h2 className="text-lg font-serif font-normal text-[#0F172A] mb-6 border-b border-[#E2E8F0] pb-4 flex items-center gap-3">
+                <div className="p-2 bg-[#2563EB]/10 rounded-lg text-[#2563EB]">
                   <Palette size={20} />
                 </div>
                 3. Style Visual
@@ -488,29 +494,29 @@ export default function EduPromptPage() {
                       onClick={() =>
                         setFormData((prev) => ({ ...prev, style: opt.id }))
                       }
-                      className={`cursor-pointer border-2 rounded-2xl p-5 text-center transition-all relative overflow-hidden h-full flex flex-col items-center justify-center gap-3 group ${
+                      className={`cursor-pointer border-2 rounded-lg p-4 text-center transition-all relative overflow-hidden h-full flex flex-col items-center justify-center gap-2.5 group ${
                         isSelected
-                          ? "border-amber-500 bg-amber-50"
-                          : "border-slate-100 hover:border-amber-300 bg-white"
+                          ? "border-[#2563EB] bg-[#2563EB]/5 shadow-sm"
+                          : "border-[#E2E8F0] hover:border-slate-300 bg-white"
                       }`}
                     >
                       <Icon
-                        size={32}
+                        size={28}
                         className={
                           isSelected
-                            ? "text-amber-500"
-                            : "text-slate-400 group-hover:text-amber-400 transition-colors"
+                            ? "text-[#2563EB]"
+                            : "text-slate-400 group-hover:text-[#2563EB] transition-colors"
                         }
                       />
                       <span
-                        className={`text-sm font-bold ${isSelected ? "text-amber-700" : "text-slate-600"}`}
+                        className={`text-xs font-semibold ${isSelected ? "text-[#2563EB]" : "text-slate-700"}`}
                       >
                         {opt.label}
                       </span>
                       {isSelected && (
                         <CheckCircle2
-                          className="absolute top-2 right-2 text-amber-500"
-                          size={16}
+                          className="absolute top-2 right-2 text-[#2563EB]"
+                          size={15}
                         />
                       )}
                     </div>
@@ -518,13 +524,13 @@ export default function EduPromptPage() {
                 })}
               </div>
 
-              <div className="mt-8 pt-6 border-t border-slate-100">
-                <label className="block text-xs font-bold text-slate-500 mb-4 uppercase tracking-wide">
+              <div className="mt-8 pt-6 border-t border-[#E2E8F0]">
+                <label className="block text-xs font-medium text-slate-500 mb-4 uppercase tracking-wide">
                   Warna Dominan Desain
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   <div>
-                    <label className="text-[10px] text-slate-400 mb-1.5 block font-bold uppercase tracking-wider">
+                    <label className="text-[11px] text-slate-500 mb-1.5 block font-medium uppercase tracking-wider">
                       Warna Utama
                     </label>
                     <input
@@ -532,11 +538,11 @@ export default function EduPromptPage() {
                       name="warna1"
                       value={formData.warna1}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium focus:ring-slate-900"
+                      className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg font-normal text-sm text-[#0F172A] focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] text-slate-400 mb-1.5 block font-bold uppercase tracking-wider">
+                    <label className="text-[11px] text-slate-500 mb-1.5 block font-medium uppercase tracking-wider">
                       Warna Latar
                     </label>
                     <input
@@ -544,11 +550,11 @@ export default function EduPromptPage() {
                       name="warna2"
                       value={formData.warna2}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium focus:ring-slate-900"
+                      className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg font-normal text-sm text-[#0F172A] focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] text-slate-400 mb-1.5 block font-bold uppercase tracking-wider">
+                    <label className="text-[11px] text-slate-500 mb-1.5 block font-medium uppercase tracking-wider">
                       Warna Tombol/Aksen
                     </label>
                     <input
@@ -556,7 +562,7 @@ export default function EduPromptPage() {
                       name="warna3"
                       value={formData.warna3}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium focus:ring-slate-900"
+                      className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg font-normal text-sm text-[#0F172A] focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none"
                     />
                   </div>
                 </div>
@@ -564,16 +570,16 @@ export default function EduPromptPage() {
             </div>
 
             {/* Section 4 */}
-            <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200">
-              <h2 className="text-xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center gap-3">
-                <div className="p-2 bg-amber-100 rounded-xl text-amber-600">
+            <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-[#E2E8F0]">
+              <h2 className="text-lg font-serif font-normal text-[#0F172A] mb-6 border-b border-[#E2E8F0] pb-4 flex items-center gap-3">
+                <div className="p-2 bg-[#2563EB]/10 rounded-lg text-[#2563EB]">
                   <ListChecks size={20} />
                 </div>
                 4. Informasi Konten
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Tahun Ajaran
                   </label>
                   <input
@@ -581,12 +587,12 @@ export default function EduPromptPage() {
                     name="tahun"
                     value={formData.tahun}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-slate-900 font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A]"
                     placeholder="2027/2028"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Prodi / Jurusan
                   </label>
                   <input
@@ -594,12 +600,12 @@ export default function EduPromptPage() {
                     name="prodi"
                     value={formData.prodi}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-slate-900 font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A]"
                     placeholder="Sistem Informasi, Manajemen..."
                   />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Keunggulan Lembaga (Point-point)
                   </label>
                   <textarea
@@ -607,12 +613,12 @@ export default function EduPromptPage() {
                     value={formData.keunggulan}
                     onChange={handleChange}
                     rows={2}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-slate-900 font-medium resize-none"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A] resize-none"
                     placeholder="- Lulusan siap kerja&#10;- Kurikulum Internasional"
                   ></textarea>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Fasilitas Utama
                   </label>
                   <textarea
@@ -620,12 +626,12 @@ export default function EduPromptPage() {
                     value={formData.fasilitas}
                     onChange={handleChange}
                     rows={2}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-slate-900 font-medium resize-none"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A] resize-none"
                     placeholder="- Lab Komputer Modern&#10;- Perpustakaan Digital"
                   ></textarea>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Info Beasiswa
                   </label>
                   <input
@@ -633,12 +639,12 @@ export default function EduPromptPage() {
                     name="beasiswa"
                     value={formData.beasiswa}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-slate-900 font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A]"
                     placeholder="Beasiswa s/d 100%"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Jadwal Gelombang
                   </label>
                   <input
@@ -646,12 +652,12 @@ export default function EduPromptPage() {
                     name="jadwal"
                     value={formData.jadwal}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-slate-900 font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A]"
                     placeholder="Gel 1: Jan-Maret, Gel 2: April-Juni"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Syarat Singkat
                   </label>
                   <input
@@ -659,12 +665,12 @@ export default function EduPromptPage() {
                     name="syarat"
                     value={formData.syarat}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-slate-900 font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A]"
                     placeholder="FC Ijazah, Pas Foto 3x4"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                  <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                     Call to Action (CTA)
                   </label>
                   <input
@@ -672,20 +678,20 @@ export default function EduPromptPage() {
                     name="cara"
                     value={formData.cara}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-slate-900 font-medium"
+                    className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A]"
                     placeholder="Daftar di www.kampus.ac.id"
                   />
                 </div>
                 <div className="md:col-span-2 pt-2">
-                  <label className="flex items-center space-x-3 cursor-pointer p-4 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors">
+                  <label className="flex items-center space-x-3 cursor-pointer p-3.5 bg-slate-50/60 border border-[#E2E8F0] rounded-lg hover:bg-slate-100 transition-colors">
                     <input
                       type="checkbox"
                       name="qr"
                       checked={formData.qr}
                       onChange={handleChange}
-                      className="w-5 h-5 text-slate-900 rounded focus:ring-slate-900"
+                      className="w-4 h-4 text-[#2563EB] rounded focus:ring-[#2563EB]"
                     />
-                    <span className="text-sm font-bold text-slate-700">
+                    <span className="text-xs font-medium text-slate-700">
                       Sertakan area khusus untuk menempelkan QR Code Pendaftaran
                     </span>
                   </label>
@@ -694,9 +700,9 @@ export default function EduPromptPage() {
             </div>
 
             {/* Section 5 */}
-            <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200">
-              <h2 className="text-xl font-black text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center gap-3">
-                <div className="p-2 bg-amber-100 rounded-xl text-amber-600">
+            <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-[#E2E8F0]">
+              <h2 className="text-lg font-serif font-normal text-[#0F172A] mb-6 border-b border-[#E2E8F0] pb-4 flex items-center gap-3">
+                <div className="p-2 bg-[#2563EB]/10 rounded-lg text-[#2563EB]">
                   <Shapes size={20} />
                 </div>
                 5. Elemen Visual Tambahan
@@ -708,16 +714,16 @@ export default function EduPromptPage() {
                   return (
                     <label
                       key={idx}
-                      className={`flex items-center space-x-3 p-3 border-2 rounded-xl cursor-pointer transition-colors ${isChecked ? "border-amber-500 bg-amber-50" : "border-slate-100 hover:border-amber-300 bg-white"}`}
+                      className={`flex items-center space-x-3 p-3 border-2 rounded-lg cursor-pointer transition-colors ${isChecked ? "border-[#2563EB] bg-[#2563EB]/5" : "border-[#E2E8F0] hover:border-slate-300 bg-white"}`}
                     >
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => handleVisualElementChange(opt.value)}
-                        className="w-4 h-4 text-amber-600 focus:ring-amber-500 border-slate-300 rounded"
+                        className="w-4 h-4 text-[#2563EB] focus:ring-[#2563EB] border-slate-300 rounded"
                       />
                       <span
-                        className={`text-xs font-bold ${isChecked ? "text-amber-700" : "text-slate-600"}`}
+                        className={`text-xs font-medium ${isChecked ? "text-[#2563EB]" : "text-slate-700"}`}
                       >
                         {opt.label}
                       </span>
@@ -727,10 +733,10 @@ export default function EduPromptPage() {
               </div>
 
               {/* INFO BOX: Upload Foto Asli */}
-              <div className="mb-8 p-4 bg-sky-50 border border-sky-100 rounded-xl flex items-start gap-3">
-                <Info size={18} className="text-sky-500 shrink-0 mt-0.5" />
-                <p className="text-xs font-medium text-sky-800 leading-relaxed">
-                  <strong className="font-bold">Tips Penggunaan AI:</strong>{" "}
+              <div className="mb-6 p-4 bg-blue-50/60 border border-blue-100 rounded-xl flex items-start gap-3">
+                <Info size={18} className="text-[#2563EB] shrink-0 mt-0.5" />
+                <p className="text-xs font-normal text-blue-900 leading-relaxed">
+                  <strong className="font-semibold">Tips Penggunaan AI:</strong>{" "}
                   Jika Anda memilih elemen berupa foto asli (misal: Foto Siswa/i
                   atau Gedung Kampus), pastikan Anda{" "}
                   <strong>mengupload file foto tersebut</strong> ke ChatGPT atau
@@ -740,7 +746,7 @@ export default function EduPromptPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                <label className="block text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">
                   Catatan Instruksi Khusus
                 </label>
                 <textarea
@@ -748,7 +754,7 @@ export default function EduPromptPage() {
                   value={formData.catatan}
                   onChange={handleChange}
                   rows={3}
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-slate-900 outline-none font-medium resize-none"
+                  className="w-full px-3.5 py-2.5 bg-slate-50/50 border border-[#E2E8F0] rounded-lg focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] outline-none font-normal text-sm text-[#0F172A] resize-none"
                   placeholder="Contoh: Buat desain terkesan islami modern, pastikan teks promo dibuat sangat besar..."
                 ></textarea>
               </div>
@@ -757,79 +763,79 @@ export default function EduPromptPage() {
 
           {/* RIGHT COLUMN: PREVIEW & ACTION */}
           <div className="lg:col-span-4 mt-8 lg:mt-0">
-            <div className="sticky top-24 rounded-[2rem] shadow-2xl border border-slate-800 overflow-hidden flex flex-col h-[calc(100vh-8rem)] min-h-[600px] bg-slate-900">
+            <div className="sticky top-24 rounded-xl shadow-xl border border-[#1E293B] overflow-hidden flex flex-col h-[calc(100vh-8rem)] min-h-[600px] bg-[#0A0F1D]">
               {/* Output Header */}
-              <div className="bg-slate-950 px-6 py-5 border-b border-slate-800 flex justify-between items-center z-10">
-                <h3 className="text-lg font-black text-white flex items-center gap-3">
-                  <Terminal className="text-amber-500" size={20} /> AI Prompt
+              <div className="bg-[#0F172A] px-5 py-4 border-b border-[#1E293B] flex justify-between items-center z-10">
+                <h3 className="text-sm font-mono text-white flex items-center gap-2.5">
+                  <Terminal className="text-[#38BDF8]" size={18} /> AI Prompt
                   Result
                 </h3>
-                <span className="flex h-3 w-3 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                <span className="flex h-2.5 w-2.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#38BDF8] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2563EB]"></span>
                 </span>
               </div>
 
               {/* Output Body */}
-              <div className="flex-grow p-6 overflow-y-auto custom-scrollbar bg-slate-900 relative">
-                <div className="flex items-center gap-2 text-[11px] text-amber-500 bg-amber-500/10 px-3 py-2 rounded-lg font-bold mb-5 border border-amber-500/20">
+              <div className="flex-grow p-5 overflow-y-auto custom-scrollbar bg-[#0A0F1D] relative">
+                <div className="flex items-center gap-2 text-[11px] text-[#38BDF8] bg-[#2563EB]/10 px-3 py-2 rounded-lg font-mono mb-4 border border-[#2563EB]/20">
                   <Info size={14} /> Terupdate otomatis secara real-time.
                 </div>
-                <pre className="text-slate-300 text-sm whitespace-pre-wrap font-mono leading-relaxed break-words">
+                <pre className="text-slate-300 text-xs whitespace-pre-wrap font-mono leading-relaxed break-words">
                   {promptOutput}
                 </pre>
               </div>
 
               {/* Output Footer & Actions */}
-              <div className="bg-slate-950 p-5 border-t border-slate-800 space-y-4">
+              <div className="bg-[#0F172A] p-4 border-t border-[#1E293B] space-y-3">
                 <button
                   onClick={handleCopy}
-                  className="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-4 px-4 rounded-xl transition-all flex justify-center items-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:scale-[1.02]"
+                  className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-3 px-4 rounded-lg transition-all flex justify-center items-center gap-2 shadow-md hover:shadow-lg text-xs uppercase tracking-wider"
                 >
-                  <Copy size={18} /> COPY FULL PROMPT
+                  <Copy size={16} /> COPY FULL PROMPT
                 </button>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2.5">
                   <button
                     onClick={handleRefresh}
-                    className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 text-xs uppercase tracking-widest border border-slate-700"
+                    className="bg-[#1E293B] hover:bg-[#334155] text-slate-200 font-medium py-2.5 px-3 rounded-lg transition-colors flex justify-center items-center gap-2 text-xs font-mono uppercase tracking-wider border border-[#334155]"
                   >
                     <RefreshCcw
-                      size={14}
+                      size={13}
                       className={isRefreshing ? "animate-spin" : ""}
                     />{" "}
                     Refresh
                   </button>
                   <button
                     onClick={handleReset}
-                    className="bg-red-950/40 hover:bg-red-900/60 text-red-400 border border-red-900/50 font-bold py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 text-xs uppercase tracking-widest"
+                    className="bg-red-950/40 hover:bg-red-900/60 text-red-400 border border-red-900/50 font-medium py-2.5 px-3 rounded-lg transition-colors flex justify-center items-center gap-2 text-xs font-mono uppercase tracking-wider"
                   >
-                    <Trash2 size={14} /> Reset Form
+                    <Trash2 size={13} /> Reset Form
                   </button>
                 </div>
               </div>
 
               {/* PREMIUM SUPPORT / DONATION PANEL */}
-              <div className="bg-slate-950 p-5 border-t border-slate-800">
-                <div className="text-center mb-4">
-                  <h4 className="text-white font-black mb-1.5 flex justify-center items-center gap-2 text-sm">
+              <div className="bg-[#0F172A] p-4 border-t border-[#1E293B]">
+                <div className="text-center mb-3">
+                  <h4 className="text-white font-medium mb-1 flex justify-center items-center gap-1.5 text-xs font-mono">
                     <Heart
                       className="text-pink-500 fill-pink-500 animate-pulse"
-                      size={16}
+                      size={14}
                     />{" "}
                     Support The Creator
                   </h4>
-                  <p className="text-[11px] font-medium text-slate-400 leading-relaxed px-2">
+                  <p className="text-[11px] text-slate-400 leading-relaxed px-2 font-normal">
                     Tools ini 100% gratis. Jika ini menghemat waktu kerja Anda,
                     silakan traktir kami kopi! ☕
                   </p>
                 </div>
-                <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="grid grid-cols-2 gap-2.5 mb-3">
                   <a
                     href="https://cebanmatters.com/donation/teguhsiteg"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-pink-600 to-red-500 hover:opacity-90 text-white text-[11px] font-black py-3 px-3 rounded-xl flex items-center justify-center transition-all shadow-lg shadow-red-500/20"
+                    className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-[11px] font-mono py-2 px-2.5 rounded-lg flex items-center justify-center transition-all"
                   >
                     CebanMatters
                   </a>
@@ -837,19 +843,9 @@ export default function EduPromptPage() {
                     href="https://sociabuzz.com/teguhsiteg35/tribe"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-amber-400 to-yellow-500 hover:opacity-90 text-slate-900 text-[11px] font-black py-3 px-3 rounded-xl flex items-center justify-center transition-all shadow-lg shadow-amber-500/20"
+                    className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-[11px] font-mono py-2 px-2.5 rounded-lg flex items-center justify-center transition-all"
                   >
-                    SociaBuzz Tribe
-                  </a>
-                </div>
-                <div className="text-center pb-2">
-                  <a
-                    href="https://sociabuzz.com/i/r/ke3qg1"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-500 hover:text-amber-400 transition-colors uppercase tracking-widest"
-                  >
-                    <Coffee size={12} /> Gabung Program Affiliate
+                    SociaBuzz
                   </a>
                 </div>
               </div>
@@ -860,8 +856,8 @@ export default function EduPromptPage() {
 
       {/* Toast Notification */}
       {showToast && (
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-white px-6 py-3.5 rounded-full shadow-[0_10px_40px_rgba(16,185,129,0.4)] flex items-center gap-3 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300 font-bold text-sm">
-          <CheckCircle2 size={20} className="fill-white text-emerald-500" />
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-[#0F172A] text-white px-5 py-3 rounded-xl border border-[#1E293B] shadow-2xl flex items-center gap-3 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300 font-medium text-xs font-mono">
+          <CheckCircle2 size={18} className="text-[#38BDF8]" />
           Prompt berhasil disalin ke clipboard!
         </div>
       )}

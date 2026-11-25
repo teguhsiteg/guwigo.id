@@ -61,7 +61,7 @@ export default function Modal({
       {/* Modal Content */}
       <div
         className={cn(
-          "relative bg-white rounded-2xl shadow-2xl w-full border border-slate-100",
+          "relative bg-white rounded-lg shadow-2xl w-full border border-slate-100",
           "animate-in fade-in zoom-in-95 duration-200",
           "max-h-[90vh] overflow-hidden flex flex-col",
           sizeStyles[size],
@@ -79,7 +79,7 @@ export default function Modal({
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-slate-900 transition-colors"
+              className="p-2 hover:bg-slate-100 rounded-md text-slate-400 hover:text-slate-900 transition-colors"
             >
               <X size={18} />
             </button>

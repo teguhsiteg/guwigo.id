@@ -93,11 +93,11 @@ export default function PublicNewsPage() {
         </div>
 
         {/* SEARCH & CATEGORY BAR */}
-        <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 p-2 bg-white rounded-2xl shadow-sm border border-slate-200">
+        <div className="mt-10 flex flex-col md:flex-row items-center justify-between gap-4 p-2 bg-white rounded-lg shadow-sm border border-slate-200">
           <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto p-1 scrollbar-none">
             <button
               onClick={() => setActiveCategory("all")}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+              className={`px-4 py-2 rounded-md text-xs font-bold transition-all whitespace-nowrap ${
                 activeCategory === "all"
                   ? "bg-blue-600 text-white shadow-sm shadow-blue-500/20"
                   : "text-slate-600 hover:bg-slate-100"
@@ -109,7 +109,7 @@ export default function PublicNewsPage() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-md text-xs font-bold transition-all whitespace-nowrap ${
                   activeCategory === cat
                     ? "bg-blue-600 text-white shadow-sm shadow-blue-500/20"
                     : "text-slate-600 hover:bg-slate-100"
@@ -127,7 +127,7 @@ export default function PublicNewsPage() {
               placeholder="Cari artikel berita..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-10 pl-10 pr-4 bg-slate-50 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all border border-slate-200"
+              className="w-full h-10 pl-10 pr-4 bg-slate-50 rounded-md text-xs font-medium text-slate-800 placeholder-slate-400 outline-none focus:bg-white focus:ring-2 focus:ring-blue-500/20 transition-all border border-slate-200"
             />
           </div>
         </div>
@@ -141,7 +141,7 @@ export default function PublicNewsPage() {
             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Memuat Warta Guwigo...</p>
           </div>
         ) : filteredArticles.length === 0 ? (
-          <div className="p-16 text-center bg-white rounded-3xl border border-slate-200 space-y-3">
+          <div className="p-16 text-center bg-white rounded-lg border border-slate-200 space-y-3">
             <p className="text-base font-bold text-slate-800">Tidak ada artikel yang cocok</p>
             <p className="text-xs text-slate-500">Coba ubah kata kunci pencarian atau pilih kategori lain.</p>
           </div>
@@ -149,7 +149,7 @@ export default function PublicNewsPage() {
           <div className="space-y-12">
             {/* FEATURED STORY BANNER */}
             {featuredArticle && activeCategory === "all" && !searchQuery && (
-              <div className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+              <div className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                   <div className="lg:col-span-7 relative h-72 lg:h-auto min-h-[320px] bg-slate-100 overflow-hidden">
                     {featuredArticle.coverImage ? (
@@ -161,7 +161,7 @@ export default function PublicNewsPage() {
                       />
                     ) : null}
                     <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1.5 bg-blue-600 text-white rounded-xl text-[11px] font-black uppercase tracking-wider shadow-md">
+                      <span className="px-3 py-1.5 bg-blue-600 text-white rounded-md text-[11px] font-black uppercase tracking-wider shadow-md">
                         {featuredArticle.category}
                       </span>
                     </div>
@@ -207,7 +207,7 @@ export default function PublicNewsPage() {
               {(activeCategory === "all" && !searchQuery ? regularArticles : filteredArticles).map((item) => (
                 <article
                   key={item.id}
-                  className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group"
+                  className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group"
                 >
                   <Link href={`/news/${item.slug}`} className="relative h-52 bg-slate-100 overflow-hidden block">
                     {item.coverImage ? (

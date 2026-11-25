@@ -457,15 +457,15 @@ function AuthContent() {
   // Overlay Transisi SSO
   if (isSSORedirecting) {
     return (
-      <div className="min-h-screen bg-[#0B1120] flex flex-col items-center justify-center text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#22D3EE]/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] -ml-40 -mb-40 pointer-events-none"></div>
+      <div className="min-h-screen bg-[#0A0F1D] flex flex-col items-center justify-center text-[#FAF9F6] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#2563EB]/15 rounded-md blur-[140px] -mr-40 -mt-40 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#06B6D4]/10 rounded-md blur-[120px] -ml-40 -mb-40 pointer-events-none"></div>
         
         <div className="z-10 flex flex-col items-center">
-          <Loader2 className="w-16 h-16 animate-spin text-[#22D3EE] mb-6" />
-          <h2 className="text-3xl font-black mb-2 tracking-tight">Otentikasi Berhasil!</h2>
-          <p className="text-slate-400 font-medium text-center max-w-sm">
-            Menghubungkan sesi aman Anda ke ekosistem Guwigo. Mohon tunggu sebentar...
+          <Loader2 className="w-12 h-12 animate-spin text-[#2563EB] mb-6" />
+          <h2 className="font-serif text-3xl font-normal mb-2 tracking-tight">Otentikasi Berhasil</h2>
+          <p className="text-[#94A3B8] font-sans text-sm text-center max-w-sm">
+            Menghubungkan sesi aman Anda ke ekosistem Guwigo...
           </p>
         </div>
       </div>
@@ -473,9 +473,8 @@ function AuthContent() {
   }
 
   return (
-    // JURUS RAHASIA: Membalik urutan elemen secara dinamis (flex-row-reverse)
     <div
-      className={`min-h-screen bg-slate-50 flex overflow-hidden font-sans selection:bg-[#22D3EE]/30 selection:text-[#0B1120] transition-all duration-700 ease-in-out ${
+      className={`min-h-screen bg-[#FAF9F6] flex overflow-hidden font-sans selection:bg-[#2563EB]/15 selection:text-[#0F172A] transition-all duration-700 ease-in-out ${
         !isLogin ? "lg:flex-row-reverse" : "lg:flex-row"
       }`}
     >
@@ -483,12 +482,12 @@ function AuthContent() {
       <motion.div
         layout
         transition={{ type: "spring", stiffness: 70, damping: 20 }}
-        className="w-full lg:w-1/2 flex flex-col justify-center px-6 md:px-12 lg:px-20 bg-white z-20 min-h-screen pt-24 pb-10 overflow-y-auto shadow-[0_0_50px_rgba(0,0,0,0.05)] relative"
+        className="w-full lg:w-1/2 flex flex-col justify-center px-6 md:px-12 lg:px-20 bg-white border-r border-[#E2E8F0] z-20 min-h-screen pt-24 pb-10 overflow-y-auto relative"
       >
-        {/* TOMBOL KEMBALI KE BERANDA (Tanpa nabrak Header) */}
+        {/* TOMBOL KEMBALI KE BERANDA */}
         <Link
           href="/"
-          className="absolute top-8 left-6 lg:top-12 lg:left-12 flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 text-slate-500 hover:text-[#0B1120] hover:bg-slate-100 hover:border-slate-300 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-[#22D3EE] text-xs font-bold uppercase tracking-widest shadow-sm z-50 group"
+          className="absolute top-8 left-6 lg:top-12 lg:left-12 flex items-center gap-2 px-4 py-2 bg-[#FAF9F6] border border-[#E2E8F0] text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] rounded-md transition-all focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 text-xs font-medium tracking-wide shadow-sm z-50 group"
         >
           <ArrowLeft
             size={14}
@@ -498,11 +497,11 @@ function AuthContent() {
         </Link>
 
         <div className="w-full max-w-md mx-auto my-auto pt-8">
-          {/* Logo Guwigo Rebranding (Menggantikan Kotak Lama) */}
-          <div className="mb-10 flex justify-center lg:justify-start">
-            <div className="relative w-16 h-16 drop-shadow-lg">
+          {/* Logo Guwigo */}
+          <div className="mb-8 flex justify-center lg:justify-start">
+            <div className="relative w-12 h-12">
               <Image
-                src="/images/branding/favicon.png"
+                src="/images/branding/loader.png"
                 alt="Guwigo Icon"
                 fill
                 priority
@@ -511,11 +510,11 @@ function AuthContent() {
             </div>
           </div>
 
-          <header className="mb-10 text-center lg:text-left">
-            <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 tracking-tight">
+          <header className="mb-8 text-center lg:text-left">
+            <h1 className="font-serif text-3xl md:text-4xl font-normal text-[#0F172A] mb-3 tracking-tight">
               {isLogin ? "Selamat Datang" : "Bergabung Bersama"}
             </h1>
-            <p className="text-slate-500 font-medium leading-relaxed">
+            <p className="text-[#64748B] text-sm leading-relaxed">
               {isLogin
                 ? "Akses dashboard untuk mengelola infrastruktur ekosistem digital Anda."
                 : "Akselerasi transformasi digital bisnis Anda di ekosistem Guwigo."}
@@ -530,20 +529,20 @@ function AuthContent() {
                 initial={{ opacity: 0, height: 0, marginBottom: 0 }}
                 animate={{ opacity: 1, height: "auto", marginBottom: 24 }}
                 exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-                className="p-4 bg-red-50 border border-red-200 rounded-2xl flex gap-3 items-start overflow-hidden shadow-sm"
+                className="p-4 bg-red-50 border border-red-200 rounded-md flex gap-3 items-start overflow-hidden shadow-sm"
               >
                 <AlertCircle
-                  size={20}
+                  size={18}
                   className="text-red-600 flex-shrink-0 mt-0.5"
                 />
-                <p className="text-sm font-bold text-red-800 leading-relaxed">
+                <p className="text-xs font-medium text-red-800 leading-relaxed">
                   {error}
                 </p>
               </motion.div>
             )}
           </AnimatePresence>
 
-          <form onSubmit={handleAuthSubmit} className="space-y-6" noValidate>
+          <form onSubmit={handleAuthSubmit} className="space-y-5" noValidate>
             <AnimatePresence mode="wait">
               {isLogin ? (
                 // --- LOGIN FORM ---
@@ -553,18 +552,18 @@ function AuthContent() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-5"
                 >
                   <div>
                     <label
                       htmlFor="login-email"
-                      className="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest ml-1"
+                      className="block text-[11px] font-medium text-[#64748B] mb-1.5 uppercase tracking-wider"
                     >
                       Alamat Email
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Mail size={18} className="text-slate-400" />
+                        <Mail size={16} className="text-[#94A3B8]" />
                       </div>
                       <input
                         id="login-email"
@@ -572,22 +571,22 @@ function AuthContent() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="nama@email.com"
-                        className="w-full pl-11 pr-4 py-4 border-2 border-slate-100 rounded-2xl focus:border-[#22D3EE] focus:ring-4 focus:ring-[#22D3EE]/10 focus:outline-none transition-all font-bold bg-slate-50 focus:bg-white text-slate-900 placeholder:text-slate-400 placeholder:font-medium"
+                        className="w-full pl-11 pr-4 py-3.5 border border-[#E2E8F0] rounded-md focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 focus:outline-none transition-all bg-[#FAF9F6] focus:bg-white text-[#0F172A] text-sm placeholder:text-[#94A3B8]"
                         required
                       />
                     </div>
                   </div>
                   <div>
-                    <div className="flex justify-between items-center mb-2 px-1">
+                    <div className="flex justify-between items-center mb-1.5 px-1">
                       <label
                         htmlFor="login-password"
-                        className="block text-[10px] font-black text-slate-400 uppercase tracking-widest"
+                        className="block text-[11px] font-medium text-[#64748B] uppercase tracking-wider"
                       >
                         Password
                       </label>
                       <Link
                         href="/forgot-password"
-                        className="text-[10px] font-bold text-[#22D3EE] hover:text-[#0B1120] transition-colors"
+                        className="text-[11px] font-medium text-[#2563EB] hover:underline transition-colors"
                       >
                         Lupa Password?
                       </Link>
@@ -595,7 +594,7 @@ function AuthContent() {
 
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Lock size={18} className="text-slate-400" />
+                        <Lock size={16} className="text-[#94A3B8]" />
                       </div>
                       <input
                         id="login-password"
@@ -603,13 +602,13 @@ function AuthContent() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
-                        className="w-full pl-11 pr-12 py-4 border-2 border-slate-100 rounded-2xl focus:border-[#22D3EE] focus:ring-4 focus:ring-[#22D3EE]/10 focus:outline-none transition-all font-bold bg-slate-50 focus:bg-white text-slate-900 placeholder:text-slate-400"
+                        className="w-full pl-11 pr-12 py-3.5 border border-[#E2E8F0] rounded-md focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 focus:outline-none transition-all bg-[#FAF9F6] focus:bg-white text-[#0F172A] text-sm placeholder:text-[#94A3B8]"
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-700 focus:outline-none"
+                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-[#0F172A] focus:outline-none"
                         aria-label={
                           showPassword
                             ? "Sembunyikan password"
@@ -617,9 +616,9 @@ function AuthContent() {
                         }
                       >
                         {showPassword ? (
-                          <EyeOff size={18} />
+                          <EyeOff size={16} />
                         ) : (
-                          <Eye size={18} />
+                          <Eye size={16} />
                         )}
                       </button>
                     </div>
@@ -633,18 +632,18 @@ function AuthContent() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-5"
                 >
                   <div>
                     <label
                       htmlFor="reg-name"
-                      className="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest ml-1"
+                      className="block text-[11px] font-medium text-[#64748B] mb-1.5 uppercase tracking-wider"
                     >
                       Nama Lengkap
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <User size={18} className="text-slate-400" />
+                        <User size={16} className="text-[#94A3B8]" />
                       </div>
                       <input
                         id="reg-name"
@@ -652,7 +651,7 @@ function AuthContent() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Nama Resmi Anda"
-                        className="w-full pl-11 pr-4 py-4 border-2 border-slate-100 rounded-2xl focus:border-[#22D3EE] focus:ring-4 focus:ring-[#22D3EE]/10 focus:outline-none transition-all font-bold bg-slate-50 focus:bg-white text-slate-900 placeholder:text-slate-400 placeholder:font-medium"
+                        className="w-full pl-11 pr-4 py-3.5 border border-[#E2E8F0] rounded-md focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 focus:outline-none transition-all bg-[#FAF9F6] focus:bg-white text-[#0F172A] text-sm placeholder:text-[#94A3B8]"
                         required
                       />
                     </div>
@@ -661,13 +660,13 @@ function AuthContent() {
                   <div>
                     <label
                       htmlFor="reg-email"
-                      className="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest ml-1"
+                      className="block text-[11px] font-medium text-[#64748B] mb-1.5 uppercase tracking-wider"
                     >
                       Alamat Email
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Mail size={18} className="text-slate-400" />
+                        <Mail size={16} className="text-[#94A3B8]" />
                       </div>
                       <input
                         id="reg-email"
@@ -675,17 +674,17 @@ function AuthContent() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="nama@email.com"
-                        className="w-full pl-11 pr-4 py-4 border-2 border-slate-100 rounded-2xl focus:border-[#22D3EE] focus:ring-4 focus:ring-[#22D3EE]/10 focus:outline-none transition-all font-bold bg-slate-50 focus:bg-white text-slate-900 placeholder:text-slate-400 placeholder:font-medium"
+                        className="w-full pl-11 pr-4 py-3.5 border border-[#E2E8F0] rounded-md focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 focus:outline-none transition-all bg-[#FAF9F6] focus:bg-white text-[#0F172A] text-sm placeholder:text-[#94A3B8]"
                         required
                       />
                     </div>
                   </div>
 
                   <div>
-                    <div className="flex justify-between items-center mb-2 px-1">
+                    <div className="flex justify-between items-center mb-1.5 px-1">
                       <label
                         htmlFor="reg-password"
-                        className="block text-[10px] font-black text-slate-400 uppercase tracking-widest"
+                        className="block text-[11px] font-medium text-[#64748B] uppercase tracking-wider"
                       >
                         Password
                       </label>
@@ -694,14 +693,14 @@ function AuthContent() {
                         onClick={() =>
                           setShowPasswordRequirements(!showPasswordRequirements)
                         }
-                        className="text-[10px] text-[#22D3EE] font-bold hover:text-[#0B1120] focus:outline-none transition-colors"
+                        className="text-[11px] text-[#2563EB] font-medium hover:underline focus:outline-none transition-colors"
                       >
                         Info Keamanan
                       </button>
                     </div>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Lock size={18} className="text-slate-400" />
+                        <Lock size={16} className="text-[#94A3B8]" />
                       </div>
                       <input
                         id="reg-password"
@@ -709,18 +708,18 @@ function AuthContent() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Minimal 8 Karakter"
-                        className="w-full pl-11 pr-12 py-4 border-2 border-slate-100 rounded-2xl focus:border-[#22D3EE] focus:ring-4 focus:ring-[#22D3EE]/10 focus:outline-none transition-all font-bold bg-slate-50 focus:bg-white text-slate-900 placeholder:text-slate-400 placeholder:font-medium"
+                        className="w-full pl-11 pr-12 py-3.5 border border-[#E2E8F0] rounded-md focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 focus:outline-none transition-all bg-[#FAF9F6] focus:bg-white text-[#0F172A] text-sm placeholder:text-[#94A3B8]"
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-700 focus:outline-none"
+                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-[#0F172A] focus:outline-none"
                       >
                         {showPassword ? (
-                          <EyeOff size={18} />
+                          <EyeOff size={16} />
                         ) : (
-                          <Eye size={18} />
+                          <Eye size={16} />
                         )}
                       </button>
                     </div>
@@ -740,16 +739,16 @@ function AuthContent() {
                             ] || 0;
                           const color =
                             level > strengthLevel
-                              ? "bg-slate-200"
+                              ? "bg-[#E2E8F0]"
                               : level <= 2
                                 ? "bg-red-500"
                                 : level === 3
-                                  ? "bg-yellow-500"
-                                  : "bg-emerald-500";
+                                  ? "bg-amber-500"
+                                  : "bg-emerald-600";
                           return (
                             <div
                               key={level}
-                              className={`h-1.5 w-full rounded-full transition-colors duration-300 ${color}`}
+                              className={`h-1.5 w-full rounded-md transition-colors duration-300 ${color}`}
                             />
                           );
                         })}
@@ -762,13 +761,13 @@ function AuthContent() {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="mt-4 p-5 bg-[#22D3EE]/5 border border-[#22D3EE]/20 rounded-2xl overflow-hidden"
+                          className="mt-4 p-4 bg-[#FAF9F6] border border-[#E2E8F0] rounded-md overflow-hidden"
                         >
-                          <p className="text-xs font-black text-slate-800 mb-3 flex items-center gap-2">
-                            <ShieldCheck size={16} className="text-[#22D3EE]" />
+                          <p className="text-xs font-medium text-[#0F172A] mb-2 flex items-center gap-2">
+                            <ShieldCheck size={14} className="text-[#2563EB]" />
                             Syarat Password:
                           </p>
-                          <ul className="space-y-2.5">
+                          <ul className="space-y-1.5">
                             {[
                               "Minimal 8 karakter",
                               "Huruf besar & kecil",
@@ -777,11 +776,11 @@ function AuthContent() {
                             ].map((req, idx) => (
                               <li
                                 key={idx}
-                                className="text-[11px] font-bold text-slate-500 flex items-center gap-2"
+                                className="text-[11px] text-[#64748B] flex items-center gap-2"
                               >
                                 <CheckCircle2
-                                  size={14}
-                                  className="text-[#22D3EE]"
+                                  size={12}
+                                  className="text-[#2563EB]"
                                 />
                                 {req}
                               </li>
@@ -795,13 +794,13 @@ function AuthContent() {
                   <div>
                     <label
                       htmlFor="reg-confirm"
-                      className="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest ml-1"
+                      className="block text-[11px] font-medium text-[#64748B] mb-1.5 uppercase tracking-wider"
                     >
                       Ulangi Password
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <Lock size={18} className="text-slate-400" />
+                        <Lock size={16} className="text-[#94A3B8]" />
                       </div>
                       <input
                         id="reg-confirm"
@@ -809,7 +808,7 @@ function AuthContent() {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="••••••••"
-                        className="w-full pl-11 pr-12 py-4 border-2 border-slate-100 rounded-2xl focus:border-[#22D3EE] focus:ring-4 focus:ring-[#22D3EE]/10 focus:outline-none transition-all font-bold bg-slate-50 focus:bg-white text-slate-900 placeholder:text-slate-400 placeholder:font-medium"
+                        className="w-full pl-11 pr-12 py-3.5 border border-[#E2E8F0] rounded-md focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 focus:outline-none transition-all bg-[#FAF9F6] focus:bg-white text-[#0F172A] text-sm placeholder:text-[#94A3B8]"
                         required
                       />
                       <button
@@ -817,12 +816,12 @@ function AuthContent() {
                         onClick={() =>
                           setShowConfirmPassword(!showConfirmPassword)
                         }
-                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-700 focus:outline-none"
+                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-[#0F172A] focus:outline-none"
                       >
                         {showConfirmPassword ? (
-                          <EyeOff size={18} />
+                          <EyeOff size={16} />
                         ) : (
-                          <Eye size={18} />
+                          <Eye size={16} />
                         )}
                       </button>
                     </div>
@@ -834,14 +833,14 @@ function AuthContent() {
             <button
               disabled={isLoading}
               type="submit"
-              className="w-full mt-8 bg-[#0B1120] text-white font-black uppercase tracking-widest py-4 rounded-2xl hover:bg-slate-800 focus:ring-4 focus:ring-[#0B1120]/20 transition-all flex items-center justify-center gap-3 shadow-xl hover:shadow-slate-900/30 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed text-xs"
+              className="w-full mt-6 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-3.5 rounded-md transition-all flex items-center justify-center gap-2 shadow-sm shadow-blue-500/20 disabled:opacity-70 disabled:cursor-not-allowed text-sm"
             >
               {isLoading ? (
-                <Loader2 size={18} className="animate-spin text-[#22D3EE]" />
+                <Loader2 size={16} className="animate-spin text-white" />
               ) : (
                 <span className="flex items-center gap-2">
                   {isLogin ? "Masuk Ekosistem" : "Daftar Akun"}
-                  <ArrowRight size={16} className="text-[#22D3EE]" />
+                  <ArrowRight size={14} />
                 </span>
               )}
             </button>
@@ -850,10 +849,10 @@ function AuthContent() {
           {/* Social Auth (Google) */}
           <div className="mt-8 relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200"></div>
+              <div className="w-full border-t border-[#E2E8F0]"></div>
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-slate-400 font-bold uppercase tracking-widest text-[10px]">Atau lanjutkan dengan</span>
+            <div className="relative flex justify-center text-xs">
+              <span className="px-3 bg-white text-[#94A3B8] uppercase tracking-wider text-[11px]">Atau lanjutkan dengan</span>
             </div>
           </div>
 
@@ -861,9 +860,9 @@ function AuthContent() {
             type="button"
             disabled={isLoading}
             onClick={handleGoogleAuth}
-            className="w-full mt-6 bg-white border-2 border-slate-100 text-slate-700 font-bold py-4 rounded-2xl hover:bg-slate-50 hover:border-slate-300 focus:ring-4 focus:ring-slate-100 transition-all flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed text-xs shadow-sm"
+            className="w-full mt-5 bg-white border border-[#E2E8F0] text-[#0F172A] font-medium py-3 rounded-md hover:bg-[#FAF9F6] transition-all flex items-center justify-center gap-3 text-xs shadow-sm"
           >
-            <svg className="w-5 h-5" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
@@ -872,29 +871,29 @@ function AuthContent() {
             Google
           </button>
 
-          {/* SSO Guwigo (identitas terpusat) */}
+          {/* SSO Guwigo */}
           {process.env.NEXT_PUBLIC_AUTH_URL && (
             <button
               type="button"
               disabled={isLoading}
               onClick={handleGuwigoSSO}
-              className="w-full mt-3 bg-white border-2 border-slate-100 text-slate-700 font-bold py-4 rounded-2xl hover:bg-slate-50 hover:border-slate-300 focus:ring-4 focus:ring-slate-100 transition-all flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed text-xs shadow-sm"
+              className="w-full mt-3 bg-white border border-[#E2E8F0] text-[#0F172A] font-medium py-3 rounded-md hover:bg-[#FAF9F6] transition-all flex items-center justify-center gap-2 text-xs shadow-sm"
             >
-              <ShieldCheck size={18} className="text-[#22D3EE]" />
-              Masuk via Guwigo
+              <ShieldCheck size={16} className="text-[#2563EB]" />
+              Masuk via Guwigo ID
             </button>
           )}
 
           {/* TOGGLE TEXT */}
-          <div className="mt-10 text-center pb-8 border-t border-slate-100 pt-8">
-            <p className="text-sm font-medium text-slate-500">
+          <div className="mt-8 text-center pb-6 border-t border-[#E2E8F0] pt-6">
+            <p className="text-xs text-[#64748B]">
               {isLogin
                 ? "Belum memiliki identitas digital?"
                 : "Sudah bermitra dengan kami?"}{" "}
               <button
                 onClick={toggleMode}
                 type="button"
-                className="text-[#0B1120] font-black hover:text-[#22D3EE] focus:outline-none transition-colors ml-1 border-b border-transparent hover:border-[#22D3EE]"
+                className="text-[#2563EB] font-medium hover:underline focus:outline-none transition-colors ml-1"
               >
                 {isLogin ? "Daftar Sekarang" : "Login di sini"}
               </button>
@@ -903,45 +902,41 @@ function AuthContent() {
         </div>
       </motion.div>
 
-      {/* 2. IMAGE PANEL (Dark Mode & Professional Branding) */}
+      {/* 2. IMAGE PANEL (Guwigo Midnight Navy Showcase) */}
       <motion.div
         layout
         transition={{ type: "spring", stiffness: 70, damping: 20 }}
-        className="hidden lg:flex w-1/2 relative z-10 bg-[#0B1120] overflow-hidden"
+        className="hidden lg:flex w-1/2 relative z-10 bg-[#0A0F1D] overflow-hidden"
       >
-        {/* Abstract Background Elements (Mewakili "Ecosystem") */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#22D3EE]/10 rounded-full blur-[120px] -mr-40 -mt-40 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[100px] -ml-40 -mb-40 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#2563EB]/15 rounded-md blur-[140px] -mr-32 -mt-32 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#06B6D4]/10 rounded-md blur-[120px] -ml-32 -mb-32 pointer-events-none"></div>
 
-        <div className="absolute inset-0 flex flex-col justify-between p-20 z-20">
-          {/* Primary White Logo */}
-          <div className="relative w-40 h-12 opacity-80">
-            <Image
-              src="/images/branding/logo-guwigo-new.png"
-              alt="PT Guwigo Teknologi Indonesia"
-              fill
-              className="object-contain object-left brightness-0 invert"
-            />
+        <div className="absolute inset-0 flex flex-col justify-between p-16 xl:p-20 z-20">
+          <div className="flex items-center gap-3">
+            <span className="font-serif text-2xl tracking-[0.15em] text-[#FAF9F6]">GUWIGO</span>
+            <span className="text-[10px] uppercase font-mono tracking-widest text-[#38BDF8] border border-[#38BDF8]/30 px-2 py-0.5 rounded-md">ID</span>
           </div>
 
           <div>
-            <h2 className="text-5xl font-black text-white leading-tight tracking-tighter mb-6">
-              Engineer Your <br />
-              <span className="text-[#22D3EE]">Digital Future.</span>
+            <h2 className="font-serif text-4xl xl:text-5xl font-normal text-[#FAF9F6] leading-[1.15] mb-6 tracking-tight">
+              Crafting Connected Systems <br />
+              <span className="italic text-[#38BDF8]">for Modern Indonesia.</span>
             </h2>
-            <p className="text-lg text-slate-400 font-medium leading-relaxed max-w-lg border-l-4 border-[#22D3EE] pl-6">
-              Keamanan tingkat korporat, performa tanpa kompromi, dan desain
-              yang berorientasi pada manusia.
+            <p className="text-[15px] text-[#94A3B8] leading-relaxed max-w-lg border-l-2 border-[#2563EB] pl-6 font-sans">
+              Standar rekayasa perangkat lunak enterprise dengan estetika yang tenang, performa tinggi, dan ketelitian arsitektur tanpa kompromi.
             </p>
+          </div>
+
+          <div className="text-xs text-[#64748B] font-mono tracking-wider">
+            © {new Date().getFullYear()} PT Guwigo Teknologi Indonesia
           </div>
         </div>
 
-        {/* Opsional: Gambar Background Gedung / Workspace Keren (Gelap) */}
         <Image
           src="/images/founder/teguh-coding-setup.jpg"
-          alt="Guwigo Tech Workspace"
+          alt="Guwigo Workspace"
           fill
-          className="object-cover opacity-20 mix-blend-overlay"
+          className="object-cover opacity-10 mix-blend-luminosity"
           priority
         />
       </motion.div>
@@ -954,8 +949,8 @@ export function AuthForm() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#0B1120]">
-          <Loader2 className="animate-spin text-[#22D3EE] w-12 h-12" />
+        <div className="min-h-screen flex items-center justify-center bg-[#0A0F1D]">
+          <Loader2 className="animate-spin text-[#2563EB] w-10 h-10" />
         </div>
       }
     >

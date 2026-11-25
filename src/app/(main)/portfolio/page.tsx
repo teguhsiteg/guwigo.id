@@ -66,21 +66,21 @@ export default function PortfolioPage() {
   const featuredProjects = portfolios.filter((p) => p.featured);
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-32 pb-24 font-sans selection:bg-[#00D4FF]/30 selection:text-[#0B1324]">
+    <div className="bg-[#FAF9F6] min-h-screen pt-32 pb-24 font-sans selection:bg-[#2563EB]/15 selection:text-[#0F172A]">
       {/* 1. HERO PORTFOLIO */}
-      <section className="container mx-auto px-4 sm:px-6 mb-20 text-center max-w-4xl animate-in fade-in slide-in-from-bottom-8 duration-700">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-widest mb-6 shadow-sm">
-          <Code2 size={12} className="text-[#00D4FF]" />
-          The Masterpieces & Portofolio
+      <section className="container mx-auto px-4 sm:px-6 mb-20 text-center max-w-4xl animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#EFF6FF] border border-[#BFDBFE] text-[#1D4ED8] text-xs font-medium tracking-tight mb-6 shadow-sm">
+          <Code2 size={13} className="text-[#2563EB]" />
+          Mahakarya & Rekam Jejak
         </div>
-        <h1 className="text-5xl md:text-7xl font-black text-slate-900 mb-6 tracking-tighter leading-tight">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif text-[#0F172A] mb-6 tracking-tight leading-[1.15] font-normal">
           Building Digital <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-cyan-500 to-[#00D4FF]">
+          <span className="italic text-[#2563EB]">
             Civilizations.
           </span>
         </h1>
-        <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-2xl mx-auto">
-          Jejak inovasi dan karya teknologi Guwigo: Solusi Enterprise, GovTech, Super App, Ekosistem Kampus, hingga Produk Digital Masa Depan.
+        <p className="text-base sm:text-lg text-[#64748B] font-normal leading-relaxed max-w-2xl mx-auto">
+          Jejak inovasi dan rekayasa perangkat lunak Guwigo: Solusi Enterprise, GovTech, Smart Village, Ekosistem Kampus, hingga Produk Digital Skala Nasional.
         </p>
       </section>
 
@@ -88,9 +88,9 @@ export default function PortfolioPage() {
       {!isLoading && featuredProjects.length > 0 && (
         <section className="container mx-auto px-4 sm:px-6 mb-24 max-w-6xl">
           <div className="flex items-center gap-2 mb-8">
-            <Star className="text-amber-400 fill-amber-400" size={20} />
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight">
-              Featured Flagships
+            <Star className="text-[#2563EB] fill-[#2563EB]" size={18} />
+            <h2 className="text-2xl font-serif text-[#0F172A] font-normal tracking-tight">
+              Karya Pilihan (Flagship)
             </h2>
           </div>
 
@@ -98,13 +98,13 @@ export default function PortfolioPage() {
             {featuredProjects.map((proj) => (
               <div
                 key={proj.id}
-                className="bg-[#0B1324] rounded-[2.5rem] p-8 md:p-10 text-white relative overflow-hidden shadow-2xl group border border-white/10 flex flex-col justify-between"
+                className="bg-[#0A0F1D] rounded-lg p-7 md:p-9 text-[#FAF9F6] relative overflow-hidden shadow-xl group border border-[#1E293B] flex flex-col justify-between"
               >
-                <div className="absolute top-0 right-0 w-80 h-80 bg-[#00D4FF]/15 rounded-full blur-[90px] pointer-events-none group-hover:scale-125 transition-transform duration-700"></div>
+                <div className="absolute top-0 right-0 w-80 h-80 bg-[#2563EB]/[0.1] rounded-md blur-[100px] pointer-events-none group-hover:scale-110 transition-transform duration-500"></div>
 
                 <div className="relative z-10 space-y-4">
                   <div className="flex justify-between items-start gap-4">
-                    <span className="px-4 py-1.5 rounded-full bg-[#00D4FF]/20 border border-[#00D4FF]/40 text-[#00D4FF] text-[10px] font-black uppercase tracking-widest">
+                    <span className="px-3 py-1 rounded-md bg-[#2563EB]/20 border border-[#2563EB]/40 text-[#60A5FA] text-xs font-medium">
                       {proj.category || "Flagship"}
                     </span>
                     {proj.link && (
@@ -112,28 +112,28 @@ export default function PortfolioPage() {
                         href={proj.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-slate-400 hover:text-[#00D4FF] transition-colors p-2 bg-white/5 rounded-xl border border-white/10"
+                        className="text-[#94A3B8] hover:text-white transition-colors p-2 bg-[#131C31] rounded-md border border-[#1E293B]"
                       >
-                        <ExternalLink size={18} />
+                        <ExternalLink size={15} />
                       </a>
                     )}
                   </div>
 
-                  <h3 className="text-3xl font-black text-white tracking-tight pt-2">
+                  <h3 className="text-2xl md:text-3xl font-serif font-normal text-white tracking-tight pt-1">
                     {proj.title}
                   </h3>
-                  <p className="text-slate-300 text-sm leading-relaxed line-clamp-3">
+                  <p className="text-[#94A3B8] text-sm leading-relaxed line-clamp-3 font-normal">
                     {proj.description}
                   </p>
                 </div>
 
                 {proj.image && (
-                  <div className="relative z-10 mt-6 h-56 w-full rounded-2xl overflow-hidden bg-slate-900/60 border border-white/10">
+                  <div className="relative z-10 mt-6 h-56 w-full rounded-md overflow-hidden bg-[#131C31] border border-[#1E293B]">
                     <Image
                       src={proj.image}
                       alt={proj.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 )}
@@ -145,27 +145,27 @@ export default function PortfolioPage() {
 
       {/* 3. MAIN CATALOG GRID & CATEGORY FILTER */}
       <section className="container mx-auto px-4 sm:px-6 max-w-6xl">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12 border-b border-slate-200 pb-8">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12 border-b border-[#E2E8F0] pb-8">
           <div>
-            <span className="text-[#00D4FF] font-bold tracking-widest text-xs uppercase mb-2 block">
-              Exploration
+            <span className="text-[#2563EB] font-medium tracking-[0.2em] text-xs uppercase mb-2 block">
+              Eksplorasi
             </span>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
-              All Projects & Creations
+            <h2 className="text-3xl md:text-4xl font-serif text-[#0F172A] font-normal tracking-tight">
+              Seluruh Karya & Proyek
             </h2>
           </div>
 
           {/* Category Filter Pills */}
           {categories.length > 1 && (
-            <div className="flex flex-wrap gap-2 bg-white p-1.5 rounded-2xl border border-slate-200/80 shadow-sm">
+            <div className="flex flex-wrap gap-1 bg-[#F1F5F9] p-1 rounded-md border border-[#E2E8F0]">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                     selectedCategory === cat
-                      ? "bg-[#0B1324] text-[#00D4FF] shadow-sm"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                      ? "bg-white text-[#2563EB] shadow-sm font-semibold"
+                      : "text-[#64748B] hover:text-[#0F172A] hover:bg-white/60"
                   }`}
                 >
                   {cat}
@@ -178,8 +178,8 @@ export default function PortfolioPage() {
         {/* State: Loading */}
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-24">
-            <Loader2 size={40} className="animate-spin text-[#00D4FF] mb-4" />
-            <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">
+            <Loader2 size={36} className="animate-spin text-[#2563EB] mb-4" />
+            <p className="text-[#64748B] font-medium text-xs uppercase tracking-wider">
               Memuat data karya...
             </p>
           </div>
@@ -187,19 +187,19 @@ export default function PortfolioPage() {
 
         {/* State: Empty */}
         {!isLoading && filteredPortfolios.length === 0 && (
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 p-16 text-center max-w-2xl mx-auto shadow-sm">
-            <div className="w-16 h-16 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <FolderOpen size={30} />
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-16 text-center max-w-2xl mx-auto shadow-sm">
+            <div className="w-14 h-14 bg-[#FAF9F6] text-[#94A3B8] rounded-md flex items-center justify-center mx-auto mb-4 border border-[#E2E8F0]">
+              <FolderOpen size={26} />
             </div>
-            <h3 className="text-2xl font-black text-slate-900 mb-2">
+            <h3 className="text-2xl font-serif font-normal text-[#0F172A] mb-2">
               Belum Ada Data Portofolio
             </h3>
-            <p className="text-slate-500 font-medium text-sm">
+            <p className="text-[#64748B] font-normal text-sm">
               Tambahkan portofolio baru dari halaman Admin Panel untuk menampilkannya di sini.
             </p>
             <Link
               href="/admin/portfolio"
-              className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-[#0B1324] text-[#00D4FF] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-[#2563EB] text-white font-medium text-xs uppercase tracking-wider rounded-md hover:bg-[#1D4ED8] transition-colors shadow-sm"
             >
               Buka Admin Portfolio <ArrowRight size={14} />
             </Link>
@@ -209,14 +209,14 @@ export default function PortfolioPage() {
         {/* State: Data List */}
         {!isLoading && filteredPortfolios.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPortfolios.map((item, idx) => (
+            {filteredPortfolios.map((item) => (
               <div
                 key={item.id}
-                className="group bg-white rounded-[2rem] p-6 border border-slate-200 hover:border-[#00D4FF]/40 hover:shadow-xl hover:shadow-[#00D4FF]/10 transition-all duration-300 flex flex-col justify-between"
+                className="group bg-white rounded-lg p-6 border border-[#E2E8F0] hover:border-[#93C5FD] hover:shadow-md transition-all duration-200 flex flex-col justify-between"
               >
                 <div>
                   {item.image ? (
-                    <div className="h-52 w-full bg-slate-100 rounded-2xl mb-6 relative overflow-hidden">
+                    <div className="h-52 w-full bg-[#FAF9F6] rounded-md mb-5 relative overflow-hidden border border-[#E2E8F0]">
                       <Image
                         src={item.image}
                         alt={item.title}
@@ -225,26 +225,26 @@ export default function PortfolioPage() {
                       />
                     </div>
                   ) : (
-                    <div className="h-52 w-full bg-slate-100 rounded-2xl mb-6 flex items-center justify-center text-slate-400">
-                      <Layers size={36} />
+                    <div className="h-52 w-full bg-[#FAF9F6] rounded-md mb-5 flex items-center justify-center text-[#94A3B8] border border-[#E2E8F0]">
+                      <Layers size={32} />
                     </div>
                   )}
 
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                    <span className="px-2.5 py-1 bg-[#EFF6FF] text-[#1D4ED8] rounded-md text-[11px] font-medium border border-[#BFDBFE]">
                       {item.category || "General"}
                     </span>
                     {item.featured && (
-                      <span className="px-3 py-1 bg-amber-50 text-amber-600 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
-                        <Star size={10} className="fill-amber-600" /> Featured
+                      <span className="px-2.5 py-1 bg-[#FEF3C7] text-[#92400E] border border-[#FDE68A] rounded-md text-[11px] font-medium flex items-center gap-1">
+                        <Star size={10} className="fill-[#92400E]" /> Featured
                       </span>
                     )}
                   </div>
 
-                  <h3 className="text-xl font-black text-slate-900 mb-2 group-hover:text-blue-700 transition-colors">
+                  <h3 className="text-xl font-serif font-normal text-[#0F172A] mb-2 group-hover:text-[#2563EB] transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed line-clamp-3 mb-6">
+                  <p className="text-[#64748B] text-sm leading-relaxed line-clamp-3 mb-6 font-normal">
                     {item.description}
                   </p>
                 </div>
@@ -254,13 +254,13 @@ export default function PortfolioPage() {
                     href={item.link}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-between w-full pt-4 border-t border-slate-100 text-xs font-bold uppercase tracking-widest text-[#0B1324] group-hover:text-[#00D4FF] transition-colors"
+                    className="inline-flex items-center justify-between w-full pt-4 border-t border-[#E2E8F0] text-xs font-medium text-[#0F172A] group-hover:text-[#2563EB] transition-colors"
                   >
-                    <span>Lihat Proyek</span>
+                    <span>Kunjungi Proyek</span>
                     <ExternalLink size={14} />
                   </a>
                 ) : (
-                  <div className="pt-4 border-t border-slate-100 text-xs font-medium text-slate-400">
+                  <div className="pt-4 border-t border-[#E2E8F0] text-xs font-normal text-[#94A3B8]">
                     Internal Enterprise Project
                   </div>
                 )}

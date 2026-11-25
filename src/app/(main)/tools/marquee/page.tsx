@@ -2,41 +2,32 @@
 
 import { useState, useEffect } from "react";
 import {
+  Type,
   Settings2,
   Copy,
   CheckCircle,
-  MonitorPlay,
-  Loader2,
-  Type,
+  Radio,
   Palette,
   Zap,
-  Image as ImageIcon,
-  Radio,
+  ImageIcon,
   Share2,
+  Loader2,
 } from "lucide-react";
 
-export default function MarqueeGeneratorPage() {
+export default function MarqueePage() {
   const [text, setText] = useState(
-    "🔥 Selamat Datang di Live Streaming! Jangan lupa Follow & Share! 🔥",
+    "SELAMAT DATANG DI LIVE STREAMING • JANGAN LUPA FOLLOW & SUBSCRIBE",
   );
   const [color, setColor] = useState("#FFFFFF");
-  const [bg, setBg] = useState("rgba(11, 19, 36, 0.9)"); // Default ke Midnight Navy dengan Opacity
-  const [speed, setSpeed] = useState("15");
-
-  const [copiedLink, setCopiedLink] = useState<string | null>(null);
+  const [bg, setBg] = useState("rgba(10, 15, 29, 0.95)");
+  const [speed, setSpeed] = useState(15);
   const [obsUrl, setObsUrl] = useState<string | null>(null);
+  const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
   useEffect(() => {
-    const params = new URLSearchParams({
-      text: encodeURIComponent(text),
-      color: encodeURIComponent(color),
-      bg: encodeURIComponent(bg),
-      speed: speed,
-      size: "28",
-    });
-
+    const origin = window.location.origin;
     setObsUrl(
-      `${window.location.origin}/obs/marquee.html?${params.toString()}`,
+      `${origin}/obs/running-text.html?text=${encodeURIComponent(text)}&color=${encodeURIComponent(color)}&bg=${encodeURIComponent(bg)}&speed=${speed}`,
     );
   }, [text, color, bg, speed]);
 
@@ -48,73 +39,63 @@ export default function MarqueeGeneratorPage() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-32 pb-24 font-sans selection:bg-[#00D4FF]/30 selection:text-[#0B1324] overflow-x-hidden">
+    <div className="bg-[#FAF9F6] min-h-screen pt-36 md:pt-44 pb-24 font-sans selection:bg-[#2563EB]/15 selection:text-[#0F172A] overflow-x-hidden">
       <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
         {/* ==========================================
             HEADER
         ========================================== */}
-        <div className="text-center max-w-2xl mx-auto mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-widest mb-6 shadow-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-            </span>
-            Free Broadcast Tools
+        <div className="text-center max-w-2xl mx-auto mb-14 animate-in fade-in slide-in-from-bottom-6 duration-700">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-[#EFF6FF] border border-[#BFDBFE] text-[#1D4ED8] text-xs font-medium mb-6 shadow-sm">
+            <Radio size={13} className="text-[#2563EB]" /> Free Broadcast Overlay
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-serif text-[#0F172A] mb-4 tracking-tight leading-[1.1] font-normal">
             OBS Running Text <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-[#00D4FF]">
-              Generator.
-            </span>
+            <span className="italic text-[#2563EB]">Studio Generator.</span>
           </h1>
-          <p className="text-slate-500 text-base md:text-lg font-medium leading-relaxed">
-            Rakit widget teks berjalan (Marquee) profesional untuk Live
-            Streaming Anda. Sesuaikan konfigurasi visual dan salin Browser
-            Source URL secara instan.
+          <p className="text-base text-[#64748B] font-normal leading-relaxed">
+            Rakit widget teks berjalan (Marquee) profesional untuk penyiaran Live Streaming Anda di OBS Studio. Sesuaikan konfigurasi visual dan dapatkan tautan Browser Source secara instan.
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* ==========================================
               PANEL KIRI: PENGATURAN
           ========================================== */}
-          <div className="w-full lg:w-[400px] bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-xl shadow-slate-200/50 shrink-0 h-fit animate-in fade-in slide-in-from-left-8 duration-700 delay-150">
-            <div className="flex justify-between items-center mb-8 border-b border-slate-100 pb-5">
-              <h3 className="font-black text-slate-900 text-lg flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#00D4FF]/10 flex items-center justify-center text-[#00D4FF]">
+          <div className="w-full lg:w-[380px] bg-white p-6 sm:p-8 rounded-xl border border-[#E2E8F0] shadow-sm shrink-0 h-fit animate-in fade-in slide-in-from-left-6 duration-700">
+            <div className="flex justify-between items-center mb-6 border-b border-[#E2E8F0] pb-4">
+              <h3 className="font-serif font-normal text-[#0F172A] text-base flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-md bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center">
                   <Settings2 size={16} />
                 </div>
                 Studio Settings
               </h3>
-              <span className="text-[9px] font-bold bg-slate-100 text-slate-500 px-2.5 py-1 rounded-md uppercase tracking-widest">
+              <span className="text-[10px] font-mono font-medium bg-[#FAF9F6] text-[#64748B] border border-[#E2E8F0] px-2 py-0.5 rounded">
                 Live Sync
               </span>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-6">
               {/* Input Teks */}
               <div>
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
-                  <Type size={14} className="text-[#00D4FF]" /> Teks Widget
+                <label className="flex items-center gap-1.5 text-xs font-semibold text-[#0F172A] uppercase tracking-wider mb-2">
+                  <Type size={13} className="text-[#2563EB]" /> Teks Widget
                 </label>
-                <div className="relative">
-                  <textarea
-                    rows={4}
-                    spellCheck={false}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium text-slate-900 focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF] outline-none resize-none transition-all"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                  />
-                </div>
+                <textarea
+                  rows={4}
+                  spellCheck={false}
+                  className="w-full bg-[#FAF9F6] border border-[#E2E8F0] rounded-lg p-3.5 text-xs sm:text-sm text-[#0F172A] focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] outline-none resize-none transition-all"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
               </div>
 
               {/* Input Warna & Speed */}
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
-                    <Palette size={14} className="text-[#00D4FF]" /> Warna Teks
+                  <label className="flex items-center gap-1.5 text-xs font-semibold text-[#0F172A] uppercase tracking-wider mb-2">
+                    <Palette size={13} className="text-[#2563EB]" /> Warna Teks
                   </label>
-                  <div className="relative w-full h-12 rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:border-[#00D4FF] transition-colors cursor-pointer group">
+                  <div className="relative w-full h-11 rounded-lg border border-[#E2E8F0] overflow-hidden shadow-sm hover:border-[#2563EB] transition-colors cursor-pointer group">
                     <input
                       type="color"
                       className="absolute -top-4 -left-4 w-[200%] h-[200%] cursor-pointer"
@@ -125,18 +106,17 @@ export default function MarqueeGeneratorPage() {
                 </div>
 
                 <div>
-                  <label className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
-                    <Zap size={14} className="text-[#00D4FF]" /> Speed ({speed}
-                    s)
+                  <label className="flex items-center gap-1.5 text-xs font-semibold text-[#0F172A] uppercase tracking-wider mb-2">
+                    <Zap size={13} className="text-[#2563EB]" /> Kecepatan ({speed}s)
                   </label>
-                  <div className="h-12 flex items-center bg-slate-50 border border-slate-200 rounded-xl px-4 shadow-sm hover:border-[#00D4FF] transition-colors">
+                  <div className="h-11 flex items-center bg-[#FAF9F6] border border-[#E2E8F0] rounded-lg px-3">
                     <input
                       type="range"
                       min="5"
                       max="40"
-                      className="w-full accent-[#00D4FF]"
+                      className="w-full accent-[#2563EB] cursor-pointer"
                       value={speed}
-                      onChange={(e) => setSpeed(e.target.value)}
+                      onChange={(e) => setSpeed(Number(e.target.value))}
                     />
                   </div>
                 </div>
@@ -144,34 +124,26 @@ export default function MarqueeGeneratorPage() {
 
               {/* Select Background */}
               <div>
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 ml-1">
-                  <ImageIcon size={14} className="text-[#00D4FF]" /> Background
-                  Overlay
+                <label className="flex items-center gap-1.5 text-xs font-semibold text-[#0F172A] uppercase tracking-wider mb-2">
+                  <ImageIcon size={13} className="text-[#2563EB]" /> Latar Belakang Overlay
                 </label>
                 <select
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-[#00D4FF]/20 focus:border-[#00D4FF] shadow-sm transition-all appearance-none cursor-pointer"
+                  className="w-full bg-[#FAF9F6] border border-[#E2E8F0] rounded-lg p-3 text-xs sm:text-sm text-[#0F172A] outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB] transition-all cursor-pointer"
                   value={bg}
                   onChange={(e) => setBg(e.target.value)}
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-                    backgroundPosition: "right 0.5rem center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "1.5em 1.5em",
-                    paddingRight: "2.5rem",
-                  }}
                 >
-                  <option value="rgba(11, 19, 36, 0.9)">
-                    Midnight Navy (Guwigo Theme)
+                  <option value="rgba(10, 15, 29, 0.95)">
+                    Guwigo Navy (Deep Contrast)
                   </option>
-                  <option value="rgba(0, 0, 0, 0.9)">Jet Black (Studio)</option>
-                  <option value="rgba(220, 38, 38, 0.9)">
-                    Solid Red (Breaking News)
+                  <option value="rgba(0, 0, 0, 0.92)">Hitam Pekat (Studio)</option>
+                  <option value="rgba(220, 38, 38, 0.92)">
+                    Merah Solid (Breaking News)
                   </option>
-                  <option value="rgba(37, 99, 235, 0.9)">
-                    Solid Blue (Sport/Tech)
+                  <option value="rgba(37, 99, 235, 0.92)">
+                    Biru Royal (Sport / Tech)
                   </option>
                   <option value="rgba(0, 0, 0, 0)">
-                    100% Transparent (Clean)
+                    Transparan Penuh (Clean Mode)
                   </option>
                 </select>
               </div>
@@ -181,98 +153,78 @@ export default function MarqueeGeneratorPage() {
           {/* ==========================================
               PANEL KANAN: PREVIEW & HASIL
           ========================================== */}
-          <div className="flex-1 flex flex-col gap-6 animate-in fade-in slide-in-from-right-8 duration-700 delay-300 min-w-0">
-            <div className="bg-[#0B1324] p-6 md:p-10 rounded-[2.5rem] border border-slate-800 shadow-2xl flex-1 flex flex-col relative overflow-hidden group">
-              {/* Abstract Glowing Horizon Background */}
-              <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-[#00D4FF]/10 rounded-full blur-[100px] pointer-events-none"></div>
-
-              <div className="flex justify-between items-center mb-8 relative z-10">
-                <h3 className="font-bold text-white flex items-center gap-2 text-sm uppercase tracking-widest">
-                  <Radio size={18} className="text-red-500 animate-pulse" />{" "}
-                  Output Preview
+          <div className="flex-1 flex flex-col gap-6 animate-in fade-in slide-in-from-right-6 duration-700 delay-150 min-w-0">
+            <div className="bg-[#0A0F1D] p-6 sm:p-8 rounded-xl border border-[#1E293B] shadow-sm flex-1 flex flex-col text-white">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="font-serif font-normal text-white flex items-center gap-2 text-sm tracking-tight">
+                  <Radio size={16} className="text-red-500 animate-pulse" />{" "}
+                  Output Simulator
                 </h3>
                 <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-slate-700"></div>
-                  <div className="w-3 h-3 rounded-full bg-slate-700"></div>
-                  <div className="w-3 h-3 rounded-full bg-slate-700"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-slate-700" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-slate-700" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-slate-700" />
                 </div>
               </div>
 
               {/* Jendela Preview */}
-              <div className="w-full h-[250px] md:h-[350px] bg-[url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center rounded-2xl border border-slate-700 relative mb-8 overflow-hidden flex items-end shadow-[inset_0_-50px_50px_rgba(0,0,0,0.5)]">
-                {/* Fallback & Render Iframe */}
+              <div className="w-full h-[220px] md:h-[280px] bg-slate-900 rounded-lg border border-[#1E293B] relative mb-6 overflow-hidden flex items-end shadow-inner">
                 {obsUrl !== null ? (
                   <iframe
                     src={obsUrl}
-                    className="w-full h-[70px] relative z-10 border-0 mb-6"
+                    className="w-full h-[60px] relative z-10 border-0 mb-4"
                     title="Preview Marquee"
                   />
                 ) : (
-                  <div className="w-full h-[70px] relative z-10 flex items-center justify-center mb-6">
-                    <Loader2 className="animate-spin text-white/50" size={24} />
+                  <div className="w-full h-[60px] relative z-10 flex items-center justify-center mb-4">
+                    <Loader2 className="animate-spin text-white/50" size={20} />
                   </div>
                 )}
               </div>
 
               {/* Output URL & Copy Action */}
-              <div className="bg-white/5 backdrop-blur-md p-6 md:p-8 rounded-[2rem] border border-white/10 mt-auto relative z-10 shadow-xl w-full">
-                <div className="flex justify-between items-end mb-4">
-                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-2">
-                    <Share2 size={14} className="text-[#00D4FF]" /> Browser
-                    Source URL
+              <div className="bg-black/40 p-5 rounded-lg border border-[#1E293B] mt-auto relative z-10 w-full">
+                <div className="flex justify-between items-center mb-3">
+                  <p className="text-[11px] font-medium text-[#94A3B8] uppercase tracking-wider flex items-center gap-1.5">
+                    <Share2 size={13} className="text-[#60A5FA]" /> Browser Source URL
                   </p>
-                  <span className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
-                    Ready to Use
+                  <span className="bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded text-[10px] font-medium">
+                    Siap Digunakan
                   </span>
                 </div>
 
-                {/* KOTAK URL YANG SUDAH DILENGKAPI min-w-0 AGAR TIDAK MELEBAR */}
-                <div className="flex flex-col md:flex-row gap-4 w-full">
-                  <div className="flex-1 min-w-0 bg-black/50 text-slate-300 text-xs font-mono px-5 py-4 rounded-xl border border-white/10 overflow-x-auto whitespace-nowrap custom-scrollbar flex items-center shadow-inner">
-                    {obsUrl || "Membangun arsitektur tautan..."}
+                <div className="flex flex-col sm:flex-row gap-3 w-full">
+                  <div className="flex-1 min-w-0 bg-black/60 text-[#38BDF8] text-xs font-mono px-4 py-3 rounded-lg border border-white/5 overflow-x-auto whitespace-nowrap flex items-center">
+                    {obsUrl || "Membangun tautan OBS..."}
                   </div>
                   <button
                     onClick={handleCopy}
                     disabled={!obsUrl}
-                    className={`font-black px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 shrink-0 text-xs uppercase tracking-widest shadow-xl disabled:opacity-50 disabled:cursor-not-allowed ${
+                    className={`px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2 shrink-0 text-xs font-medium tracking-wide shadow-sm disabled:opacity-40 disabled:cursor-not-allowed ${
                       copiedLink
-                        ? "bg-emerald-500 text-white shadow-emerald-500/30 border border-emerald-400"
-                        : "bg-[#00D4FF] text-[#0B1324] hover:bg-white shadow-[#00D4FF]/30 border border-[#00D4FF]/50"
+                        ? "bg-emerald-600 text-white"
+                        : "bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-blue-500/25"
                     }`}
                   >
                     {copiedLink ? (
                       <>
-                        <CheckCircle size={16} /> Tersalin!
+                        <CheckCircle size={15} /> Tersalin!
                       </>
                     ) : (
                       <>
-                        <Copy size={16} /> Salin URL
+                        <Copy size={15} /> Salin URL
                       </>
                     )}
                   </button>
                 </div>
-                <p className="text-[10px] font-medium text-slate-500 mt-5 leading-relaxed">
-                  *Salin URL di atas, buka OBS Studio, tambahkan Source baru
-                  berupa <strong className="text-slate-300">"Browser"</strong>,
-                  lalu paste URL tersebut ke kolom yang tersedia. Sesuaikan
-                  resolusi layar pada pengaturan OBS Anda.
+                <p className="text-[11px] text-[#64748B] mt-3 leading-relaxed">
+                  *Salin URL di atas, buka OBS Studio, tambahkan Source baru berupa <strong className="text-white">Browser</strong>, lalu tempel URL tersebut.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        .custom-scrollbar::-webkit-scrollbar { height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 8px; margin: 0 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
-      `,
-        }}
-      />
     </div>
   );
 }

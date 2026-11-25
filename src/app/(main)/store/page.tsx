@@ -111,43 +111,35 @@ export default function StorePage() {
     }).format(number);
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-24 font-sans selection:bg-[#00D4FF]/30 selection:text-[#0B1324] overflow-x-hidden">
+    <div className="bg-[#FAF9F6] min-h-screen pb-24 font-sans selection:bg-[#2563EB]/15 selection:text-[#0F172A] overflow-x-hidden">
       {/* ==========================================
-          1. HERO SECTION EKSKLUSIF (DARK PREMIUM THEME)
+          1. HERO SECTION (EDITORIAL BRAND THEME)
       ========================================== */}
-      <section className="bg-[#0B1324] pt-40 pb-32 px-4 sm:px-6 relative overflow-hidden flex flex-col items-center justify-center min-h-[50vh]">
-        {/* Background Visual Effects */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#00D4FF]/10 blur-[120px] rounded-full"></div>
-          <div className="absolute bottom-0 w-full h-px bg-gradient-to-r from-transparent via-[#00D4FF]/30 to-transparent"></div>
-        </div>
-
-        <div className="container mx-auto max-w-4xl text-center relative z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <span className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-[10px] font-black text-[#00D4FF] uppercase tracking-widest mb-6 shadow-[0_0_15px_rgba(0,212,255,0.2)]">
-            <ShoppingBag size={12} />{" "}
-            {t.store?.badge || "GUWIGO MERCH & RETAIL"}
+      <section className="pt-36 md:pt-44 pb-20 px-4 sm:px-6 relative overflow-hidden flex flex-col items-center justify-center border-b border-[#E2E8F0]">
+        <div className="container mx-auto max-w-4xl text-center relative z-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
+          <span className="text-[#2563EB] font-medium tracking-[0.2em] text-xs uppercase mb-3 block">
+            Guwigo Tech Store
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white mb-6 tracking-tight leading-[1.1]">
-            {t.store?.title1 || "Premium Tech"} <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-blue-500">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif text-[#0F172A] mb-5 tracking-tight leading-[1.1] font-normal">
+            {t.store?.title1 || "Premium Tech."} <br />
+            <span className="italic text-[#2563EB]">
               {t.store?.title2 || "Masterpieces."}
             </span>
           </h1>
-          <p className="text-base md:text-lg text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-10">
+          <p className="text-base md:text-lg text-[#64748B] font-normal leading-relaxed max-w-2xl mx-auto mb-8">
             {t.store?.desc ||
-              "Dari apparel eksklusif untuk komunitas developer hingga perangkat premium yang menunjang produktivitas Anda tanpa batas."}
+              "Dari platform software siap pakai, perlengkapan esensial engineer, hingga perangkat terkurasi yang mendukung produktivitas Anda."}
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4 mt-8 border-t border-white/10 pt-8 max-w-2xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto">
             <button
               onClick={() => {
                 const element = document.getElementById("store-catalog");
                 element?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="bg-[#00D4FF] text-[#0B1324] px-8 py-3.5 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-white hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(0,212,255,0.3)]"
+              className="bg-[#2563EB] text-white px-7 py-3 rounded-md font-medium text-xs uppercase tracking-wider hover:bg-[#1D4ED8] transition-colors shadow-sm flex items-center gap-2"
             >
-              Eksplorasi Katalog <ArrowRight size={16} />
+              Eksplorasi Katalog
             </button>
           </div>
         </div>
@@ -158,32 +150,28 @@ export default function StorePage() {
       ========================================== */}
       <section
         id="store-catalog"
-        className="container mx-auto px-4 sm:px-6 -mt-10 relative z-20"
+        className="container mx-auto px-4 sm:px-6 py-12 relative z-20"
       >
-        {/* Filter Controls (Ditampilkan hanya jika tidak loading) */}
+        {/* Filter Controls */}
         {!isLoading && productsData.length > 0 && (
-          <div className="flex flex-col md:flex-row items-end justify-between mb-12 gap-6 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-150">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-10 gap-6 border-b border-[#E2E8F0] pb-6">
             <div>
-              <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+              <h2 className="text-2xl font-serif text-[#0F172A] tracking-tight font-normal">
                 {filter === "All"
                   ? t.store?.filter_title || "Semua Koleksi"
                   : `${filter} ${t.store?.filter_title || "Collection"}`}
               </h2>
-              <p className="text-slate-500 font-medium mt-2">
-                {t.store?.filter_subtitle ||
-                  "Pilih kategori untuk memfilter produk kami."}
-              </p>
             </div>
 
-            <div className="flex flex-wrap bg-white p-1.5 rounded-2xl border border-slate-200/60 shadow-sm">
+            <div className="flex flex-wrap gap-1.5 bg-[#F1F5F9] p-1.5 rounded-md border border-[#E2E8F0]">
               {dynamicCategories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setFilter(cat)}
-                  className={`px-6 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${
+                  className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     filter === cat
-                      ? "bg-[#0B1324] text-[#00D4FF] shadow-md"
-                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-100/50"
+                      ? "bg-white text-[#2563EB] shadow-sm font-semibold"
+                      : "text-[#64748B] hover:text-[#0F172A] hover:bg-white/60"
                   }`}
                 >
                   {cat === "All" ? t.store?.filter_all || "All Items" : cat}
@@ -196,23 +184,20 @@ export default function StorePage() {
         {/* State: Loading */}
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-32">
-            <Loader2 size={48} className="animate-spin text-[#00D4FF] mb-4" />
-            <p className="text-slate-400 font-black text-[10px] uppercase tracking-widest">
-              Menarik Data Katalog...
-            </p>
+            <Loader2 size={32} className="animate-spin text-[#2563EB] mb-4" />
           </div>
         )}
 
         {/* State: Kosong */}
         {!isLoading && productsData.length === 0 && (
-          <div className="bg-white rounded-[2.5rem] border border-slate-200 p-16 text-center shadow-sm max-w-3xl mx-auto flex flex-col items-center justify-center">
-            <div className="w-20 h-20 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mb-6">
-              <ShoppingBag size={32} />
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-16 text-center shadow-sm max-w-3xl mx-auto flex flex-col items-center justify-center">
+            <div className="w-16 h-16 bg-[#FAF9F6] text-[#94A3B8] rounded-md flex items-center justify-center mb-6 border border-[#E2E8F0]">
+              <ShoppingBag size={28} />
             </div>
-            <h3 className="text-2xl font-black text-slate-900 mb-2">
+            <h3 className="text-2xl font-serif font-normal text-[#0F172A] mb-2">
               Belum Ada Produk
             </h3>
-            <p className="text-slate-500 font-medium">
+            <p className="text-[#64748B] text-sm">
               Katalog produk saat ini sedang dikosongkan atau diatur ulang oleh
               Administrator.
             </p>
@@ -222,88 +207,55 @@ export default function StorePage() {
         {/* State: Menampilkan Produk */}
         {!isLoading && productsData.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map((product, idx) => (
+            {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="group bg-white rounded-[2rem] p-6 border border-slate-200 hover:border-[#00D4FF]/30 hover:shadow-2xl hover:shadow-[#00D4FF]/10 transition-all duration-500 flex flex-col h-full animate-in fade-in slide-in-from-bottom-8 fill-mode-both"
-                style={{ animationDelay: `${idx * 100}ms` }}
+                className="group bg-white rounded-lg p-5 border border-[#E2E8F0] hover:border-[#2563EB]/40 hover:shadow-md transition-all duration-200 flex flex-col h-full animate-in fade-in"
               >
                 {/* Image Area */}
-                <div className="h-72 bg-slate-50 rounded-2xl mb-6 relative overflow-hidden group-hover:bg-[#00D4FF]/5 transition-colors">
-                  {/* Badge Label (Optional) */}
+                <div className="h-64 bg-[#FAF9F6] rounded-md mb-5 relative overflow-hidden transition-colors border border-[#E2E8F0]">
+                  {/* Badge Label */}
                   {product.tag && (
-                    <div className="absolute top-4 left-4 z-20 bg-[#0B1324] text-[#00D4FF] px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-md">
+                    <div className="absolute top-3 left-3 z-20 bg-[#EFF6FF] border border-[#BFDBFE] text-[#1D4ED8] px-3 py-0.5 rounded-md text-[11px] font-medium shadow-sm">
                       {product.tag}
                     </div>
                   )}
 
-                  {/* Fallback Jika Gambar Kosong */}
                   {product.image ? (
                     <Image
                       src={product.image}
                       alt={product.name}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <Image
-                        src="/images/branding/loader.png"
-                        alt="Placeholder"
-                        width={80}
-                        height={80}
-                        className="opacity-20 grayscale"
-                      />
+                      <ShoppingBag size={44} className="text-[#94A3B8]" />
                     </div>
                   )}
-
-                  {/* Action Overlay */}
-                  <div className="absolute inset-0 bg-[#0B1324]/0 group-hover:bg-[#0B1324]/10 transition-colors duration-300 z-10 flex items-end justify-end p-4">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault(); // Hindari ter-click elemen di belakangnya jika dibungkus link nanti
-                        addToCart(product as any);
-                      }}
-                      className="w-12 h-12 bg-[#00D4FF] text-[#0B1324] rounded-full shadow-[0_0_20px_rgba(0,212,255,0.4)] flex items-center justify-center translate-y-20 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110"
-                      title="Tambahkan ke Keranjang"
-                    >
-                      <Plus size={24} strokeWidth={3} />
-                    </button>
-                  </div>
                 </div>
 
                 {/* Product Detail Area */}
                 <div className="flex-1 flex flex-col justify-between">
-                  <div className="space-y-2 mb-6">
-                    <div className="flex justify-between items-start">
-                      <h3 className="text-xl font-black text-slate-900 line-clamp-1 group-hover:text-[#00D4FF] transition-colors">
-                        {product.name}
-                      </h3>
-                      {/* Rating (Opsional) */}
-                      {product.rating && (
-                        <div className="flex gap-1 text-yellow-500 items-center bg-yellow-50 px-2 py-1 rounded-md border border-yellow-100 shrink-0">
-                          <Star size={12} fill="currentColor" />
-                          <span className="text-[10px] text-yellow-700 font-black">
-                            {product.rating}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    <p className="text-xs text-slate-500 font-medium line-clamp-2 leading-relaxed">
+                  <div className="space-y-1 mb-5">
+                    <h3 className="text-lg font-serif font-normal text-[#0F172A] line-clamp-1">
+                      {product.name}
+                    </h3>
+                    <p className="text-xs text-[#64748B] line-clamp-2 leading-relaxed">
                       {product.desc}
                     </p>
                   </div>
 
                   {/* Price & Action */}
-                  <div className="flex justify-between items-center pt-5 border-t border-slate-100 mt-auto">
-                    <span className="text-lg font-black text-[#0B1324] tracking-tight">
+                  <div className="flex justify-between items-center pt-4 border-t border-[#E2E8F0] mt-auto">
+                    <span className="text-base font-serif font-normal text-[#0F172A]">
                       {toRupiah(product.price)}
                     </span>
                     <button
                       onClick={() => addToCart(product as any)}
-                      className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-600 rounded-xl text-[10px] font-black hover:bg-[#0B1324] hover:text-[#00D4FF] transition-all uppercase tracking-widest shadow-sm"
+                      className="px-4 py-1.5 bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE] rounded-lg text-xs font-medium hover:bg-[#2563EB] hover:text-white transition-colors"
                     >
-                      <ShoppingBag size={14} /> {t.store?.buy_btn || "Beli"}
+                      {t.store?.buy_btn || "Beli"}
                     </button>
                   </div>
                 </div>
@@ -314,57 +266,44 @@ export default function StorePage() {
       </section>
 
       {/* ==========================================
-          3. PROMO BANNER & TRADE-IN (OPSIONAL JIKA ADA KONTEN)
+          3. PROMO BANNER & TRADE-IN
       ========================================== */}
       {!isLoading && productsData.length > 0 && (
         <>
-          <section className="container mx-auto px-4 sm:px-6 mb-24 max-w-6xl">
-            <div className="bg-[#0B1324] rounded-[3rem] p-10 md:p-16 relative overflow-hidden shadow-2xl border border-white/5">
-              {/* Glow Accent */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#00D4FF]/10 blur-[80px] rounded-full pointer-events-none"></div>
-
-              <div className="flex flex-col md:flex-row items-start md:items-end justify-between relative z-10 gap-6">
-                <div className="max-w-xl">
-                  <span className="text-[#00D4FF] text-[10px] font-black uppercase tracking-widest mb-3 block">
-                    <Tag size={14} className="inline mr-1 -mt-0.5" />{" "}
-                    Special Offer
-                  </span>
-                  <h2 className="text-3xl md:text-4xl font-black text-white leading-tight">
-                    {t.store?.promo_title || "Diskon Spesial Merch Kemerdekaan"}
-                  </h2>
-                  <p className="text-slate-400 mt-3 font-medium leading-relaxed">
-                    {t.store?.promo_desc ||
-                      "Dapatkan potongan harga eksklusif hingga 30% untuk seluruh lini produk apparel edisi terbatas kami."}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setFilter("Apparel")}
-                  className="inline-flex items-center gap-2 text-[#0B1324] bg-[#00D4FF] hover:bg-white px-8 py-4 rounded-xl font-black text-[11px] uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(0,212,255,0.3)] shrink-0"
-                >
-                  {t.store?.promo_link || "Lihat Koleksi"}{" "}
-                  <ArrowRight size={16} />
-                </button>
-              </div>
+          <section className="container mx-auto px-4 sm:px-6 mb-16 max-w-5xl">
+            <div className="bg-[#0A0F1D] text-white rounded-lg p-10 md:p-14 text-center border border-[#1E293B] shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#2563EB]/[0.12] blur-[80px] rounded-full pointer-events-none"></div>
+              <span className="text-[#06B6D4] text-xs uppercase tracking-wider font-medium mb-2 block relative z-10">Penawaran Eksklusif</span>
+              <h2 className="text-3xl md:text-4xl font-serif font-normal text-white mb-3 tracking-tight relative z-10">
+                {t.store?.promo_title || "Diskon Spesial Mitra Bisnis."}
+              </h2>
+              <p className="text-[#94A3B8] text-sm md:text-base mb-8 max-w-xl mx-auto leading-relaxed relative z-10">
+                {t.store?.promo_desc ||
+                  "Dapatkan potongan harga eksklusif hingga 30% untuk seluruh paket bundling lisensi platform dan perakitan software kami."}
+              </p>
+              <button
+                onClick={() => setFilter("Apparel")}
+                className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-7 py-3 rounded-md font-medium text-xs uppercase tracking-wider transition-colors shadow-sm relative z-10"
+              >
+                {t.store?.promo_link || "Lihat Koleksi"}
+              </button>
             </div>
           </section>
 
-          <section className="container mx-auto px-4 sm:px-6 max-w-6xl">
-            <div className="bg-white border border-slate-200 rounded-[3rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl shadow-slate-900/5">
+          <section className="container mx-auto px-4 sm:px-6 max-w-5xl">
+            <div className="bg-white rounded-lg p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border border-[#E2E8F0] shadow-sm">
               <div>
-                <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4">
-                  <RefreshCcw size={24} />
-                </div>
-                <h2 className="text-2xl font-black text-slate-900 mb-2 tracking-tight">
-                  {t.store?.tradein_title || "Program Tukar Tambah"}
+                <h2 className="text-2xl font-serif font-normal text-[#0F172A] mb-2 tracking-tight">
+                  {t.store?.tradein_title || "Program Konsultasi & Migrasi Sistem."}
                 </h2>
-                <p className="text-slate-500 font-medium leading-relaxed max-w-xl">
+                <p className="text-[#64748B] text-sm max-w-xl leading-relaxed">
                   {t.store?.tradein_desc ||
-                    "Tukarkan device lama Anda untuk mendapatkan potongan harga eksklusif pada pembelian perangkat baru di Guwigo Store."}
+                    "Ingin memigrasikan sistem warisan Anda ke cloud modern? Tim arsitek kami siap membantu audit dan pemindahan data dengan zero downtime."}
                 </p>
               </div>
               <Link
                 href="/contact"
-                className="px-8 py-4 bg-slate-100 hover:bg-[#0B1324] hover:text-[#00D4FF] text-slate-900 font-black text-[11px] uppercase tracking-widest rounded-2xl transition-colors whitespace-nowrap shadow-sm"
+                className="px-6 py-3 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium text-xs uppercase tracking-wider rounded-md transition-colors whitespace-nowrap shadow-sm"
               >
                 {t.store?.tradein_btn || "Hubungi Konsultan"}
               </Link>

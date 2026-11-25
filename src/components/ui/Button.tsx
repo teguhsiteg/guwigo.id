@@ -4,8 +4,16 @@ import { forwardRef, ButtonHTMLAttributes } from "react";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/utils";
 
-type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "danger" | "success";
-type ButtonSize = "sm" | "md" | "lg";
+type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "ghost"
+  | "danger"
+  | "success"
+  | "glass"
+  | "dark";
+type ButtonSize = "xs" | "sm" | "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -13,27 +21,33 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   icon?: React.ReactNode;
   fullWidth?: boolean;
+  pill?: boolean;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-blue-600 text-white hover:bg-blue-700 shadow-sm shadow-blue-500/20 focus-visible:ring-blue-500",
+    "bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-sm shadow-blue-500/20 border border-[#2563EB]/30 focus-visible:ring-[#2563EB]",
+  dark:
+    "bg-[#0A0F1D] hover:bg-[#131C31] text-white shadow-sm border border-[#1E293B] focus-visible:ring-[#2563EB]",
   secondary:
-    "bg-slate-100 text-slate-700 hover:bg-slate-200 focus-visible:ring-slate-400",
+    "bg-[#EFF6FF] text-[#1D4ED8] hover:bg-[#DBEAFE] border border-[#BFDBFE] focus-visible:ring-[#2563EB]",
   outline:
-    "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 focus-visible:ring-slate-400",
+    "bg-white text-[#0F172A] border border-[#E2E8F0] hover:bg-[#FAF9F6] hover:border-[#CBD5E1] shadow-sm focus-visible:ring-[#2563EB]",
   ghost:
-    "bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-slate-400",
+    "bg-transparent text-[#0F172A] hover:bg-[#F1F5F9] focus-visible:ring-[#2563EB]",
+  glass:
+    "claude-glass text-[#0F172A] hover:bg-white border border-[#E2E8F0] shadow-sm focus-visible:ring-[#2563EB]",
   danger:
-    "bg-red-500 text-white hover:bg-red-600 shadow-sm shadow-red-500/20 focus-visible:ring-red-500",
+    "bg-[#EF4444] text-white hover:bg-[#DC2626] shadow-sm focus-visible:ring-red-500",
   success:
-    "bg-emerald-500 text-white hover:bg-emerald-600 shadow-sm shadow-emerald-500/20 focus-visible:ring-emerald-500",
+    "bg-[#10B981] text-white hover:bg-[#059669] shadow-sm focus-visible:ring-emerald-500",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: "px-3 py-1.5 text-xs gap-1.5",
-  md: "px-4 py-2.5 text-sm gap-2",
-  lg: "px-6 py-3 text-base gap-2.5",
+  xs: "px-2.5 py-1 text-[11px] font-medium gap-1 min-h-[26px]",
+  sm: "px-3.5 py-1.5 text-xs font-medium gap-1.5 min-h-[32px]",
+  md: "px-4.5 py-2.5 text-sm font-medium gap-2 min-h-[40px]",
+  lg: "px-6 py-3.5 text-base font-medium gap-2.5 min-h-[46px]",
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -44,6 +58,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       isLoading = false,
       icon,
       fullWidth = false,
+      pill = false,
       className,
       children,
       disabled,
@@ -56,9 +71,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          "inline-flex items-center justify-center font-bold rounded-xl transition-all duration-200",
+          "inline-flex items-center justify-center tracking-tight transition-all duration-150 ease-out select-none",
+          "active:scale-[0.98] apple-press",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-          "disabled:opacity-50 disabled:cursor-not-allowed",
+          "disabled:opacity-45 disabled:cursor-not-allowed disabled:active:scale-100",
+          pill ? "rounded-lg" : "rounded-lg",
           variantStyles[variant],
           sizeStyles[size],
           fullWidth && "w-full",
@@ -67,7 +84,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {isLoading ? (
-          <Loader2 size={size === "sm" ? 14 : 16} className="animate-spin" />
+          <Loader2 size={size === "xs" || size === "sm" ? 14 : 16} className="animate-spin" />
         ) : (
           icon
         )}

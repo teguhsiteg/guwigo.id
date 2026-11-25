@@ -318,7 +318,7 @@ export default function InvoiceBuilderPage() {
           }}
         />
         <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center font-sans px-4">
-          <div className="bg-white border border-slate-200 p-10 rounded-2xl shadow-sm max-w-md w-full text-center">
+          <div className="bg-white border border-slate-200 p-10 rounded-lg shadow-sm max-w-md w-full text-center">
             <h2 className="text-2xl font-bold text-slate-800 mb-3">
               Guwigo Invoice
             </h2>
@@ -447,7 +447,7 @@ export default function InvoiceBuilderPage() {
               </div>
 
               {/* CARD 1: Pengaturan Dokumen */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+              <div className="bg-white rounded-md border border-slate-200 p-6 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
                   Pengaturan Dokumen{" "}
                   <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full">
@@ -506,7 +506,7 @@ export default function InvoiceBuilderPage() {
               </div>
 
               {/* CARD 1.5: Profil & Branding Perusahaan */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+              <div className="bg-white rounded-md border border-slate-200 p-6 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 mb-6">
                   Profil Perusahaan & Branding
                 </h2>
@@ -609,7 +609,7 @@ export default function InvoiceBuilderPage() {
               </div>
 
               {/* CARD 2: Detail pelanggan */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+              <div className="bg-white rounded-md border border-slate-200 p-6 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 mb-6">
                   Detail pelanggan
                 </h2>
@@ -672,7 +672,7 @@ export default function InvoiceBuilderPage() {
               </div>
 
               {/* CARD 3: Detail Dokumen */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+              <div className="bg-white rounded-md border border-slate-200 p-6 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 mb-6">
                   Detail {docType.toLowerCase()}
                 </h2>
@@ -739,7 +739,7 @@ export default function InvoiceBuilderPage() {
               </div>
 
               {/* CARD 4: Metode pembayaran */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+              <div className="bg-white rounded-md border border-slate-200 p-6 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 mb-6">
                   Metode pembayaran
                 </h2>
@@ -759,7 +759,7 @@ export default function InvoiceBuilderPage() {
               </div>
 
               {/* CARD 5: Pajak */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+              <div className="bg-white rounded-md border border-slate-200 p-6 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 mb-6">
                   Detail pajak
                 </h2>
@@ -797,7 +797,7 @@ export default function InvoiceBuilderPage() {
               </div>
 
               {/* CARD 6: Daftar produk */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+              <div className="bg-white rounded-md border border-slate-200 p-6 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 mb-6">
                   Daftar layanan / produk
                 </h2>
@@ -887,7 +887,7 @@ export default function InvoiceBuilderPage() {
               </div>
 
               {/* CARD 7: E-Meterai & Diskon Akhir */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+              <div className="bg-white rounded-md border border-slate-200 p-6 shadow-sm">
                 <h2 className="text-lg font-bold text-slate-800 mb-6">
                   Lainnya
                 </h2>

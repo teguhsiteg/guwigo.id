@@ -20,10 +20,8 @@ import {
   Search,
   LayoutGrid,
   GraduationCap,
-  Users,
   Wand2,
   Crown,
-  Loader2,
 } from "lucide-react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -44,7 +42,7 @@ export default function ToolsHubPage() {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
   const [baseUrl, setBaseUrl] = useState("");
   const [tools, setTools] = useState<DynamicToolItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [, setIsLoading] = useState(true);
 
   useEffect(() => {
     setBaseUrl(window.location.origin);
@@ -52,7 +50,9 @@ export default function ToolsHubPage() {
     const fetchTools = async () => {
       try {
         const snap = await getDocs(collection(db, "tools_items"));
-        const data = snap.docs.map((d) => ({ id: d.id, ...d.data() } as DynamicToolItem));
+        const data = snap.docs.map(
+          (d) => ({ id: d.id, ...d.data() }) as DynamicToolItem
+        );
         if (data.length > 0) {
           data.sort((a, b) => (a.order || 0) - (b.order || 0));
           setTools(data);
@@ -76,250 +76,232 @@ export default function ToolsHubPage() {
 
   const getCategoryIcon = (title: string, category: string) => {
     const t = title.toLowerCase();
-    if (t.includes("qr")) return <QrCode size={28} />;
-    if (t.includes("password")) return <KeyRound size={28} />;
-    if (t.includes("wa")) return <MessageCircle size={28} />;
-    if (t.includes("seo")) return <Search size={28} />;
-    if (t.includes("edu")) return <GraduationCap size={28} />;
-    if (t.includes("proposal") || category === "saas") return <Wand2 size={28} />;
-    if (t.includes("marquee") || t.includes("running")) return <Type size={20} />;
-    if (t.includes("buka") || t.includes("puasa")) return <MoonStar size={20} />;
-    if (t.includes("imsak")) return <Sunrise size={20} />;
-    if (t.includes("sholat") || t.includes("jadwal")) return <CalendarClock size={20} />;
-    return <Wrench size={24} />;
+    if (t.includes("qr")) return <QrCode size={24} />;
+    if (t.includes("password")) return <KeyRound size={24} />;
+    if (t.includes("wa")) return <MessageCircle size={24} />;
+    if (t.includes("seo")) return <Search size={24} />;
+    if (t.includes("edu")) return <GraduationCap size={24} />;
+    if (t.includes("proposal") || category === "saas")
+      return <Wand2 size={24} />;
+    if (t.includes("marquee") || t.includes("running")) return <Type size={18} />;
+    if (t.includes("buka") || t.includes("puasa")) return <MoonStar size={18} />;
+    if (t.includes("imsak")) return <Sunrise size={18} />;
+    if (t.includes("sholat") || t.includes("jadwal"))
+      return <CalendarClock size={18} />;
+    return <Wrench size={22} />;
   };
 
-  const utilityTools = tools.filter((t) => t.category === "utility" || t.category === "saas");
+  const utilityTools = tools.filter(
+    (t) => t.category === "utility" || t.category === "saas"
+  );
   const obsTools = tools.filter((t) => t.category === "obs");
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-24 font-sans selection:bg-[#00D4FF]/30 selection:text-[#0B1324] overflow-x-hidden">
+    <div className="bg-[#FAF9F6] min-h-screen pb-24 font-sans selection:bg-[#2563EB]/15 selection:text-[#0F172A] overflow-x-hidden">
       {/* ==========================================
-          1. HERO SECTION EKSKLUSIF (DARK PREMIUM THEME)
+          1. HERO SECTION (EDITORIAL BRAND THEME)
       ========================================== */}
-      <section className="bg-[#0B1324] pt-40 pb-32 px-4 sm:px-6 relative overflow-hidden flex flex-col items-center justify-center min-h-[45vh]">
-        {/* Background Visual Effects */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_20%,transparent_100%)]"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#00D4FF]/10 blur-[120px] rounded-full"></div>
-          <div className="absolute bottom-0 w-full h-px bg-gradient-to-r from-transparent via-[#00D4FF]/30 to-transparent"></div>
-        </div>
+      <section className="pt-36 md:pt-44 pb-20 px-4 sm:px-6 relative overflow-hidden flex flex-col items-center justify-center border-b border-[#E2E8F0] text-center">
+        {/* Subtle Ambient Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-[#2563EB]/[0.05] rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="container mx-auto max-w-4xl text-center relative z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
-          <span className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-[10px] font-black text-[#00D4FF] uppercase tracking-widest mb-6 shadow-[0_0_15px_rgba(0,212,255,0.2)]">
-            <Wrench size={12} /> Guwigo Utilities & SaaS
+        <div className="container mx-auto max-w-4xl relative z-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
+          <span className="inline-flex items-center gap-2 py-1.5 px-3.5 rounded-md bg-[#EFF6FF] border border-[#BFDBFE] text-xs font-medium text-[#1D4ED8] mb-6 shadow-sm">
+            <Wrench size={13} className="text-[#2563EB]" /> Guwigo Utilities & Ecosystem
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white mb-6 tracking-tight leading-[1.1]">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif text-[#0F172A] mb-5 tracking-tight leading-[1.1] font-normal">
             Tingkatkan Produktivitas <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D4FF] to-blue-500">
-              Tanpa Batas.
-            </span>
+            <span className="italic text-[#2563EB]">Tanpa Batas.</span>
           </h1>
-          <p className="text-base md:text-lg text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto mb-10">
-            Kumpulan alat pengembangan, optimasi pemasaran, dan aset penyiaran
-            yang dirancang khusus untuk ekosistem digital Anda.{" "}
-            <strong className="text-white">
-              Akses gratis tanpa login & Uji coba SaaS eksklusif.
-            </strong>
+          <p className="text-base md:text-lg text-[#64748B] font-normal leading-relaxed max-w-2xl mx-auto">
+            Kumpulan instrumen pengembangan, optimasi metadata, dan aset penyiaran yang dirancang khusus untuk mempercepat alur kerja dan operasional digital Anda.
           </p>
         </div>
       </section>
 
-      <div className="container mx-auto px-4 sm:px-6 max-w-6xl -mt-10 relative z-20">
+      <div className="container mx-auto px-4 sm:px-6 max-w-6xl py-16 relative z-20">
         {/* ==========================================
             KELOMPOK 1: WEB TOOLS UTAMA
         ========================================== */}
-        <div className="mb-24 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-150">
-          <h2 className="text-xl font-black text-[#0B1324] mb-8 flex items-center gap-3 uppercase tracking-widest">
-            <LayoutGrid size={24} className="text-[#00D4FF]" /> Web & Marketing Utilities
-          </h2>
+        <div className="mb-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-9 h-9 rounded-md bg-[#2563EB]/10 text-[#2563EB] flex items-center justify-center shrink-0">
+              <LayoutGrid size={18} />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-serif font-normal text-[#0F172A] tracking-tight">
+                Web & Marketing Utilities
+              </h2>
+              <p className="text-xs text-[#64748B] mt-0.5">
+                Alat praktis siap pakai untuk tim teknis dan pemasaran, gratis tanpa registrasi
+              </p>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {utilityTools.length > 0 ? (
               utilityTools.map((item) => (
                 <div
                   key={item.id}
-                  className={`rounded-[2.5rem] p-8 border transition-all duration-300 flex flex-col h-[340px] relative overflow-hidden group hover:-translate-y-2 hover:shadow-2xl ${
-                    item.category === "saas"
-                      ? "bg-gradient-to-br from-[#0B1324] to-slate-900 border-[#00D4FF]/30 text-white shadow-[#00D4FF]/10"
-                      : item.badge?.toLowerCase().includes("popular")
-                        ? "bg-gradient-to-br from-amber-50 to-white border-amber-200 text-slate-900"
-                        : "bg-white border-slate-200 text-slate-900 hover:shadow-[#00D4FF]/10"
-                  }`}
+                  className="bg-white rounded-xl p-7 border border-[#E2E8F0] shadow-sm hover:shadow-md hover:border-[#CBD5E1] hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-[330px] relative overflow-hidden group"
                 >
                   {item.badge && (
-                    <div
-                      className={`absolute top-0 right-0 text-[10px] font-black uppercase tracking-widest py-1.5 px-4 rounded-bl-xl shadow-md flex items-center gap-1.5 ${
-                        item.category === "saas"
-                          ? "bg-gradient-to-r from-[#00D4FF] to-blue-600 text-white"
-                          : "bg-amber-500 text-amber-950"
-                      }`}
-                    >
-                      <Star size={12} /> {item.badge}
+                    <div className="absolute top-4 right-4">
+                      <span
+                        className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10px] font-medium tracking-tight ${
+                          item.category === "saas"
+                            ? "bg-[#EFF6FF] text-[#1D4ED8] border border-[#BFDBFE]"
+                            : "bg-[#FFFBEB] text-[#92400E] border border-[#FDE68A]"
+                        }`}
+                      >
+                        <Star size={10} className="fill-current" /> {item.badge}
+                      </span>
                     </div>
                   )}
 
-                  <div
-                    className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-md transition-transform group-hover:scale-110 ${
-                      item.category === "saas"
-                        ? "bg-white/5 text-[#00D4FF] border border-white/10"
-                        : item.badge?.toLowerCase().includes("popular")
-                          ? "bg-amber-500 text-amber-950 shadow-amber-500/30"
-                          : "bg-blue-50 text-blue-600 group-hover:bg-[#00D4FF] group-hover:text-[#0B1324]"
-                    }`}
-                  >
+                  <div className="w-12 h-12 rounded-lg bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center mb-5 group-hover:bg-[#2563EB] group-hover:text-white transition-colors shadow-sm">
                     {getCategoryIcon(item.title, item.category)}
                   </div>
 
-                  <h3
-                    className={`text-xl font-black mb-3 tracking-tight ${
-                      item.category === "saas" ? "text-white" : "text-slate-900 group-hover:text-[#00D4FF] transition-colors"
-                    }`}
-                  >
+                  <h3 className="text-base sm:text-lg font-serif font-normal text-[#0F172A] mb-2 tracking-tight group-hover:text-[#2563EB] transition-colors">
                     {item.title}
                   </h3>
 
-                  <p
-                    className={`text-sm font-medium leading-relaxed mb-auto line-clamp-3 ${
-                      item.category === "saas" ? "text-slate-400" : "text-slate-500"
-                    }`}
-                  >
+                  <p className="text-xs text-[#64748B] font-normal leading-relaxed mb-auto line-clamp-3">
                     {item.description}
                   </p>
 
                   <Link
                     href={item.link}
-                    className={`w-full py-3.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-sm mt-6 ${
-                      item.category === "saas"
-                        ? "bg-[#00D4FF] hover:bg-white text-[#0B1324] hover:shadow-lg hover:shadow-[#00D4FF]/40"
-                        : item.badge?.toLowerCase().includes("popular")
-                          ? "bg-amber-500 hover:bg-amber-600 text-amber-950 shadow-amber-500/20"
-                          : "bg-slate-100 group-hover:bg-[#0B1324] text-[#0B1324] group-hover:text-[#00D4FF] group-hover:shadow-xl group-hover:shadow-slate-900/20"
-                    }`}
+                    className="w-full py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2 transition-colors bg-[#FAF9F6] hover:bg-[#2563EB] text-[#0F172A] hover:text-white border border-[#E2E8F0] hover:border-[#2563EB] mt-5 shadow-sm"
                   >
-                    {item.actionText || "Buka Console"} <ArrowRight size={16} />
+                    {item.actionText || "Buka Console"} <ArrowRight size={14} />
                   </Link>
                 </div>
               ))
             ) : (
               <>
                 {/* KARTU 1: QR CODE */}
-                <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm hover:shadow-2xl hover:shadow-[#00D4FF]/10 hover:-translate-y-2 transition-all duration-300 flex flex-col h-[340px] group">
-                  <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#00D4FF] group-hover:text-[#0B1324] transition-colors">
-                    <QrCode size={28} />
+                <div className="bg-white rounded-xl p-7 border border-[#E2E8F0] shadow-sm hover:shadow-md hover:border-[#CBD5E1] hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-[330px] group">
+                  <div className="w-12 h-12 bg-[#EFF6FF] text-[#2563EB] rounded-lg flex items-center justify-center mb-5 group-hover:bg-[#2563EB] group-hover:text-white transition-colors shadow-sm">
+                    <QrCode size={24} />
                   </div>
-                  <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-[#00D4FF] transition-colors">
+                  <h3 className="text-base sm:text-lg font-serif font-normal text-[#0F172A] mb-2 tracking-tight group-hover:text-[#2563EB] transition-colors">
                     QR Code Generator
                   </h3>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed mb-auto">
-                    Ubah Teks, URL, atau Nomor WhatsApp menjadi QR Code resolusi tinggi secara real-time. Bebas masa kedaluwarsa.
+                  <p className="text-xs text-[#64748B] font-normal leading-relaxed mb-auto">
+                    Ubah Teks, URL, atau Kontak WhatsApp menjadi QR Code resolusi tinggi secara real-time. Bebas masa kedaluwarsa.
                   </p>
                   <Link
                     href="/tools/qrcode"
-                    className="w-full bg-slate-100 group-hover:bg-[#0B1324] text-[#0B1324] group-hover:text-[#00D4FF] py-3.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-sm group-hover:shadow-xl group-hover:shadow-slate-900/20 mt-6"
+                    className="w-full py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2 transition-colors bg-[#FAF9F6] hover:bg-[#2563EB] text-[#0F172A] hover:text-white border border-[#E2E8F0] hover:border-[#2563EB] mt-5 shadow-sm"
                   >
-                    Buka Console <ArrowRight size={16} />
+                    Buka Console <ArrowRight size={14} />
                   </Link>
                 </div>
 
                 {/* KARTU 2: PASSWORD */}
-                <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm hover:shadow-2xl hover:shadow-[#00D4FF]/10 hover:-translate-y-2 transition-all duration-300 flex flex-col h-[340px] group">
-                  <div className="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#00D4FF] group-hover:text-[#0B1324] transition-colors">
-                    <KeyRound size={28} />
+                <div className="bg-white rounded-xl p-7 border border-[#E2E8F0] shadow-sm hover:shadow-md hover:border-[#CBD5E1] hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-[330px] group">
+                  <div className="w-12 h-12 bg-[#0A0F1D] text-white rounded-lg flex items-center justify-center mb-5 group-hover:bg-[#2563EB] transition-colors shadow-sm">
+                    <KeyRound size={24} />
                   </div>
-                  <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-[#00D4FF] transition-colors">
+                  <h3 className="text-base sm:text-lg font-serif font-normal text-[#0F172A] mb-2 tracking-tight group-hover:text-[#2563EB] transition-colors">
                     Password Generator
                   </h3>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed mb-auto">
-                    Rakit kata sandi & token acak tingkat militer yang sangat kuat. Seluruh kriptografi diproses aman secara offline di browser Anda.
+                  <p className="text-xs text-[#64748B] font-normal leading-relaxed mb-auto">
+                    Rakit kata sandi dan token acak tingkat militer yang sangat kuat. Seluruh proses kriptografi diproses aman secara lokal di browser.
                   </p>
                   <Link
                     href="/tools/password"
-                    className="w-full bg-slate-100 group-hover:bg-[#0B1324] text-[#0B1324] group-hover:text-[#00D4FF] py-3.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-sm group-hover:shadow-xl group-hover:shadow-slate-900/20 mt-6"
+                    className="w-full py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2 transition-colors bg-[#FAF9F6] hover:bg-[#2563EB] text-[#0F172A] hover:text-white border border-[#E2E8F0] hover:border-[#2563EB] mt-5 shadow-sm"
                   >
-                    Buka Console <ArrowRight size={16} />
+                    Buka Console <ArrowRight size={14} />
                   </Link>
                 </div>
 
                 {/* KARTU 3: WA LINK GENERATOR */}
-                <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm hover:shadow-2xl hover:shadow-[#00D4FF]/10 hover:-translate-y-2 transition-all duration-300 flex flex-col h-[340px] group">
-                  <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#00D4FF] group-hover:text-[#0B1324] transition-colors">
-                    <MessageCircle size={28} />
+                <div className="bg-white rounded-xl p-7 border border-[#E2E8F0] shadow-sm hover:shadow-md hover:border-[#CBD5E1] hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-[330px] group">
+                  <div className="w-12 h-12 bg-[#ECFDF5] text-[#059669] rounded-lg flex items-center justify-center mb-5 group-hover:bg-[#2563EB] group-hover:text-white transition-colors shadow-sm">
+                    <MessageCircle size={24} />
                   </div>
-                  <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-[#00D4FF] transition-colors">
+                  <h3 className="text-base sm:text-lg font-serif font-normal text-[#0F172A] mb-2 tracking-tight group-hover:text-[#2563EB] transition-colors">
                     WA Link Builder
                   </h3>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed mb-auto">
-                    Rakit tautan WhatsApp dinamis dengan pesan otomatis. Dilengkapi fitur live chat preview yang sangat memanjakan mata.
+                  <p className="text-xs text-[#64748B] font-normal leading-relaxed mb-auto">
+                    Rakit tautan WhatsApp dinamis dengan pesan otomatis. Dilengkapi fitur live chat preview untuk kenyamanan konversi Anda.
                   </p>
                   <Link
                     href="/tools/wa-generator"
-                    className="w-full bg-slate-100 group-hover:bg-[#0B1324] text-[#0B1324] group-hover:text-[#00D4FF] py-3.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-sm group-hover:shadow-xl group-hover:shadow-slate-900/20 mt-6"
+                    className="w-full py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2 transition-colors bg-[#FAF9F6] hover:bg-[#2563EB] text-[#0F172A] hover:text-white border border-[#E2E8F0] hover:border-[#2563EB] mt-5 shadow-sm"
                   >
-                    Buka Console <ArrowRight size={16} />
+                    Buka Console <ArrowRight size={14} />
                   </Link>
                 </div>
 
                 {/* KARTU 4: SEO PREVIEWER */}
-                <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm hover:shadow-2xl hover:shadow-[#00D4FF]/10 hover:-translate-y-2 transition-all duration-300 flex flex-col h-[340px] group">
-                  <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#00D4FF] group-hover:text-[#0B1324] transition-colors">
-                    <Search size={28} />
+                <div className="bg-white rounded-xl p-7 border border-[#E2E8F0] shadow-sm hover:shadow-md hover:border-[#CBD5E1] hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-[330px] group">
+                  <div className="w-12 h-12 bg-[#FAF5FF] text-[#7E22CE] rounded-lg flex items-center justify-center mb-5 group-hover:bg-[#2563EB] group-hover:text-white transition-colors shadow-sm">
+                    <Search size={24} />
                   </div>
-                  <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-[#00D4FF] transition-colors">
+                  <h3 className="text-base sm:text-lg font-serif font-normal text-[#0F172A] mb-2 tracking-tight group-hover:text-[#2563EB] transition-colors">
                     SEO & Social Preview
                   </h3>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed mb-auto">
-                    Simulasikan metadata website Anda di Google, FB, Twitter, dan WA secara real-time. Otomatis generate kode HTML Open Graph.
+                  <p className="text-xs text-[#64748B] font-normal leading-relaxed mb-auto">
+                    Simulasikan metadata website Anda di Google, Facebook, Twitter, dan WhatsApp secara real-time. Otomatis menghasilkan kode Open Graph.
                   </p>
                   <Link
                     href="/tools/seo-preview"
-                    className="w-full bg-slate-100 group-hover:bg-[#0B1324] text-[#0B1324] group-hover:text-[#00D4FF] py-3.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-sm group-hover:shadow-xl group-hover:shadow-slate-900/20 mt-6"
+                    className="w-full py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2 transition-colors bg-[#FAF9F6] hover:bg-[#2563EB] text-[#0F172A] hover:text-white border border-[#E2E8F0] hover:border-[#2563EB] mt-5 shadow-sm"
                   >
-                    Buka Console <ArrowRight size={16} />
+                    Buka Console <ArrowRight size={14} />
                   </Link>
                 </div>
 
                 {/* KARTU 5: EDUPROMPT */}
-                <div className="bg-gradient-to-br from-amber-50 to-white rounded-[2.5rem] p-8 border-2 border-amber-200 shadow-lg shadow-amber-500/10 hover:shadow-2xl hover:shadow-amber-500/20 hover:-translate-y-2 transition-all duration-300 flex flex-col h-[340px] relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 bg-amber-500 text-amber-950 text-[10px] font-black uppercase tracking-widest py-1.5 px-4 rounded-bl-xl shadow-md flex items-center gap-1.5">
-                    <Star size={12} className="fill-amber-950" /> Most Popular
+                <div className="bg-white rounded-xl p-7 border border-[#E2E8F0] shadow-sm hover:shadow-md hover:border-[#CBD5E1] hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-[330px] relative overflow-hidden group">
+                  <div className="absolute top-4 right-4">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10px] font-medium tracking-tight bg-[#FFFBEB] text-[#92400E] border border-[#FDE68A]">
+                      <Star size={10} className="fill-current" /> Populer
+                    </span>
                   </div>
-                  <div className="w-14 h-14 bg-amber-500 text-amber-950 rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-amber-500/30 group-hover:scale-110 transition-transform">
-                    <GraduationCap size={28} />
+                  <div className="w-12 h-12 bg-[#FFFBEB] text-[#B45309] rounded-lg flex items-center justify-center mb-5 group-hover:bg-[#2563EB] group-hover:text-white transition-colors shadow-sm">
+                    <GraduationCap size={24} />
                   </div>
-                  <h3 className="text-xl font-black text-amber-900 mb-3 tracking-tight">
+                  <h3 className="text-base sm:text-lg font-serif font-normal text-[#0F172A] mb-2 tracking-tight group-hover:text-[#2563EB] transition-colors">
                     EduPrompt AI Generator
                   </h3>
-                  <p className="text-amber-700/80 text-sm font-medium leading-relaxed mb-auto">
-                    Hasilkan instruksi desain (prompt) pendidikan super spesifik untuk ChatGPT, Midjourney, atau Desainer Grafis hanya dalam hitungan detik.
+                  <p className="text-xs text-[#64748B] font-normal leading-relaxed mb-auto">
+                    Hasilkan prompt spesifik untuk AI Image Generator atau Desainer Grafis untuk materi pendaftaran sekolah dan kampus.
                   </p>
                   <Link
                     href="/tools/eduprompt"
-                    className="w-full bg-amber-500 hover:bg-amber-600 text-amber-950 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-xl hover:shadow-amber-500/40 mt-6"
+                    className="w-full py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2 transition-colors bg-[#FAF9F6] hover:bg-[#2563EB] text-[#0F172A] hover:text-white border border-[#E2E8F0] hover:border-[#2563EB] mt-5 shadow-sm"
                   >
-                    Gunakan Tools <ArrowRight size={16} />
+                    Gunakan Tools <ArrowRight size={14} />
                   </Link>
                 </div>
 
                 {/* KARTU 6: AI PROPOSAL */}
-                <div className="bg-gradient-to-br from-[#0B1324] to-slate-900 rounded-[2.5rem] p-8 border-2 border-[#00D4FF]/30 shadow-lg shadow-[#00D4FF]/10 hover:shadow-2xl hover:shadow-[#00D4FF]/30 hover:-translate-y-2 transition-all duration-300 flex flex-col h-[340px] relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 bg-gradient-to-r from-[#00D4FF] to-blue-600 text-white text-[10px] font-black uppercase tracking-widest py-1.5 px-4 rounded-bl-xl shadow-md flex items-center gap-1.5">
-                    <Crown size={12} className="fill-white" /> 3-Day Trial
+                <div className="bg-white rounded-xl p-7 border border-[#E2E8F0] shadow-sm hover:shadow-md hover:border-[#CBD5E1] hover:-translate-y-0.5 transition-all duration-200 flex flex-col h-[330px] relative overflow-hidden group">
+                  <div className="absolute top-4 right-4">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10px] font-medium tracking-tight bg-[#EFF6FF] text-[#1D4ED8] border border-[#BFDBFE]">
+                      <Crown size={10} /> Enterprise
+                    </span>
                   </div>
-                  <div className="w-14 h-14 bg-white/5 text-[#00D4FF] rounded-2xl flex items-center justify-center mb-6 shadow-md border border-white/10 group-hover:scale-110 transition-transform">
-                    <Wand2 size={28} />
+                  <div className="w-12 h-12 bg-[#EFF6FF] text-[#2563EB] rounded-lg flex items-center justify-center mb-5 group-hover:bg-[#2563EB] group-hover:text-white transition-colors shadow-sm">
+                    <Wand2 size={24} />
                   </div>
-                  <h3 className="text-xl font-black text-white mb-3 tracking-tight">
+                  <h3 className="text-base sm:text-lg font-serif font-normal text-[#0F172A] mb-2 tracking-tight group-hover:text-[#2563EB] transition-colors">
                     AI Proposal Architect
                   </h3>
-                  <p className="text-slate-400 text-sm font-medium leading-relaxed mb-auto">
-                    Sistem analisis cerdas untuk merumuskan draf proposal arsitektur IT level Enterprise dalam hitungan detik. Export ke PDF & DOCX.
+                  <p className="text-xs text-[#64748B] font-normal leading-relaxed mb-auto">
+                    Sistem analisis cerdas untuk merumuskan draf proposal arsitektur IT level Enterprise secara instan dengan export Word & PDF.
                   </p>
                   <Link
                     href="/tools/ai-proposal"
-                    className="w-full bg-[#00D4FF] hover:bg-white text-[#0B1324] py-3.5 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg hover:shadow-[#00D4FF]/40 mt-6"
+                    className="w-full py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2 transition-colors bg-[#2563EB] hover:bg-[#1D4ED8] text-white border border-[#2563EB] mt-5 shadow-sm shadow-blue-500/20"
                   >
-                    Mulai Trial <ArrowRight size={16} />
+                    Buka Architect <ArrowRight size={14} />
                   </Link>
                 </div>
               </>
@@ -330,47 +312,53 @@ export default function ToolsHubPage() {
         {/* ==========================================
             KELOMPOK 2: WIDGET OBS / STREAMER
         ========================================== */}
-        <div className="border-t border-slate-200 pt-16 animate-in fade-in duration-1000 delay-300">
-          <h2 className="text-xl font-black text-[#0B1324] mb-4 flex items-center gap-3 uppercase tracking-widest">
-            <MonitorPlay size={24} className="text-red-500" /> OBS Stream Assets
-          </h2>
-          <p className="text-slate-500 font-medium mb-10 max-w-2xl leading-relaxed">
-            Aset gratis untuk mempercantik tata letak Live Streaming Anda di OBS Studio. Salin link dan jadikan sebagai <strong>Browser Source</strong>.
-          </p>
+        <div className="border-t border-[#E2E8F0] pt-14 animate-in fade-in duration-700">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-9 h-9 rounded-md bg-[#EF4444]/10 text-[#EF4444] flex items-center justify-center shrink-0">
+              <MonitorPlay size={18} />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-serif font-normal text-[#0F172A] tracking-tight">
+                OBS Stream Overlays
+              </h2>
+              <p className="text-xs text-[#64748B] mt-0.5">
+                Aset penyiaran siap pakai untuk OBS Studio. Salin link dan gunakan sebagai Browser Source
+              </p>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
             {obsTools.length > 0 ? (
               obsTools.map((obs) => (
                 <div
                   key={obs.id}
-                  className="bg-[#0B1324] rounded-[2rem] p-8 border border-slate-800 shadow-xl flex flex-col relative overflow-hidden group h-[300px]"
+                  className="bg-[#0A0F1D] rounded-xl p-6 border border-[#1E293B] shadow-sm flex flex-col relative overflow-hidden group h-[290px]"
                 >
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full"></div>
-                  <div className="flex items-center gap-3 mb-6 relative z-10">
-                    <div className="w-10 h-10 bg-white/5 text-[#00D4FF] rounded-xl flex items-center justify-center border border-white/5 shrink-0">
+                  <div className="flex items-center gap-3 mb-4 relative z-10">
+                    <div className="w-9 h-9 bg-white/10 text-[#38BDF8] rounded-md flex items-center justify-center border border-white/10 shrink-0">
                       {getCategoryIcon(obs.title, "obs")}
                     </div>
-                    <h3 className="font-black text-white text-sm leading-tight tracking-tight uppercase">
+                    <h3 className="font-serif font-normal text-white text-sm tracking-tight">
                       {obs.title}
                     </h3>
                   </div>
-                  <p className="text-xs font-medium text-slate-400 mb-auto relative z-10 leading-relaxed line-clamp-3">
+                  <p className="text-xs font-normal text-[#94A3B8] mb-auto relative z-10 leading-relaxed line-clamp-3">
                     {obs.description}
                   </p>
-                  <div className="space-y-2 relative z-10 mt-6">
+                  <div className="space-y-2 relative z-10 mt-5">
                     {obs.link.startsWith("/obs/") ? (
                       <>
                         <button
                           onClick={() => handleCopyOBS(obs.link)}
-                          className="w-full bg-[#00D4FF] hover:bg-white text-[#0B1324] font-black py-3 rounded-xl text-[10px] uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#00D4FF]/20"
+                          className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 shadow-sm"
                         >
                           {copiedLink === obs.link ? (
                             <>
-                              <CheckCircle size={14} /> Tersalin!
+                              <CheckCircle size={13} /> Tersalin!
                             </>
                           ) : (
                             <>
-                              <Copy size={14} /> Copy Source URL
+                              <Copy size={13} /> Salin URL Source
                             </>
                           )}
                         </button>
@@ -378,7 +366,7 @@ export default function ToolsHubPage() {
                           href={obs.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full bg-white/5 hover:bg-white/10 text-white font-black py-2 rounded-xl text-[10px] uppercase tracking-widest transition-colors border border-white/5 flex items-center justify-center gap-2"
+                          className="w-full bg-white/5 hover:bg-white/10 text-white font-medium py-1.5 rounded-lg text-xs transition-colors border border-white/10 flex items-center justify-center gap-1.5"
                         >
                           <ExternalLink size={12} /> Preview
                         </a>
@@ -386,9 +374,10 @@ export default function ToolsHubPage() {
                     ) : (
                       <Link
                         href={obs.link}
-                        className="w-full bg-[#00D4FF] hover:bg-white text-[#0B1324] font-black py-3 rounded-xl text-[10px] uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#00D4FF]/20"
+                        className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
                       >
-                        {obs.actionText || "Rakit Widget"} <ArrowRight size={14} />
+                        {obs.actionText || "Rakit Widget"}{" "}
+                        <ArrowRight size={13} />
                       </Link>
                     )}
                   </div>
@@ -397,55 +386,53 @@ export default function ToolsHubPage() {
             ) : (
               <>
                 {/* OBS 1: RUNNING TEXT */}
-                <div className="bg-[#0B1324] rounded-[2rem] p-8 border border-slate-800 shadow-xl flex flex-col relative overflow-hidden group h-[300px]">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full"></div>
-                  <div className="flex items-center gap-3 mb-6 relative z-10">
-                    <div className="w-10 h-10 bg-white/5 text-blue-400 rounded-xl flex items-center justify-center border border-white/5 shrink-0">
-                      <Type size={20} />
+                <div className="bg-[#0A0F1D] rounded-xl p-6 border border-[#1E293B] shadow-sm flex flex-col relative overflow-hidden group h-[290px]">
+                  <div className="flex items-center gap-3 mb-4 relative z-10">
+                    <div className="w-9 h-9 bg-white/10 text-[#38BDF8] rounded-md flex items-center justify-center border border-white/10 shrink-0">
+                      <Type size={18} />
                     </div>
-                    <h3 className="font-black text-white text-sm leading-tight tracking-tight uppercase">
-                      Running Text <br /> Marquee
+                    <h3 className="font-serif font-normal text-white text-sm tracking-tight">
+                      Running Text Marquee
                     </h3>
                   </div>
-                  <p className="text-xs font-medium text-slate-400 mb-auto relative z-10 leading-relaxed">
-                    Buat teks berjalan kustom. Atur teks, warna teks, dan kecepatan lari sendiri.
+                  <p className="text-xs font-normal text-[#94A3B8] mb-auto relative z-10 leading-relaxed">
+                    Buat teks berjalan kustom untuk siaran live streaming. Atur teks, warna, dan kecepatan rotasi secara visual.
                   </p>
-                  <div className="relative z-10 mt-6">
+                  <div className="relative z-10 mt-5">
                     <Link
                       href="/tools/marquee"
-                      className="w-full bg-[#00D4FF] hover:bg-white text-[#0B1324] font-black py-3 rounded-xl text-[10px] uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#00D4FF]/20"
+                      className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
                     >
-                      Rakit Widget <ArrowRight size={14} />
+                      Rakit Widget <ArrowRight size={13} />
                     </Link>
                   </div>
                 </div>
 
                 {/* OBS 2: BUKA PUASA */}
-                <div className="bg-[#0B1324] rounded-[2rem] p-8 border border-slate-800 shadow-xl flex flex-col relative overflow-hidden group h-[300px]">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 blur-3xl rounded-full"></div>
-                  <div className="flex items-center gap-3 mb-6 relative z-10">
-                    <div className="w-10 h-10 bg-white/5 text-yellow-400 rounded-xl flex items-center justify-center border border-white/5 shrink-0">
-                      <MoonStar size={20} />
+                <div className="bg-[#0A0F1D] rounded-xl p-6 border border-[#1E293B] shadow-sm flex flex-col relative overflow-hidden group h-[290px]">
+                  <div className="flex items-center gap-3 mb-4 relative z-10">
+                    <div className="w-9 h-9 bg-white/10 text-amber-400 rounded-md flex items-center justify-center border border-white/10 shrink-0">
+                      <MoonStar size={18} />
                     </div>
-                    <h3 className="font-black text-white text-sm leading-tight tracking-tight uppercase">
-                      Countdown <br /> Buka Puasa
+                    <h3 className="font-serif font-normal text-white text-sm tracking-tight">
+                      Countdown Buka Puasa
                     </h3>
                   </div>
-                  <p className="text-xs font-medium text-slate-400 mb-auto relative z-10 leading-relaxed">
-                    Overlay transparan penunjuk waktu maghrib otomatis untuk area Yogyakarta.
+                  <p className="text-xs font-normal text-[#94A3B8] mb-auto relative z-10 leading-relaxed">
+                    Overlay transparan penunjuk waktu maghrib otomatis untuk penyiaran di wilayah Yogyakarta dan sekitarnya.
                   </p>
-                  <div className="space-y-2 relative z-10 mt-6">
+                  <div className="space-y-2 relative z-10 mt-5">
                     <button
                       onClick={() => handleCopyOBS("/obs/buka.html")}
-                      className="w-full bg-yellow-500 hover:bg-yellow-400 text-[#0B1324] font-black py-3 rounded-xl text-[10px] uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-yellow-500/20"
+                      className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 shadow-sm"
                     >
                       {copiedLink === "/obs/buka.html" ? (
                         <>
-                          <CheckCircle size={14} /> Tersalin!
+                          <CheckCircle size={13} /> Tersalin!
                         </>
                       ) : (
                         <>
-                          <Copy size={14} /> Copy Source URL
+                          <Copy size={13} /> Salin URL Source
                         </>
                       )}
                     </button>
@@ -453,7 +440,7 @@ export default function ToolsHubPage() {
                       href="/obs/buka.html"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full bg-white/5 hover:bg-white/10 text-white font-black py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-colors border border-white/5 flex items-center justify-center gap-2"
+                      className="w-full bg-white/5 hover:bg-white/10 text-white font-medium py-1.5 rounded-lg text-xs transition-colors border border-white/10 flex items-center justify-center gap-1.5"
                     >
                       <ExternalLink size={12} /> Preview
                     </a>
@@ -461,31 +448,30 @@ export default function ToolsHubPage() {
                 </div>
 
                 {/* OBS 3: IMSAK */}
-                <div className="bg-[#0B1324] rounded-[2rem] p-8 border border-slate-800 shadow-xl flex flex-col relative overflow-hidden group h-[300px]">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-3xl rounded-full"></div>
-                  <div className="flex items-center gap-3 mb-6 relative z-10">
-                    <div className="w-10 h-10 bg-white/5 text-purple-400 rounded-xl flex items-center justify-center border border-white/5 shrink-0">
-                      <Sunrise size={20} />
+                <div className="bg-[#0A0F1D] rounded-xl p-6 border border-[#1E293B] shadow-sm flex flex-col relative overflow-hidden group h-[290px]">
+                  <div className="flex items-center gap-3 mb-4 relative z-10">
+                    <div className="w-9 h-9 bg-white/10 text-purple-400 rounded-md flex items-center justify-center border border-white/10 shrink-0">
+                      <Sunrise size={18} />
                     </div>
-                    <h3 className="font-black text-white text-sm leading-tight tracking-tight uppercase">
-                      Countdown <br /> Imsak
+                    <h3 className="font-serif font-normal text-white text-sm tracking-tight">
+                      Countdown Imsak
                     </h3>
                   </div>
-                  <p className="text-xs font-medium text-slate-400 mb-auto relative z-10 leading-relaxed">
-                    Sangat cocok untuk streaming edisi sahur. Hitung mundur imsak berjalan otomatis.
+                  <p className="text-xs font-normal text-[#94A3B8] mb-auto relative z-10 leading-relaxed">
+                    Cocok untuk streaming program sahur. Menghitung mundur waktu imsak secara real-time dan akurat.
                   </p>
-                  <div className="space-y-2 relative z-10 mt-6">
+                  <div className="space-y-2 relative z-10 mt-5">
                     <button
                       onClick={() => handleCopyOBS("/obs/imsak.html")}
-                      className="w-full bg-purple-500 hover:bg-purple-400 text-white font-black py-3 rounded-xl text-[10px] uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20"
+                      className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 shadow-sm"
                     >
                       {copiedLink === "/obs/imsak.html" ? (
                         <>
-                          <CheckCircle size={14} /> Tersalin!
+                          <CheckCircle size={13} /> Tersalin!
                         </>
                       ) : (
                         <>
-                          <Copy size={14} /> Copy Source URL
+                          <Copy size={13} /> Salin URL Source
                         </>
                       )}
                     </button>
@@ -493,7 +479,7 @@ export default function ToolsHubPage() {
                       href="/obs/imsak.html"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full bg-white/5 hover:bg-white/10 text-white font-black py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-colors border border-white/5 flex items-center justify-center gap-2"
+                      className="w-full bg-white/5 hover:bg-white/10 text-white font-medium py-1.5 rounded-lg text-xs transition-colors border border-white/10 flex items-center justify-center gap-1.5"
                     >
                       <ExternalLink size={12} /> Preview
                     </a>
@@ -501,31 +487,30 @@ export default function ToolsHubPage() {
                 </div>
 
                 {/* OBS 4: JADWAL SHOLAT */}
-                <div className="bg-[#0B1324] rounded-[2rem] p-8 border border-slate-800 shadow-xl flex flex-col relative overflow-hidden group h-[300px]">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-3xl rounded-full"></div>
-                  <div className="flex items-center gap-3 mb-6 relative z-10">
-                    <div className="w-10 h-10 bg-white/5 text-emerald-400 rounded-xl flex items-center justify-center border border-white/5 shrink-0">
-                      <CalendarClock size={20} />
+                <div className="bg-[#0A0F1D] rounded-xl p-6 border border-[#1E293B] shadow-sm flex flex-col relative overflow-hidden group h-[290px]">
+                  <div className="flex items-center gap-3 mb-4 relative z-10">
+                    <div className="w-9 h-9 bg-white/10 text-emerald-400 rounded-md flex items-center justify-center border border-white/10 shrink-0">
+                      <CalendarClock size={18} />
                     </div>
-                    <h3 className="font-black text-white text-sm leading-tight tracking-tight uppercase">
-                      Schedule <br /> 5 Waktu
+                    <h3 className="font-serif font-normal text-white text-sm tracking-tight">
+                      Jadwal Sholat 5 Waktu
                     </h3>
                   </div>
-                  <p className="text-xs font-medium text-slate-400 mb-auto relative z-10 leading-relaxed">
-                    Tampilkan tabel jadwal sholat hari ini. Data sinkron otomatis via API Aladhan.
+                  <p className="text-xs font-normal text-[#94A3B8] mb-auto relative z-10 leading-relaxed">
+                    Tampilan tabel jadwal sholat harian yang sinkron secara otomatis via API resmi untuk kebutuhan siaran.
                   </p>
-                  <div className="space-y-2 relative z-10 mt-6">
+                  <div className="space-y-2 relative z-10 mt-5">
                     <button
                       onClick={() => handleCopyOBS("/obs/jadwal-sholat.html")}
-                      className="w-full bg-emerald-500 hover:bg-emerald-400 text-[#0B1324] font-black py-3 rounded-xl text-[10px] uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+                      className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 shadow-sm"
                     >
                       {copiedLink === "/obs/jadwal-sholat.html" ? (
                         <>
-                          <CheckCircle size={14} /> Tersalin!
+                          <CheckCircle size={13} /> Tersalin!
                         </>
                       ) : (
                         <>
-                          <Copy size={14} /> Copy Source URL
+                          <Copy size={13} /> Salin URL Source
                         </>
                       )}
                     </button>
@@ -533,7 +518,7 @@ export default function ToolsHubPage() {
                       href="/obs/jadwal-sholat.html"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full bg-white/5 hover:bg-white/10 text-white font-black py-2.5 rounded-xl text-[10px] uppercase tracking-widest transition-colors border border-white/5 flex items-center justify-center gap-2"
+                      className="w-full bg-white/5 hover:bg-white/10 text-white font-medium py-1.5 rounded-lg text-xs transition-colors border border-white/10 flex items-center justify-center gap-1.5"
                     >
                       <ExternalLink size={12} /> Preview
                     </a>
@@ -542,26 +527,17 @@ export default function ToolsHubPage() {
               </>
             )}
           </div>
+
           {/* INFO BOX OBS */}
-          <div className="mt-10 bg-white border border-slate-200 text-slate-600 p-6 md:p-8 rounded-[2rem] flex flex-col md:flex-row items-start md:items-center gap-6 text-sm shadow-sm max-w-4xl mx-auto">
-            <div className="bg-[#00D4FF]/10 text-[#00D4FF] w-12 h-12 rounded-full flex items-center justify-center shrink-0 border border-[#00D4FF]/20">
-              <MonitorPlay size={20} />
+          <div className="mt-8 bg-white border border-[#E2E8F0] p-6 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-4 text-xs shadow-sm">
+            <div className="bg-[#EFF6FF] text-[#2563EB] w-10 h-10 rounded-lg flex items-center justify-center shrink-0 border border-[#BFDBFE]">
+              <MonitorPlay size={18} />
             </div>
-            <p className="leading-relaxed font-medium">
-              <strong className="text-slate-900 block mb-1">
+            <p className="leading-relaxed text-[#64748B]">
+              <strong className="text-[#0F172A] font-medium block mb-0.5">
                 Cara Pemasangan di OBS Studio:
               </strong>
-              Klik tombol{" "}
-              <em className="text-[#00D4FF] font-bold not-italic">
-                &quot;Copy Source URL&quot;
-              </em>
-              . Buka aplikasi OBS, klik logo
-              <strong className="text-slate-900"> + </strong> pada menu Sources,
-              lalu pilih
-              <strong className="text-slate-900"> Browser</strong>. Paste URL
-              tersebut ke kolom yang tersedia, sesuaikan Width &amp; Height, dan
-              centang opsi{" "}
-              <strong className="text-slate-900">&quot;Clear Background&quot;</strong>.
+              Klik tombol <strong className="text-[#2563EB]">Salin URL Source</strong>. Buka aplikasi OBS Studio, klik tombol <strong className="text-[#0F172A]">+</strong> pada panel Sources, pilih <strong className="text-[#0F172A]">Browser</strong>, lalu paste URL tersebut ke kolom URL. Centang opsi &quot;Shutdown source when not visible&quot; untuk menghemat memori.
             </p>
           </div>
         </div>
@@ -569,4 +545,3 @@ export default function ToolsHubPage() {
     </div>
   );
 }
-

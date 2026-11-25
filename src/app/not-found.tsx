@@ -1,57 +1,39 @@
 import Link from "next/link";
-import { ShieldAlert, Home, Lock } from "lucide-react";
+import { ArrowLeft, Compass } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#020617] text-white flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
-      {/* Background Effect */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-[100px] animate-pulse"></div>
-      </div>
-
-      <div className="relative z-10 text-center max-w-2xl">
-        {/* Icon & Glitch Effect */}
-        <div className="flex justify-center mb-8 relative">
-          <div className="relative">
-            <div className="absolute inset-0 bg-red-500 blur-lg opacity-50 animate-ping"></div>
-            <ShieldAlert size={80} className="text-red-500 relative z-10" />
-          </div>
+    <div className="min-h-screen bg-[#FAF9F6] text-[#0F172A] flex flex-col items-center justify-center p-6 selection:bg-[#2563EB]/15 selection:text-[#0F172A]">
+      <div className="text-center max-w-lg mx-auto">
+        <div className="w-14 h-14 mx-auto mb-8 rounded-lg bg-white border border-[#E2E8F0] shadow-sm flex items-center justify-center text-[#2563EB]">
+          <Compass size={28} strokeWidth={1.5} />
         </div>
 
-        <h1 className="text-8xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-800 mb-4 select-none">
-          404
-        </h1>
-
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-wide uppercase">
-          <span className="text-red-500">System Alert:</span> Path Not Found
-        </h2>
-
-        <p className="text-slate-400 mb-10 text-lg leading-relaxed">
-          Halaman yang Anda tuju tidak terdaftar di dalam database kami, atau
-          Anda mencoba mengakses area terlarang. IP Anda telah dicatat.
+        <p className="text-[12px] uppercase font-mono tracking-[0.2em] text-[#64748B] mb-3">
+          Error 404 · Halaman Tidak Ditemukan
         </p>
 
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <h1 className="font-serif text-4xl sm:text-5xl font-normal text-[#0F172A] tracking-tight mb-4">
+          Halaman yang Anda tuju tidak tersedia.
+        </h1>
+
+        <p className="text-[#64748B] text-[15px] leading-relaxed mb-8 font-sans">
+          Tautan mungkin telah diperbarui, dipindahkan, atau halaman tersebut sudah tidak aktif lagi. Silakan kembali ke beranda ekosistem Guwigo.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center font-sans">
           <Link
             href="/"
-            className="flex items-center gap-2 bg-white text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-slate-200 transition-all hover:scale-105"
+            className="inline-flex items-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-6 py-3 rounded-md text-sm font-medium transition-all shadow-sm hover:shadow"
           >
-            <Home size={18} /> Kembali ke Markas
+            <ArrowLeft size={16} /> Kembali ke Beranda
           </Link>
-
-          <button className="flex items-center gap-2 px-8 py-3 rounded-full font-bold border border-slate-700 text-slate-400 hover:text-white hover:border-white transition-all cursor-not-allowed opacity-70">
-            <Lock size={18} /> Access Restricted
-          </button>
-        </div>
-
-        {/* Fake Terminal Code (Hiasan) */}
-        <div className="mt-16 p-4 rounded-lg bg-black/50 border border-white/5 text-left font-mono text-xs text-green-500/50 max-w-md mx-auto select-none">
-          <p>&gt; Initiating security protocol...</p>
-          <p>&gt; Scanning user request...</p>
-          <p>&gt; Error: Target directory undefined.</p>
-          <p>&gt; Connection terminated.</p>
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 bg-white hover:bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0] px-6 py-3 rounded-md text-sm font-medium transition-all"
+          >
+            Jelajahi Solusi
+          </Link>
         </div>
       </div>
     </div>

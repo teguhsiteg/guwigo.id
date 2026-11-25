@@ -147,7 +147,7 @@ export default function UndanganAIPage() {
             </div>
 
             {/* Kanan: Form Pembayaran Otomatis */}
-            <div className="w-full md:w-[400px] bg-white p-8 rounded-3xl border border-slate-200 shadow-xl relative overflow-hidden">
+            <div className="w-full md:w-[400px] bg-white p-8 rounded-lg border border-slate-200 shadow-xl relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">
                 Beli Akses Premium
@@ -164,7 +164,7 @@ export default function UndanganAIPage() {
                   <input
                     required
                     type="text"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 font-medium focus:border-blue-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-slate-900 font-medium focus:border-blue-500 outline-none"
                     placeholder="Masukkan nama..."
                     value={regName}
                     onChange={(e) => setRegName(e.target.value)}
@@ -177,7 +177,7 @@ export default function UndanganAIPage() {
                   <input
                     required
                     type="email"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 font-medium focus:border-blue-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-slate-900 font-medium focus:border-blue-500 outline-none"
                     placeholder="email@anda.com"
                     value={regEmail}
                     onChange={(e) => setRegEmail(e.target.value)}
@@ -190,7 +190,7 @@ export default function UndanganAIPage() {
                   <input
                     required
                     type="text"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 font-medium focus:border-blue-500 outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-slate-900 font-medium focus:border-blue-500 outline-none"
                     placeholder="0812..."
                     value={regWA}
                     onChange={(e) => setRegWA(e.target.value)}
@@ -201,7 +201,7 @@ export default function UndanganAIPage() {
                   <button
                     disabled={isProcessing}
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-md transition-all shadow-lg flex items-center justify-center gap-2"
                   >
                     {isProcessing ? (
                       <Loader2 className="animate-spin" size={18} />
@@ -247,14 +247,14 @@ export default function UndanganAIPage() {
         <div className="flex items-center gap-3 w-full md:w-auto">
           <button
             onClick={handleDownloadPDF}
-            className="flex-1 md:flex-none bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-md"
+            className="flex-1 md:flex-none bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-md text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-md"
           >
             <Download size={18} /> Cetak PDF (A4)
           </button>
 
           <button
             onClick={handleLogout}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-widest text-red-600 hover:text-white bg-red-50 hover:bg-red-500 px-6 py-3 rounded-xl border border-red-200 hover:border-red-500 transition-all shadow-sm"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 text-sm font-bold uppercase tracking-widest text-red-600 hover:text-white bg-red-50 hover:bg-red-500 px-6 py-3 rounded-md border border-red-200 hover:border-red-500 transition-all shadow-sm"
           >
             <LogOut size={18} /> Logout
           </button>
@@ -265,7 +265,7 @@ export default function UndanganAIPage() {
       <div className="container mx-auto px-4 flex flex-col lg:flex-row gap-8 max-w-[1400px] print:m-0 print:p-0">
         {/* Panel Kiri: Kontrol Form */}
         <div className="w-full lg:w-[400px] shrink-0 print:hidden space-y-6">
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
             <h3 className="font-bold text-slate-900 mb-5 flex items-center gap-2 border-b border-slate-100 pb-3">
               <FileText size={18} className="text-blue-600" /> Data Undangan
             </h3>
@@ -276,7 +276,7 @@ export default function UndanganAIPage() {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
                   value={tuanRumah}
                   onChange={(e) => setTuanRumah(e.target.value)}
                 />
@@ -287,7 +287,7 @@ export default function UndanganAIPage() {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
                   value={jenisAcara}
                   onChange={(e) => setJenisAcara(e.target.value)}
                 />
@@ -298,7 +298,7 @@ export default function UndanganAIPage() {
                 </label>
                 <input
                   type="text"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
                   value={namaUtama}
                   onChange={(e) => setNamaUtama(e.target.value)}
                 />
@@ -310,7 +310,7 @@ export default function UndanganAIPage() {
                   </label>
                   <input
                     type="text"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
                     value={tanggal}
                     onChange={(e) => setTanggal(e.target.value)}
                   />
@@ -321,7 +321,7 @@ export default function UndanganAIPage() {
                   </label>
                   <input
                     type="text"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
                     value={waktu}
                     onChange={(e) => setWaktu(e.target.value)}
                   />
@@ -333,7 +333,7 @@ export default function UndanganAIPage() {
                 </label>
                 <textarea
                   rows={2}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all resize-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all resize-none"
                   value={lokasi}
                   onChange={(e) => setLokasi(e.target.value)}
                 />
@@ -341,7 +341,7 @@ export default function UndanganAIPage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
             <h3 className="font-bold text-slate-900 mb-5 flex items-center gap-2 border-b border-slate-100 pb-3">
               <ImageIcon size={18} className="text-blue-600" /> Desain & Bingkai
             </h3>
@@ -351,7 +351,7 @@ export default function UndanganAIPage() {
                   Pilih Bingkai
                 </label>
                 <select
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-md p-3 text-sm text-slate-900 font-medium outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer"
                   value={bingkai}
                   onChange={(e) => setBingkai(e.target.value)}
                 >
@@ -363,7 +363,7 @@ export default function UndanganAIPage() {
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-1.5 ml-1">
                   Upload Foto (Opsional)
                 </label>
-                <label className="border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-slate-100 p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors">
+                <label className="border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-slate-100 p-6 rounded-md flex flex-col items-center justify-center cursor-pointer transition-colors">
                   <Upload size={24} className="text-blue-500 mb-2" />
                   <span className="text-xs font-bold text-slate-600">
                     Klik untuk Pilih Foto
@@ -389,7 +389,7 @@ export default function UndanganAIPage() {
 
           <button
             onClick={handleUpdateAI}
-            className="w-full bg-slate-900 hover:bg-blue-600 text-white font-bold py-4 rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2"
+            className="w-full bg-slate-900 hover:bg-blue-600 text-white font-bold py-4 rounded-lg transition-all shadow-lg flex items-center justify-center gap-2"
           >
             {isGenerating ? (
               <RefreshCw className="animate-spin" size={18} />
@@ -410,8 +410,8 @@ export default function UndanganAIPage() {
               </div>
             )}
             {bingkai === "sulur-emas" && (
-              <div className="absolute inset-5 border-4 border-yellow-600 rounded-2xl p-1 pointer-events-none">
-                <div className="w-full h-full border-2 border-yellow-500 rounded-xl"></div>
+              <div className="absolute inset-5 border-4 border-yellow-600 rounded-lg p-1 pointer-events-none">
+                <div className="w-full h-full border-2 border-yellow-500 rounded-md"></div>
               </div>
             )}
 
@@ -445,7 +445,7 @@ export default function UndanganAIPage() {
                 </h2>
               </div>
 
-              <div className="mt-10 mb-12 w-full max-w-sm text-left text-sm text-slate-800 space-y-4 mx-auto bg-slate-50/50 p-6 rounded-2xl border border-slate-100">
+              <div className="mt-10 mb-12 w-full max-w-sm text-left text-sm text-slate-800 space-y-4 mx-auto bg-slate-50/50 p-6 rounded-lg border border-slate-100">
                 <div className="flex items-start">
                   <span className="w-28 font-bold text-slate-900 uppercase tracking-wider text-xs">
                     Tanggal

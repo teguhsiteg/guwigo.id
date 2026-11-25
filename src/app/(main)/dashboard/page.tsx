@@ -163,7 +163,7 @@ export default function UserDashboard() {
             </div>
 
             {/* Profile Card */}
-            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-8">
+            <div className="bg-white rounded-lg p-8 border border-slate-200 shadow-sm mb-8">
               <h2 className="text-xl font-bold text-slate-900 mb-6">
                 Informasi Profil
               </h2>
@@ -208,7 +208,7 @@ export default function UserDashboard() {
               </h2>
 
               {subscriptions.length === 0 ? (
-                <div className="bg-white rounded-3xl p-8 border border-slate-200 text-center">
+                <div className="bg-white rounded-lg p-8 border border-slate-200 text-center">
                   <AlertCircle
                     size={48}
                     className="text-slate-400 mx-auto mb-4"
@@ -218,7 +218,7 @@ export default function UserDashboard() {
                   </p>
                   <Link
                     href="/services"
-                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all"
+                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-bold transition-all"
                   >
                     Lihat Layanan <ArrowRight size={18} />
                   </Link>
@@ -230,7 +230,7 @@ export default function UserDashboard() {
                     return (
                       <div
                         key={index}
-                        className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all"
+                        className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all"
                       >
                         <div className="flex items-start justify-between mb-4">
                           <div>
@@ -294,8 +294,8 @@ export default function UserDashboard() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Card: Undangan AI */}
-                <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all group flex flex-col">
-                  <div className="w-14 h-14 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6">
+                <div className="bg-white rounded-lg p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all group flex flex-col">
+                  <div className="w-14 h-14 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center mb-6">
                     <Mail size={28} />
                   </div>
                   <div className="inline-block px-3 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full mb-3 w-max uppercase tracking-widest">
@@ -310,15 +310,15 @@ export default function UserDashboard() {
                   </p>
                   <Link
                     href="/tools/undangan-ai"
-                    className="w-full bg-slate-900 hover:bg-blue-600 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-md"
+                    className="w-full bg-slate-900 hover:bg-blue-600 text-white py-3.5 rounded-md font-bold flex items-center justify-center gap-2 transition-all shadow-md"
                   >
                     Buka Studio <ArrowRight size={18} />
                   </Link>
                 </div>
 
                 {/* Card: Free Tools */}
-                <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all group flex flex-col">
-                  <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                <div className="bg-white rounded-lg p-8 border border-slate-200 shadow-sm hover:shadow-xl transition-all group flex flex-col">
+                  <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mb-6">
                     <MonitorPlay size={28} />
                   </div>
                   <div className="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-bold rounded-full mb-3 w-max uppercase tracking-widest">
@@ -333,14 +333,14 @@ export default function UserDashboard() {
                   </p>
                   <Link
                     href="/tools"
-                    className="w-full bg-slate-50 hover:bg-slate-100 text-slate-900 border border-slate-200 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
+                    className="w-full bg-slate-50 hover:bg-slate-100 text-slate-900 border border-slate-200 py-3.5 rounded-md font-bold flex items-center justify-center gap-2 transition-all"
                   >
                     Jelajahi <ArrowRight size={18} />
                   </Link>
                 </div>
 
                 {/* Card: Browse More Services */}
-                <div className="bg-blue-50 rounded-3xl p-8 border border-blue-200 shadow-sm hover:shadow-md transition-all group flex flex-col justify-center items-center text-center">
+                <div className="bg-blue-50 rounded-lg p-8 border border-blue-200 shadow-sm hover:shadow-md transition-all group flex flex-col justify-center items-center text-center">
                   <Layers size={48} className="text-blue-600 mb-4" />
                   <h3 className="text-xl font-bold text-slate-900 mb-3">
                     Lebih Banyak Layanan
@@ -350,7 +350,7 @@ export default function UserDashboard() {
                   </p>
                   <Link
                     href="/services"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-md"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-md font-bold flex items-center justify-center gap-2 transition-all shadow-md"
                   >
                     Lihat Semua Layanan <ArrowRight size={18} />
                   </Link>

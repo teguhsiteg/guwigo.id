@@ -8,6 +8,7 @@ import {
   getDocs,
   addDoc,
   deleteDoc,
+  getDoc,
   doc,
   query,
   orderBy,
@@ -62,55 +63,55 @@ export interface DocumentRecord {
 
 const CATEGORY_MAP: Record<
   DocCategory,
-  { label: string; code: string; color: string; prefix: string }
+  { label: string; code: string; color: string; basePrefix: string }
 > = {
   INV: {
     label: "Invoice / Tagihan",
     code: "INV",
     color: "blue",
-    prefix: "INV/GWG",
+    basePrefix: "INV",
   },
   KWT: {
     label: "Kuitansi Pembayaran",
     code: "KWT",
     color: "emerald",
-    prefix: "KWT/GWG",
+    basePrefix: "KWT",
   },
   SPK: {
     label: "Surat Kontrak / SPK",
     code: "SPK",
     color: "violet",
-    prefix: "SPK/GWG",
+    basePrefix: "SPK",
   },
   SPH: {
     label: "Penawaran Harga (Proposal)",
     code: "SPH",
     color: "cyan",
-    prefix: "SPH/GWG",
+    basePrefix: "SPH",
   },
   BAST: {
     label: "Berita Acara (BAST)",
     code: "BAST",
     color: "amber",
-    prefix: "BAST/GWG",
+    basePrefix: "BAST",
   },
   SK: {
     label: "Surat Keputusan (SK)",
     code: "SK",
     color: "purple",
-    prefix: "SK/GWG",
+    basePrefix: "SK",
   },
   ND: {
     label: "Nota Dinas / Memo",
     code: "ND",
     color: "slate",
-    prefix: "ND/GWG",
+    basePrefix: "ND",
   },
   UMUM: {
     label: "Surat Keluar Resmi",
     code: "EXT",
     color: "indigo",
-    prefix: "GWG/EXT",
+    basePrefix: "EXT",
   },
 };
 
@@ -145,9 +146,18 @@ export default function NumberGeneratorPage() {
   // Copied item ID
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // Document prefix from settings
+  const [docPrefix, setDocPrefix] = useState("GWG");
+
   const fetchRecords = async () => {
     try {
       setLoading(true);
+      
+      const settingsSnap = await getDoc(doc(db, "admin", "invoice-settings"));
+      if (settingsSnap.exists() && settingsSnap.data().documentPrefix) {
+        setDocPrefix(settingsSnap.data().documentPrefix);
+      }
+
       const q = query(
         collection(db, "document_numbers"),
         orderBy("createdAt", "desc")
@@ -187,11 +197,14 @@ export default function NumberGeneratorPage() {
       : currentCategoryCount + 1;
 
   const paddedSeq = String(nextSeq).padStart(3, "0");
-  const prefix = CATEGORY_MAP[selectedCategory].prefix;
+  const basePrefix = CATEGORY_MAP[selectedCategory].basePrefix;
 
-  // Format: {PREFIX}/{SEQ}/{ROMAN_MONTH}/{YEAR}
-  // Contoh: INV/GWG/001/IX/2026 atau SPK/GWG/001/IX/2026
-  const previewNumber = `${prefix}/${paddedSeq}/${currentMonthRoman}/${currentYear}`;
+  // Format: {BASE_PREFIX}/{DOC_PREFIX}/{SEQ}/{ROMAN_MONTH}/{YEAR}
+  // Contoh: INV/GWG/001/IX/2026 atau EXT/GWG/001/IX/2026
+  // Jika EXT, formatnya adalah GWG/EXT, mari kita sesuaikan urutannya agar dinamis:
+  const previewNumber = selectedCategory === "UMUM" 
+    ? `${docPrefix}/${basePrefix}/${paddedSeq}/${currentMonthRoman}/${currentYear}`
+    : `${basePrefix}/${docPrefix}/${paddedSeq}/${currentMonthRoman}/${currentYear}`;
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();

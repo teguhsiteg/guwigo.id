@@ -2,7 +2,7 @@
 
 import { cn } from "@/utils";
 
-type BadgeVariant = "default" | "success" | "warning" | "error" | "info" | "purple";
+type BadgeVariant = "default" | "brand" | "cyan" | "success" | "warning" | "error" | "info" | "purple";
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -12,21 +12,25 @@ interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  default: "bg-slate-100 text-slate-700",
-  success: "bg-emerald-50 text-emerald-700",
-  warning: "bg-amber-50 text-amber-700",
-  error: "bg-red-50 text-red-700",
-  info: "bg-blue-50 text-blue-700",
-  purple: "bg-purple-50 text-purple-700",
+  default: "bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0]",
+  brand: "bg-[#EFF6FF] text-[#1D4ED8] border border-[#BFDBFE]",
+  cyan: "bg-[#ECFEFF] text-[#0891B2] border border-[#A5F3FC]",
+  success: "bg-[#ECFDF5] text-[#065F46] border border-[#A7F3D0]",
+  warning: "bg-[#FFFBEB] text-[#92400E] border border-[#FDE68A]",
+  error: "bg-[#FEF2F2] text-[#991B1B] border border-[#FECACA]",
+  info: "bg-[#F0F9FF] text-[#0369A1] border border-[#BAE6FD]",
+  purple: "bg-[#FAF5FF] text-[#7E22CE] border border-[#E9D5FF]",
 };
 
 const dotStyles: Record<BadgeVariant, string> = {
-  default: "bg-slate-400",
-  success: "bg-emerald-500",
-  warning: "bg-amber-500",
-  error: "bg-red-500",
-  info: "bg-blue-500",
-  purple: "bg-purple-500",
+  default: "bg-[#64748B]",
+  brand: "bg-[#2563EB]",
+  cyan: "bg-[#06B6D4]",
+  success: "bg-[#10B981]",
+  warning: "bg-[#F59E0B]",
+  error: "bg-[#EF4444]",
+  info: "bg-[#0284C7]",
+  purple: "bg-[#A855F7]",
 };
 
 export default function Badge({
@@ -38,13 +42,13 @@ export default function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider",
+        "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-medium tracking-tight select-none",
         variantStyles[variant],
         className
       )}
     >
       {dot && (
-        <span className={cn("w-1.5 h-1.5 rounded-full", dotStyles[variant])} />
+        <span className={cn("w-1.5 h-1.5 rounded-full shrink-0", dotStyles[variant])} />
       )}
       {children}
     </span>

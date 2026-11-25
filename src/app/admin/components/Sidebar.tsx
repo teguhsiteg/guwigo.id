@@ -34,6 +34,8 @@ import {
   FileSpreadsheet,
   Newspaper,
   Binary,
+  Flag,
+  ShieldCheck,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -79,6 +81,7 @@ export default function AdminSidebar() {
     {
       group: "MANAJEMEN KONTEN",
       items: [
+        { href: "/admin/events", icon: Flag, label: "Race Card & Event Lari" },
         { href: "/admin/hero", icon: LayoutTemplate, label: "Landing Page (Hero)" },
         { href: "/admin/news", icon: Newspaper, label: "Berita & Artikel" },
         { href: "/admin/portfolio", icon: FolderOpen, label: "Portofolio Karya" },
@@ -142,27 +145,27 @@ export default function AdminSidebar() {
         </button>
       )}
 
-      {/* SIDEBAR — BRIGHT THEME */}
+      {/* SIDEBAR — APPLE MACOS STYLE */}
       <aside
-        className={`no-print fixed left-0 top-0 h-screen bg-white border-r border-slate-200 flex flex-col shadow-sm transition-all duration-300 z-40 ${
+        className={`no-print fixed left-0 top-0 h-screen bg-white/80 backdrop-blur-xl border-r border-black/[0.06] flex flex-col shadow-apple-sm transition-all duration-300 z-40 ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         } md:${isCollapsed ? "md:w-20" : "md:w-72"} md:translate-x-0`}
       >
         {/* HEADER */}
-        <div className="h-20 border-b border-slate-100 px-6 flex items-center justify-between">
+        <div className="h-20 border-b border-black/[0.04] px-6 flex items-center justify-between">
           <Link
             href="/admin/dashboard"
-            className="flex items-center gap-3 min-w-max group"
+            className="flex items-center gap-3 min-w-max group select-none"
           >
-            <div className="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white group-hover:scale-105 transition-transform shadow-sm shadow-blue-500/20">
-              <LayoutDashboard size={20} strokeWidth={2.5} />
+            <div className="w-10 h-10 shrink-0 rounded-2xl bg-[#0071E3] flex items-center justify-center text-white group-hover:scale-105 active:scale-95 transition-transform shadow-[0_2px_8px_rgba(0,113,227,0.3)]">
+              <LayoutDashboard size={20} strokeWidth={2.2} />
             </div>
             {!isCollapsed && (
               <div>
-                <div className="text-lg font-black text-slate-900 tracking-wide leading-none mb-0.5">
+                <div className="text-base font-bold text-[#1D1D1F] tracking-tight leading-none mb-0.5">
                   GUWIGO
                 </div>
-                <div className="text-[9px] font-bold text-blue-600 uppercase tracking-[0.2em]">
+                <div className="text-[9px] font-semibold text-[#0071E3] uppercase tracking-[0.2em]">
                   Workspace
                 </div>
               </div>
@@ -172,7 +175,7 @@ export default function AdminSidebar() {
           {/* Close button for mobile */}
           <button
             onClick={() => setIsMobileOpen(false)}
-            className="md:hidden p-2 bg-slate-50 text-slate-400 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors"
+            className="md:hidden p-2 bg-black/[0.04] text-[#86868B] rounded-full hover:text-[#1D1D1F] transition-colors"
           >
             <X size={18} />
           </button>
@@ -180,7 +183,7 @@ export default function AdminSidebar() {
           {/* Desktop collapse toggle */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden md:flex p-2 rounded-xl bg-slate-50 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+            className="hidden md:flex p-1.5 rounded-full text-[#86868B] hover:text-[#1D1D1F] hover:bg-black/[0.04] transition-colors"
             title={isCollapsed ? "Expand" : "Collapse"}
           >
             {isCollapsed ? (
@@ -193,13 +196,13 @@ export default function AdminSidebar() {
 
         {/* Role Switcher Indicator */}
         {isViewingAsUser && !isCollapsed && (
-          <div className="mx-4 mt-4 mb-2 p-3 bg-amber-50 border border-amber-200 rounded-xl">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600 flex items-center gap-2 mb-2">
+          <div className="mx-4 mt-4 mb-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-2xl">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-600 flex items-center gap-2 mb-2">
               <Eye size={12} /> Live Preview
             </p>
             <button
               onClick={() => resetRole()}
-              className="text-xs text-amber-700 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-lg font-bold transition-colors w-full"
+              className="text-xs text-amber-800 bg-amber-200/60 hover:bg-amber-200 px-3 py-1.5 rounded-xl font-semibold transition-colors w-full"
             >
               Exit User View
             </button>
@@ -209,9 +212,9 @@ export default function AdminSidebar() {
         {/* NAVIGATION */}
         <nav className="flex-1 overflow-y-auto py-4 custom-scrollbar">
           {navItems.map((section, idx) => (
-            <div key={idx} className="mb-6">
+            <div key={idx} className="mb-5">
               {!isCollapsed && (
-                <p className="px-6 mb-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                <p className="px-5 mb-1.5 text-[10px] font-semibold text-[#86868B] uppercase tracking-wider">
                   {section.group}
                 </p>
               )}
@@ -226,33 +229,28 @@ export default function AdminSidebar() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsMobileOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 relative group ${
+                      className={`flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-sm transition-all duration-150 relative group ${
                         active
-                          ? "bg-blue-50 text-blue-600"
+                          ? "bg-[#0071E3] text-white shadow-[0_2px_8px_rgba(0,113,227,0.25)] font-semibold"
                           : partialActive
-                            ? "bg-slate-50 text-slate-900"
-                            : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                            ? "bg-black/[0.04] text-[#1D1D1F] font-semibold"
+                            : "text-[#48484A] hover:bg-black/[0.04] hover:text-[#1D1D1F] active:scale-[0.98]"
                       }`}
                     >
                       <Icon
-                        size={18}
+                        size={17}
                         className={
                           active
-                            ? "text-blue-600"
-                            : "text-slate-400 group-hover:text-slate-600 transition-colors"
+                            ? "text-white"
+                            : "text-[#86868B] group-hover:text-[#1D1D1F] transition-colors"
                         }
                       />
 
-                      {!isCollapsed && <span>{item.label}</span>}
-
-                      {/* Active Indicator Line */}
-                      {active && (
-                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-blue-600 rounded-r-full" />
-                      )}
+                      {!isCollapsed && <span className="tracking-tight">{item.label}</span>}
 
                       {/* Tooltip saat collapsed */}
                       {isCollapsed && (
-                        <div className="absolute left-full ml-3 px-3 py-2 bg-slate-900 text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all shadow-xl whitespace-nowrap z-50">
+                        <div className="absolute left-full ml-3 px-3 py-2 bg-[#1D1D1F] text-white text-xs font-semibold rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all shadow-xl whitespace-nowrap z-50">
                           {item.label}
                         </div>
                       )}

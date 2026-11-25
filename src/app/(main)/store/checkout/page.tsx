@@ -11,7 +11,12 @@ import {
   MessageSquare,
   ShieldCheck,
   AlertCircle,
+  QrCode,
+  Building2,
+  X,
+  Copy,
 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 import { useCart } from "@/context/CartContext";
 import { toast } from "sonner";
 
@@ -58,9 +63,12 @@ export default function CheckoutPage() {
     }).format(num);
 
   // State Metode Pembayaran
-  const [paymentType, setPaymentType] = useState<"midtrans" | "manual" | "whatsapp">("midtrans");
-  const [isProcessingMidtrans, setIsProcessingMidtrans] = useState(false);
+  const [paymentType, setPaymentType] = useState<string>("xendit_qris");
+  const [isProcessing, setIsProcessing] = useState(false);
   const [copiedBank, setCopiedBank] = useState(false);
+
+  // Success Modal State
+  const [paymentResult, setPaymentResult] = useState<any>(null);
 
   // Bank Info
   const bankInfo = {
@@ -76,51 +84,38 @@ export default function CheckoutPage() {
     setTimeout(() => setCopiedBank(false), 2500);
   };
 
-  // LOGIC CHECKOUT KE MIDTRANS
-  const handleMidtransPayment = async () => {
-    if (!formData.name || !formData.phone) {
-      toast.error("Mohon lengkapi Nama dan Nomor WhatsApp.");
-      return;
-    }
-    if (shippingMethod === "shipping" && !formData.address) {
-      toast.error("Mohon lengkapi Alamat Pengiriman.");
-      return;
-    }
-
+  // LOGIC CHECKOUT KE XENDIT
+  const handleXenditPayment = async (method: string) => {
     try {
-      setIsProcessingMidtrans(true);
-      const res = await fetch("/api/midtrans", {
+      setIsProcessing(true);
+      const res = await fetch("/api/xendit/payment_request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: total,
           customerName: formData.name,
           customerPhone: formData.phone,
-          shippingAddress: formData.address,
-          items: items.map((i) => ({
-            id: i.id,
-            name: i.name,
-            price: i.price,
-            quantity: i.quantity,
-          })),
+          customerEmail: "customer@guwigo.com", // Opsional, bisa dari state kalau ada
+          paymentMethod: method, // "qris", "BCA", "MANDIRI", "BNI", "BRI"
         }),
       });
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Gagal membuat sesi pembayaran Midtrans");
+        throw new Error(data.error || "Gagal membuat pembayaran");
       }
 
-      if (data.redirectUrl) {
-        window.location.href = data.redirectUrl;
-      } else {
-        toast.error("Tidak ada URL redirect pembayaran Midtrans");
+      if (data.success && data.paymentAction) {
+        setPaymentResult({
+          orderId: data.orderId,
+          ...data.paymentAction,
+        });
       }
     } catch (err: any) {
       console.error(err);
-      toast.error(err.message || "Gagal memproses Midtrans. Silakan coba Transfer Manual.");
+      toast.error(err.message || "Gagal memproses pembayaran. Coba metode lain.");
     } finally {
-      setIsProcessingMidtrans(false);
+      setIsProcessing(false);
     }
   };
 
@@ -135,8 +130,9 @@ export default function CheckoutPage() {
       return;
     }
 
-    if (paymentType === "midtrans") {
-      handleMidtransPayment();
+    if (paymentType.startsWith("xendit_")) {
+      const method = paymentType.split("_")[1];
+      handleXenditPayment(method === "qris" ? "qris" : method.toUpperCase());
       return;
     }
 
@@ -171,56 +167,53 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="bg-[#F8FAFC] min-h-screen pt-32 pb-20 font-sans selection:bg-[#00D4FF]/30 selection:text-[#0B1324]">
+    <div className="bg-[#FAF9F6] min-h-screen pt-32 pb-20 font-sans selection:bg-[#2563EB]/15 selection:text-[#0F172A]">
       <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Link
             href="/store/cart"
-            className="p-2 rounded-full bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
+            className="flex items-center justify-center w-10 h-10 rounded-md bg-white border border-[#E2E8F0] text-[#0F172A] hover:bg-[#F1F5F9] transition-colors"
           >
-            <ArrowLeft size={20} className="text-slate-600" />
+            <ArrowLeft size={18} />
           </Link>
           <div>
-            <h1 className="text-2xl font-black text-slate-900">
-              Checkout & Pembayaran
+            <h1 className="font-serif text-3xl md:text-4xl font-normal text-[#0F172A] tracking-tight">
+              Checkout
             </h1>
-            <p className="text-xs text-slate-500 font-medium mt-0.5">
-              Pilih Midtrans (Instant Gateway), Transfer Manual Mandiri, atau Chat WA
-            </p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* LEFT: FORM DATA */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-8">
             {/* 1. Informasi Kontak */}
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <MessageSquare size={18} className="text-blue-600" /> Informasi Kontak
+            <div className="bg-white p-8 rounded-lg border border-[#E2E8F0] shadow-sm">
+              <h3 className="font-serif text-xl font-normal text-[#0F172A] mb-6">
+                Informasi Kontak
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
+                  <label className="text-[13px] font-medium text-[#64748B]">
                     Nama Lengkap
                   </label>
                   <input
                     type="text"
                     placeholder="Teguh Prayogo"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    className="w-full bg-[#FAF9F6] border border-[#E2E8F0] rounded-md px-4 py-3.5 text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all"
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
+                  <label className="text-[13px] font-medium text-[#64748B]">
                     Nomor WhatsApp
                   </label>
                   <input
                     type="tel"
                     placeholder="0812xxxx"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    className="w-full bg-[#FAF9F6] border border-[#E2E8F0] rounded-md px-4 py-3.5 text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all"
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })
                     }
@@ -230,75 +223,61 @@ export default function CheckoutPage() {
             </div>
 
             {/* 2. Metode Pengiriman */}
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <Truck size={18} className="text-blue-600" /> Metode Pengiriman
+            <div className="bg-white p-8 rounded-lg border border-[#E2E8F0] shadow-sm">
+              <h3 className="font-serif text-xl font-normal text-[#0F172A] mb-6">
+                Metode Pengiriman
               </h3>
 
               <div className="flex flex-col md:flex-row gap-4 mb-6">
                 <div
                   onClick={() => setShippingMethod("shipping")}
-                  className={`flex-1 p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-3 ${
-                    shippingMethod === "shipping" ? "border-blue-600 bg-blue-50/50" : "border-slate-100 hover:border-slate-300"
+                  className={`flex-1 p-4 rounded-md cursor-pointer transition-all flex items-center gap-3 ${
+                    shippingMethod === "shipping" ? "bg-[#2563EB]/10 border border-[#2563EB]" : "bg-[#FAF9F6] border border-[#E2E8F0]"
                   }`}
                 >
-                  <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      shippingMethod === "shipping" ? "border-blue-600" : "border-slate-300"
-                    }`}
-                  >
-                    {shippingMethod === "shipping" && (
-                      <div className="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>
-                    )}
+                  <div className={`w-5 h-5 rounded-md border flex items-center justify-center ${shippingMethod === "shipping" ? "border-[#2563EB]" : "border-[#CBD5E1]"}`}>
+                    {shippingMethod === "shipping" && <div className="w-2.5 h-2.5 bg-[#2563EB] rounded-full"></div>}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 text-sm">Kirim Ekspedisi</h4>
-                    <p className="text-xs text-slate-500">JNE / J&T / SiCepat</p>
+                    <h4 className="font-semibold text-[#0F172A] text-[15px]">Kirim Ekspedisi</h4>
                   </div>
                 </div>
 
                 <div
                   onClick={() => setShippingMethod("cod")}
-                  className={`flex-1 p-4 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-3 ${
-                    shippingMethod === "cod" ? "border-blue-600 bg-blue-50/50" : "border-slate-100 hover:border-slate-300"
+                  className={`flex-1 p-4 rounded-md cursor-pointer transition-all flex items-center gap-3 ${
+                    shippingMethod === "cod" ? "bg-[#2563EB]/10 border border-[#2563EB]" : "bg-[#FAF9F6] border border-[#E2E8F0]"
                   }`}
                 >
-                  <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      shippingMethod === "cod" ? "border-blue-600" : "border-slate-300"
-                    }`}
-                  >
-                    {shippingMethod === "cod" && (
-                      <div className="w-2.5 h-2.5 bg-blue-600 rounded-full"></div>
-                    )}
+                  <div className={`w-5 h-5 rounded-md border flex items-center justify-center ${shippingMethod === "cod" ? "border-[#2563EB]" : "border-[#CBD5E1]"}`}>
+                    {shippingMethod === "cod" && <div className="w-2.5 h-2.5 bg-[#2563EB] rounded-full"></div>}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 text-sm">COD / Ambil Sendiri</h4>
-                    <p className="text-xs text-slate-500">Guwigo HQ (Sardonoharjo)</p>
+                    <h4 className="font-semibold text-[#0F172A] text-[15px]">Ambil Sendiri</h4>
                   </div>
                 </div>
               </div>
 
               {shippingMethod === "shipping" ? (
                 <div className="space-y-2 animate-fade-in">
-                  <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">
+                  <label className="text-[13px] font-medium text-[#64748B]">
                     Alamat Lengkap Pengiriman
                   </label>
                   <textarea
                     rows={3}
                     placeholder="Nama Jalan, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none"
+                    className="w-full bg-[#FAF9F6] border border-[#E2E8F0] rounded-md px-4 py-3.5 text-[#0F172A] font-medium focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] resize-none transition-all"
                     onChange={(e) =>
                       setFormData({ ...formData, address: e.target.value })
                     }
                   ></textarea>
                 </div>
               ) : (
-                <div className="bg-orange-50 p-4 rounded-xl border border-orange-100 animate-fade-in">
-                  <h4 className="text-sm font-bold text-orange-800 mb-1 flex items-center gap-2">
-                    <MapPin size={16} /> Lokasi COD
+                <div className="bg-[#FAF9F6] p-4 rounded-md border border-[#E2E8F0] animate-fade-in">
+                  <h4 className="text-[15px] font-semibold text-[#0F172A] mb-1">
+                    Lokasi Pengambilan
                   </h4>
-                  <p className="text-xs text-orange-700 leading-relaxed">
+                  <p className="text-[13px] text-[#64748B] leading-relaxed">
                     Guwigo HQ (Sardonoharjo, Sleman, Yogyakarta). Admin akan mengirimkan Share Location resmi via WhatsApp.
                   </p>
                 </div>
@@ -306,82 +285,77 @@ export default function CheckoutPage() {
             </div>
 
             {/* 3. Pilihan Metode Pembayaran */}
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-4">
-              <h3 className="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
-                <CreditCard size={18} className="text-blue-600" /> Metode Pembayaran
+            <div className="bg-white p-8 rounded-lg border border-[#E2E8F0] shadow-sm space-y-4">
+              <h3 className="font-serif text-xl font-normal text-[#0F172A] mb-6">
+                Metode Pembayaran
               </h3>
 
-              {/* Pilihan 1: Midtrans Gateway */}
+              {/* Pilihan: QRIS */}
               <div
-                onClick={() => setPaymentType("midtrans")}
-                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
-                  paymentType === "midtrans" ? "border-blue-600 bg-blue-50/40" : "border-slate-200 hover:border-slate-300"
+                onClick={() => setPaymentType("xendit_qris")}
+                className={`p-4 rounded-md cursor-pointer transition-all flex items-center gap-4 ${
+                  paymentType === "xendit_qris" ? "bg-[#2563EB]/10 border border-[#2563EB]" : "bg-[#FAF9F6] border border-[#E2E8F0]"
                 }`}
               >
-                <div className="mt-1">
-                  <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      paymentType === "midtrans" ? "border-blue-600" : "border-slate-300"
-                    }`}
-                  >
-                    {paymentType === "midtrans" && <div className="w-2.5 h-2.5 bg-blue-600 rounded-full" />}
-                  </div>
+                <div className={`w-5 h-5 rounded-md border flex items-center justify-center ${paymentType === "xendit_qris" ? "border-[#2563EB]" : "border-[#CBD5E1]"}`}>
+                  {paymentType === "xendit_qris" && <div className="w-2.5 h-2.5 bg-[#2563EB] rounded-full" />}
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-slate-900 text-sm">
-                      Midtrans Payment Gateway (Otomatis & Real-time)
-                    </h4>
-                    <span className="bg-blue-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                      Instan
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-500 mt-1">
-                    Mendukung QRIS (GoPay, OVO, ShopeePay, DANA), Virtual Account BCA/Mandiri/BNI/BRI, dan Kartu Kredit.
-                  </p>
+                  <h4 className="font-semibold text-[#0F172A] text-[15px] flex items-center gap-2">
+                    QRIS (GoPay, OVO, DANA)
+                  </h4>
                 </div>
               </div>
+
+              {/* Pilihan: Virtual Accounts */}
+              {["BCA", "Mandiri", "BNI", "BRI"].map((bank) => {
+                const key = `xendit_${bank.toLowerCase()}`;
+                return (
+                  <div
+                    key={key}
+                    onClick={() => setPaymentType(key)}
+                    className={`p-4 rounded-md cursor-pointer transition-all flex items-center gap-4 ${
+                      paymentType === key ? "bg-[#2563EB]/10 border border-[#2563EB]" : "bg-[#FAF9F6] border border-[#E2E8F0]"
+                    }`}
+                  >
+                    <div className={`w-5 h-5 rounded-md border flex items-center justify-center ${paymentType === key ? "border-[#2563EB]" : "border-[#CBD5E1]"}`}>
+                      {paymentType === key && <div className="w-2.5 h-2.5 bg-[#2563EB] rounded-full" />}
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-[#0F172A] text-[15px] flex items-center gap-2">
+                        {bank} Virtual Account
+                      </h4>
+                    </div>
+                  </div>
+                );
+              })}
 
               {/* Pilihan 2: Transfer Manual */}
               <div
                 onClick={() => setPaymentType("manual")}
-                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
-                  paymentType === "manual" ? "border-blue-600 bg-blue-50/40" : "border-slate-200 hover:border-slate-300"
+                className={`p-4 rounded-md cursor-pointer transition-all flex items-center gap-4 ${
+                  paymentType === "manual" ? "bg-[#2563EB]/10 border border-[#2563EB]" : "bg-[#FAF9F6] border border-[#E2E8F0]"
                 }`}
               >
-                <div className="mt-1">
-                  <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      paymentType === "manual" ? "border-blue-600" : "border-slate-300"
-                    }`}
-                  >
-                    {paymentType === "manual" && <div className="w-2.5 h-2.5 bg-blue-600 rounded-full" />}
-                  </div>
+                <div className={`w-5 h-5 rounded-md border flex items-center justify-center ${paymentType === "manual" ? "border-[#2563EB]" : "border-[#CBD5E1]"}`}>
+                  {paymentType === "manual" && <div className="w-2.5 h-2.5 bg-[#2563EB] rounded-full" />}
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-slate-900 text-sm">
-                      Transfer Bank Manual ({bankInfo.name})
-                    </h4>
-                    <span className="bg-emerald-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                      Direct Rekening
-                    </span>
-                  </div>
-                  <p className="text-xs text-slate-500 mt-1">
-                    Transfer langsung ke rekening Bank Mandiri resmi Guwigo lalu konfirmasi via WhatsApp.
-                  </p>
+                  <h4 className="font-semibold text-[#0F172A] text-[15px]">
+                    Transfer Bank Manual ({bankInfo.name})
+                  </h4>
 
                   {paymentType === "manual" && (
-                    <div className="mt-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm animate-in fade-in duration-300">
+                    <div className="mt-4 p-4 bg-white rounded-md border border-[#E2E8F0] animate-in fade-in duration-300">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                          <p className="text-[11px] font-medium text-[#86868B]">
                             Bank {bankInfo.name}
                           </p>
-                          <p className="text-lg font-black text-slate-900 tracking-wider">
+                          <p className="text-lg font-semibold text-[#0F172A]">
                             {bankInfo.number}
                           </p>
-                          <p className="text-xs font-bold text-slate-700">
+                          <p className="text-[13px] text-[#64748B]">
                             a.n. {bankInfo.holder}
                           </p>
                         </div>
@@ -390,9 +364,9 @@ export default function CheckoutPage() {
                             e.stopPropagation();
                             copyRekening();
                           }}
-                          className="px-4 py-2 bg-slate-900 hover:bg-blue-600 text-white text-xs font-bold rounded-lg transition-colors"
+                          className="px-4 py-2 bg-[#FAF9F6] hover:bg-[#F1F5F9] text-[#0F172A] text-[13px] font-medium rounded-md border border-[#E2E8F0] transition-colors"
                         >
-                          {copiedBank ? "Tersalin!" : "Salin No. Rek"}
+                          {copiedBank ? "Tersalin" : "Salin"}
                         </button>
                       </div>
                     </div>
@@ -403,26 +377,17 @@ export default function CheckoutPage() {
               {/* Pilihan 3: Konfirmasi Chat WA */}
               <div
                 onClick={() => setPaymentType("whatsapp")}
-                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 ${
-                  paymentType === "whatsapp" ? "border-blue-600 bg-blue-50/40" : "border-slate-200 hover:border-slate-300"
+                className={`p-4 rounded-md cursor-pointer transition-all flex items-center gap-4 ${
+                  paymentType === "whatsapp" ? "bg-[#2563EB]/10 border border-[#2563EB]" : "bg-[#FAF9F6] border border-[#E2E8F0]"
                 }`}
               >
-                <div className="mt-1">
-                  <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      paymentType === "whatsapp" ? "border-blue-600" : "border-slate-300"
-                    }`}
-                  >
-                    {paymentType === "whatsapp" && <div className="w-2.5 h-2.5 bg-blue-600 rounded-full" />}
-                  </div>
+                <div className={`w-5 h-5 rounded-md border flex items-center justify-center ${paymentType === "whatsapp" ? "border-[#2563EB]" : "border-[#CBD5E1]"}`}>
+                  {paymentType === "whatsapp" && <div className="w-2.5 h-2.5 bg-[#2563EB] rounded-full" />}
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-bold text-slate-900 text-sm">
+                  <h4 className="font-semibold text-[#0F172A] text-[15px]">
                     Diskusi & Bayar via WhatsApp
                   </h4>
-                  <p className="text-xs text-slate-500 mt-1">
-                    Hubungi Admin langsung untuk negosiasi atau konsultasi sebelum membayar.
-                  </p>
                 </div>
               </div>
             </div>
@@ -430,39 +395,39 @@ export default function CheckoutPage() {
 
           {/* RIGHT: SUMMARY */}
           <div className="lg:col-span-1">
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 sticky top-32 shadow-xl shadow-slate-200/50">
-              <h3 className="text-lg font-bold text-slate-900 mb-6">
+            <div className="bg-white p-8 rounded-lg border border-[#E2E8F0] shadow-sm sticky top-32">
+              <h3 className="font-serif text-xl font-normal text-[#0F172A] mb-6">
                 Rincian Pembayaran
               </h3>
 
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-slate-500 text-sm">
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between text-[#64748B] text-[15px]">
                   <span>Total Harga ({items.length} item)</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[#0F172A] font-medium">
                     {toRupiah(subtotal)}
                   </span>
                 </div>
-                <div className="flex justify-between text-slate-500 text-sm">
+                <div className="flex justify-between text-[#64748B] text-[15px]">
                   <span>PPN (11%)</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-[#0F172A] font-medium">
                     {toRupiah(tax)}
                   </span>
                 </div>
-                <div className="flex justify-between text-slate-500 text-sm">
+                <div className="flex justify-between text-[#64748B] text-[15px]">
                   <span>Ongkos Kirim</span>
-                  <span className="font-bold text-green-600">
-                    {shippingMethod === "cod" ? "Gratis (COD)" : "Info via WA"}
+                  <span className="text-[#0F172A] font-medium">
+                    {shippingMethod === "cod" ? "Gratis" : "Info via WA"}
                   </span>
                 </div>
               </div>
 
-              <div className="border-t border-slate-100 pt-4 mb-6">
+              <div className="border-t border-[#E2E8F0] pt-4 mb-8">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-slate-900">
+                  <span className="font-medium text-[#0F172A]">
                     Total Bayar
                   </span>
                   <div className="text-right">
-                    <span className="text-2xl font-black text-blue-600 block">
+                    <span className="text-2xl font-serif text-[#0F172A] block">
                       {toRupiah(total)}
                     </span>
                   </div>
@@ -471,39 +436,95 @@ export default function CheckoutPage() {
 
               <button
                 onClick={handleCheckout}
-                disabled={isProcessingMidtrans}
-                className={`w-full font-black text-xs uppercase tracking-widest py-4 rounded-xl transition-all flex items-center justify-center gap-2 group shadow-lg ${
-                  paymentType === "midtrans"
-                    ? "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/30"
-                    : "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/30"
-                }`}
+                disabled={isProcessing}
+                className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-3.5 rounded-md transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
-                {isProcessingMidtrans ? (
-                  "Memproses Pembayaran..."
-                ) : paymentType === "midtrans" ? (
-                  <>
-                    Bayar via Midtrans <CreditCard size={18} />
-                  </>
+                {isProcessing ? (
+                  "Memproses..."
+                ) : paymentType.startsWith("xendit_") ? (
+                  "Bayar Sekarang"
                 ) : (
-                  <>
-                    Konfirmasi via WhatsApp <MessageSquare size={18} />
-                  </>
+                  "Konfirmasi via WhatsApp"
                 )}
               </button>
 
-              <div className="mt-6 flex items-start gap-3 bg-slate-50 p-3 rounded-xl">
+              <div className="mt-6 flex items-start gap-3 justify-center">
                 <ShieldCheck
-                  size={20}
-                  className="text-slate-400 shrink-0 mt-0.5"
+                  size={16}
+                  className="text-[#64748B] shrink-0 mt-0.5"
                 />
-                <p className="text-[10px] text-slate-500 leading-relaxed">
-                  Transaksi Anda terenkripsi aman. Guwigo menjamin keamanan data dan transaksi perbankan Anda.
+                <p className="text-[12px] text-[#64748B] leading-relaxed max-w-[200px] text-center">
+                  Transaksi Anda terenkripsi aman.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* MODAL PEMBAYARAN SUKSES (QRIS / VA) */}
+      {paymentResult && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0A0F1D]/60 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-[#FAF9F6] border border-[#E2E8F0] w-full max-w-sm rounded-lg overflow-hidden shadow-2xl relative">
+            <button
+              onClick={() => {
+                setPaymentResult(null);
+                router.push("/store");
+              }}
+              className="absolute top-4 right-4 p-2 text-[#64748B] hover:text-[#0F172A] transition-colors"
+            >
+              <X size={20} />
+            </button>
+
+            <div className="p-8 text-center border-b border-[#E2E8F0]">
+              <h2 className="font-serif text-2xl font-normal text-[#0F172A] mb-1">Menunggu Pembayaran</h2>
+              <p className="text-[13px] text-[#64748B]">
+                Order ID: {paymentResult.orderId}
+              </p>
+            </div>
+
+            <div className="px-8 py-8 flex flex-col items-center">
+              {paymentResult.type === "qris" && (
+                <>
+                  <p className="text-[13px] text-[#64748B] mb-4 text-center">Scan QRIS menggunakan aplikasi E-Wallet atau M-Banking Anda:</p>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-[#E2E8F0]">
+                    <QRCodeSVG value={paymentResult.qrString} size={200} />
+                  </div>
+                </>
+              )}
+
+              {paymentResult.type === "va" && (
+                <>
+                  <p className="text-[13px] text-[#64748B] mb-2">
+                    Transfer ke {paymentResult.bank} Virtual Account:
+                  </p>
+                  <div className="w-full bg-white border border-[#E2E8F0] rounded-lg p-5 flex items-center justify-between mt-2 shadow-sm">
+                    <span className="text-xl font-semibold text-[#0F172A] tracking-wide">
+                      {paymentResult.vaNumber}
+                    </span>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(paymentResult.vaNumber);
+                        toast.success("Nomor VA berhasil disalin!");
+                      }}
+                      className="p-2 text-[#2563EB] hover:bg-[#EFF6FF] rounded-lg transition-colors"
+                      title="Salin Nomor VA"
+                    >
+                      <Copy size={20} />
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="p-6 bg-white border-t border-[#E2E8F0]">
+              <p className="text-[12px] text-center text-[#64748B]">
+                Sistem kami akan mendeteksi pembayaran Anda secara otomatis.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

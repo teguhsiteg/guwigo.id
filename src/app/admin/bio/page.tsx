@@ -170,39 +170,38 @@ export default function AdminBioPage() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-32 pb-24 font-sans selection:bg-[#00D4FF]/30 selection:text-[#0B1324]">
+    <div className="bg-[#FAF9F6] min-h-screen pt-32 pb-24 font-sans selection:bg-[#2563EB]/20 selection:text-[#0F172A]">
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* Header Admin */}
         <div className="mb-10">
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+          <h1 className="text-2xl md:text-3xl font-serif font-normal text-[#0F172A] tracking-tight flex items-center gap-3">
             <LayoutGrid
-              className="text-[#00D4FF] fill-[#00D4FF]/20"
-              size={32}
+              className="text-[#2563EB] fill-[#2563EB]/10"
+              size={30}
             />
-            Manajemen Link in Bio
+            Manajemen <span className="italic text-[#2563EB]">Link in Bio</span>
           </h1>
-          <p className="text-slate-500 font-medium mt-2">
-            Atur konfigurasi tampilan tautan Bento Grid untuk halaman /bio
-            perusahaan.
+          <p className="text-slate-500 font-normal text-sm mt-2">
+            Atur konfigurasi tautan dan ekosistem digital untuk laman /bio Guwigo.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* PANEL KIRI: FORM INPUT */}
           <div className="lg:col-span-5">
-            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm sticky top-32">
-              <h2 className="text-xl font-black text-[#0B1324] mb-6 flex items-center gap-2">
+            <div className="bg-white rounded-xl p-6 md:p-8 border border-[#E2E8F0] shadow-sm sticky top-32">
+              <h2 className="text-lg font-serif font-normal text-[#0F172A] mb-6 flex items-center gap-2 border-b border-[#E2E8F0] pb-4">
                 {editingId ? (
-                  <Edit2 size={20} className="text-amber-500" />
+                  <Edit2 size={18} className="text-amber-500" />
                 ) : (
-                  <Plus size={20} className="text-[#00D4FF]" />
+                  <Plus size={18} className="text-[#2563EB]" />
                 )}
                 {editingId ? "Edit Tautan Bio" : "Tambah Tautan Baru"}
               </h2>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block mb-2">
+                  <label className="text-xs font-medium text-slate-500 ml-0.5 block mb-1.5">
                     Judul Tautan
                   </label>
                   <input
@@ -211,13 +210,13 @@ export default function AdminBioPage() {
                     value={formData.title}
                     onChange={handleChange}
                     required
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/30 focus:border-[#00D4FF]/50 transition-all"
+                    className="w-full bg-slate-50/50 border border-[#E2E8F0] rounded-lg px-3.5 py-2.5 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all"
                     placeholder="Contoh: Guwigo Store"
                   />
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block mb-2">
+                  <label className="text-xs font-medium text-slate-500 ml-0.5 block mb-1.5">
                     Deskripsi Singkat
                   </label>
                   <textarea
@@ -226,13 +225,13 @@ export default function AdminBioPage() {
                     onChange={handleChange}
                     required
                     rows={2}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/30 focus:border-[#00D4FF]/50 transition-all resize-none"
-                    placeholder="Contoh: Katalog merch premium."
+                    className="w-full bg-slate-50/50 border border-[#E2E8F0] rounded-lg px-3.5 py-2.5 text-sm font-normal text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all resize-none"
+                    placeholder="Contoh: Katalog merchandise resmi & apparel."
                   ></textarea>
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block mb-2">
+                  <label className="text-xs font-medium text-slate-500 ml-0.5 block mb-1.5">
                     URL Tujuan
                   </label>
                   <input
@@ -241,21 +240,21 @@ export default function AdminBioPage() {
                     value={formData.url}
                     onChange={handleChange}
                     required
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/30 focus:border-[#00D4FF]/50 transition-all"
+                    className="w-full bg-slate-50/50 border border-[#E2E8F0] rounded-lg px-3.5 py-2.5 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all"
                     placeholder="Contoh: /store atau https://domain.com"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block mb-2">
+                    <label className="text-xs font-medium text-slate-500 ml-0.5 block mb-1.5">
                       Ikon Visual
                     </label>
                     <select
                       name="iconName"
                       value={formData.iconName}
                       onChange={handleChange}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/30 focus:border-[#00D4FF]/50 transition-all cursor-pointer"
+                      className="w-full bg-slate-50/50 border border-[#E2E8F0] rounded-lg px-3.5 py-2.5 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all cursor-pointer"
                     >
                       <option value="Terminal">Terminal (Tech)</option>
                       <option value="Globe">Globe (Web)</option>
@@ -266,7 +265,7 @@ export default function AdminBioPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block mb-2">
+                    <label className="text-xs font-medium text-slate-500 ml-0.5 block mb-1.5">
                       Urutan Tampil
                     </label>
                     <input
@@ -276,20 +275,20 @@ export default function AdminBioPage() {
                       onChange={handleChange}
                       required
                       min={1}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/30 focus:border-[#00D4FF]/50 transition-all"
+                      className="w-full bg-slate-50/50 border border-[#E2E8F0] rounded-lg px-3.5 py-2.5 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 block mb-2">
+                  <label className="text-xs font-medium text-slate-500 ml-0.5 block mb-1.5">
                     Ukuran Kotak (Bento Size)
                   </label>
                   <select
                     name="colSpan"
                     value={formData.colSpan}
                     onChange={handleChange}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00D4FF]/30 focus:border-[#00D4FF]/50 transition-all cursor-pointer"
+                    className="w-full bg-slate-50/50 border border-[#E2E8F0] rounded-lg px-3.5 py-2.5 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all cursor-pointer"
                   >
                     <option value="col-span-2 sm:col-span-1">
                       Setengah Lebar (Half)
@@ -299,30 +298,30 @@ export default function AdminBioPage() {
                 </div>
 
                 <div className="pt-2">
-                  <label className="flex items-center gap-3 cursor-pointer p-4 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
+                  <label className="flex items-center gap-3 cursor-pointer p-3.5 border border-[#E2E8F0] rounded-lg hover:bg-slate-50 transition-colors">
                     <input
                       type="checkbox"
                       name="featured"
                       checked={formData.featured}
                       onChange={handleChange}
-                      className="w-5 h-5 rounded border-slate-300 text-[#00D4FF] focus:ring-[#00D4FF]"
+                      className="w-4 h-4 rounded border-slate-300 text-[#2563EB] focus:ring-[#2563EB]"
                     />
                     <div>
-                      <span className="text-sm font-black text-[#0B1324] block">
+                      <span className="text-sm font-medium text-[#0F172A] block">
                         Jadikan Sorotan (Featured)
                       </span>
-                      <span className="text-[10px] text-slate-500 font-medium">
-                        Ubah warna menjadi Cyan mencolok.
+                      <span className="text-xs text-slate-500 font-normal">
+                        Tandai sebagai tautan prioritas utama.
                       </span>
                     </div>
                   </label>
                 </div>
 
-                <div className="flex gap-3 pt-6 border-t border-slate-100">
+                <div className="flex gap-3 pt-4 border-t border-[#E2E8F0]">
                   <button
                     type="submit"
                     disabled={isSaving}
-                    className="flex-1 bg-[#0B1324] text-white font-black py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-[#00D4FF] hover:text-[#0B1324] transition-all flex items-center justify-center gap-2 disabled:opacity-50 shadow-lg"
+                    className="flex-1 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium py-3 rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm"
                   >
                     {isSaving ? (
                       <Loader2 size={16} className="animate-spin" />
@@ -336,7 +335,7 @@ export default function AdminBioPage() {
                     <button
                       type="button"
                       onClick={handleCancelEdit}
-                      className="px-6 bg-slate-100 text-slate-600 font-black rounded-xl text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
+                      className="px-5 bg-slate-100 text-slate-600 font-medium rounded-lg text-xs uppercase tracking-wider hover:bg-slate-200 transition-all"
                     >
                       Batal
                     </button>
@@ -348,55 +347,55 @@ export default function AdminBioPage() {
 
           {/* PANEL KANAN: DAFTAR TAUTAN */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm min-h-[600px]">
-              <h2 className="text-xl font-black text-[#0B1324] mb-6 flex items-center gap-2 border-b border-slate-100 pb-6">
-                <LinkIcon size={20} className="text-slate-400" />
+            <div className="bg-white rounded-xl p-6 md:p-8 border border-[#E2E8F0] shadow-sm min-h-[600px]">
+              <h2 className="text-lg font-serif font-normal text-[#0F172A] mb-6 flex items-center gap-2 border-b border-[#E2E8F0] pb-4">
+                <LinkIcon size={18} className="text-slate-400" />
                 Daftar Tautan Aktif
               </h2>
 
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-20">
                   <Loader2
-                    size={32}
-                    className="animate-spin text-[#00D4FF] mb-4"
+                    size={28}
+                    className="animate-spin text-[#2563EB] mb-4"
                   />
-                  <p className="text-xs text-slate-400 font-bold tracking-widest uppercase">
+                  <p className="text-xs text-slate-400 font-mono tracking-wider uppercase">
                     Memuat Database...
                   </p>
                 </div>
               ) : links.length === 0 ? (
-                <div className="text-center py-20 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                  <p className="text-slate-500 font-medium">
+                <div className="text-center py-20 bg-slate-50 rounded-xl border border-dashed border-[#E2E8F0]">
+                  <p className="text-slate-500 font-normal text-sm">
                     Belum ada tautan yang ditambahkan.
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3.5">
                   {links.map((link) => (
                     <div
                       key={link.id}
-                      className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-5 rounded-2xl border transition-all ${
+                      className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 rounded-xl border transition-all ${
                         link.featured
-                          ? "border-[#00D4FF] bg-[#00D4FF]/5"
-                          : "border-slate-200 bg-white hover:border-slate-300"
+                          ? "border-[#2563EB] bg-[#2563EB]/5"
+                          : "border-[#E2E8F0] bg-white hover:border-slate-300"
                       }`}
                     >
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 font-black text-slate-500">
+                      <div className="flex items-center gap-3.5">
+                        <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center shrink-0 font-mono text-xs font-semibold text-slate-600">
                           {link.order}
                         </div>
                         <div>
-                          <h3 className="font-black text-slate-900 text-base">
+                          <h3 className="font-semibold text-slate-900 text-sm">
                             {link.title}
                           </h3>
-                          <p className="text-xs font-medium text-slate-500 mb-1">
+                          <p className="text-xs font-normal text-slate-500 mb-1">
                             {link.url}
                           </p>
                           <div className="flex gap-2">
-                            <span className="text-[9px] font-bold uppercase tracking-widest bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md">
+                            <span className="text-[9px] font-mono uppercase tracking-wider bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
                               Ikon: {link.iconName}
                             </span>
-                            <span className="text-[9px] font-bold uppercase tracking-widest bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md">
+                            <span className="text-[9px] font-mono uppercase tracking-wider bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
                               {link.colSpan.includes("sm:col-span-1")
                                 ? "Half Width"
                                 : "Full Width"}
@@ -408,17 +407,17 @@ export default function AdminBioPage() {
                       <div className="flex gap-2 w-full sm:w-auto">
                         <button
                           onClick={() => handleEdit(link)}
-                          className="flex-1 sm:flex-none p-3 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-center"
+                          className="flex-1 sm:flex-none p-2.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-center"
                           title="Edit Tautan"
                         >
-                          <Edit2 size={16} />
+                          <Edit2 size={15} />
                         </button>
                         <button
                           onClick={() => handleDelete(link.id)}
-                          className="flex-1 sm:flex-none p-3 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center"
+                          className="flex-1 sm:flex-none p-2.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center"
                           title="Hapus Tautan"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={15} />
                         </button>
                       </div>
                     </div>

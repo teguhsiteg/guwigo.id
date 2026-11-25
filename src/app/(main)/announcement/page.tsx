@@ -148,7 +148,7 @@ export default function GuwigoRebrandingAnnouncement() {
             <div className="flex flex-wrap gap-4 mt-10">
               <button
                 onClick={scrollToHighlights}
-                className="rounded-2xl bg-cyan-400 text-slate-950 px-8 py-4 font-bold hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.3)] flex items-center gap-2 group"
+                className="rounded-lg bg-cyan-400 text-slate-950 px-8 py-4 font-bold hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.3)] flex items-center gap-2 group"
               >
                 Explore New Identity
                 <ArrowDown
@@ -264,7 +264,7 @@ export default function GuwigoRebrandingAnnouncement() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: idx * 0.2 }}
-              className="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl hover:border-cyan-400/50 hover:bg-white/10 transition duration-500 group"
+              className="rounded-xl border border-white/10 bg-white/5 p-8 backdrop-blur-xl hover:border-cyan-400/50 hover:bg-white/10 transition duration-500 group"
             >
               <h3 className="text-2xl font-bold mb-4 group-hover:text-cyan-400 transition-colors">
                 {item.title}
@@ -301,7 +301,7 @@ export default function GuwigoRebrandingAnnouncement() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
-              className="rounded-[2rem] border border-white/10 bg-white/5 p-10 backdrop-blur-xl"
+              className="rounded-xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl"
             >
               <h2 className="text-4xl font-black mb-6">
                 The Nexus Core Concept
@@ -344,7 +344,7 @@ export default function GuwigoRebrandingAnnouncement() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="rounded-[2rem] border border-cyan-400/20 bg-gradient-to-br from-cyan-400/10 to-transparent p-10 backdrop-blur-xl"
+              className="rounded-xl border border-cyan-400/20 bg-gradient-to-br from-cyan-400/10 to-transparent p-10 backdrop-blur-xl"
             >
               <h2 className="text-4xl font-black mb-8">Brand Personality</h2>
 
@@ -401,9 +401,9 @@ export default function GuwigoRebrandingAnnouncement() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.2 }}
-                className="rounded-[2.5rem] border border-white/10 bg-[#0B1120] p-10 text-center hover:border-cyan-400/40 transition duration-500 group shadow-lg"
+                className="rounded-xl border border-white/10 bg-[#0B1120] p-10 text-center hover:border-cyan-400/40 transition duration-500 group shadow-lg"
               >
-                <div className="mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-slate-800 to-[#0B1120] border border-slate-700 shadow-xl group-hover:border-cyan-500/60 transition-colors duration-500">
+                <div className="mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-xl bg-gradient-to-br from-slate-800 to-[#0B1120] border border-slate-700 shadow-xl group-hover:border-cyan-500/60 transition-colors duration-500">
                   <div
                     className={`relative transition-transform duration-500 group-hover:scale-110 ${item.type === "primary" ? "w-24 h-24" : "w-20 h-20"}`}
                   >
@@ -451,7 +451,7 @@ export default function GuwigoRebrandingAnnouncement() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.15 }}
-                className="rounded-[2.5rem] border border-white/10 bg-white/5 overflow-hidden group hover:-translate-y-3 transition-transform duration-500 shadow-lg"
+                className="rounded-xl border border-white/10 bg-white/5 overflow-hidden group hover:-translate-y-2 transition-transform duration-500 shadow-lg"
               >
                 <div
                   className="h-40 w-full transition-colors duration-500"
@@ -491,7 +491,7 @@ export default function GuwigoRebrandingAnnouncement() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ type: "spring", bounce: 0.3, duration: 0.5 }}
-              className="relative w-full max-w-4xl bg-[#0B1120] border border-cyan-500/30 rounded-[3rem] p-10 md:p-16 shadow-[0_0_120px_rgba(34,211,238,0.15)] flex flex-col items-center"
+              className="relative w-full max-w-4xl bg-[#0B1120] border border-cyan-500/30 rounded-2xl p-8 md:p-14 shadow-[0_0_120px_rgba(34,211,238,0.15)] flex flex-col items-center"
               onClick={(e) => e.stopPropagation()}
             >
               <button

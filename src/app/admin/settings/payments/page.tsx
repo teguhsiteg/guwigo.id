@@ -1,30 +1,33 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { db } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { CreditCard, Save, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 
 interface PaymentSettings {
-  stripeKey?: string;
-  midtransKey?: string;
-  tripayKey?: string;
-  enableStripe: boolean;
-  enableMidtrans: boolean;
-  enableTripay: boolean;
+  // Xendit
+  xenditSecretKey?: string;
+  xenditPublicKey?: string;
+  xenditWebhookToken?: string;
+  isXenditProduction?: boolean;
+  enableXendit: boolean;
+
+  // General
   currency: string;
   taxPercentage: number;
 }
 
 export default function PaymentSettingsPage() {
   const [settings, setSettings] = useState<PaymentSettings>({
-    stripeKey: "",
-    midtransKey: "",
-    tripayKey: "",
-    enableStripe: true,
-    enableMidtrans: true,
-    enableTripay: true,
+    xenditSecretKey: "",
+    xenditPublicKey: "",
+    xenditWebhookToken: "",
+    isXenditProduction: false,
+    enableXendit: true,
+
     currency: "IDR",
     taxPercentage: 10,
   });
@@ -40,7 +43,7 @@ export default function PaymentSettingsPage() {
       const docRef = doc(db, "systemSettings", "payments");
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setSettings(docSnap.data() as PaymentSettings);
+        setSettings({ ...settings, ...(docSnap.data() as PaymentSettings) });
       }
     } catch (error) {
       console.error("Error loading settings:", error);
@@ -64,6 +67,43 @@ export default function PaymentSettingsPage() {
     }
   };
 
+  const [testingXendit, setTestingXendit] = useState(false);
+  const handleTestXendit = async () => {
+    try {
+      setTestingXendit(true);
+      // Panggil API /api/xendit dengan data dummy
+      const payload = {
+        amount: 10000,
+        customerName: "Test User",
+        customerEmail: "test@guwigo.com",
+        description: "Test Koneksi Xendit",
+      };
+
+      const res = await fetch("/api/xendit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.invoiceUrl) {
+        toast.success(
+          <div>
+            Berhasil! <a href={data.invoiceUrl} target="_blank" className="underline font-bold text-blue-600">Buka Invoice Test</a>
+          </div>,
+          { duration: 10000 }
+        );
+      } else {
+        toast.error(`Gagal: ${data.error || "Cek kredensial Anda"}`);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Terjadi kesalahan saat memanggil API");
+    } finally {
+      setTestingXendit(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -73,31 +113,31 @@ export default function PaymentSettingsPage() {
   }
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-3xl">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <CreditCard size={32} className="text-blue-600" />
           <h1 className="text-3xl font-bold text-gray-900 font-poppins">
-            Payment System
+            Sistem Pembayaran
           </h1>
         </div>
         <p className="text-gray-600 font-poppins">
-          Configure payment gateway settings and currencies
+          Konfigurasi payment gateway, mata uang, dan pajak sistem.
         </p>
       </div>
 
       {/* Settings Form */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-8">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 sm:p-8 space-y-10">
         {/* Currency Section */}
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 font-poppins">
-            Currency Settings
+          <h2 className="text-lg font-bold text-gray-900 mb-4 font-poppins border-b pb-2">
+            Pengaturan Umum
           </h2>
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2 font-poppins">
-                Default Currency
+                Mata Uang Default
               </label>
               <select
                 value={settings.currency}
@@ -114,7 +154,7 @@ export default function PaymentSettingsPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2 font-poppins">
-                Tax Percentage (%)
+                Persentase Pajak (%)
               </label>
               <input
                 type="number"
@@ -122,7 +162,7 @@ export default function PaymentSettingsPage() {
                 onChange={(e) =>
                   setSettings({
                     ...settings,
-                    taxPercentage: parseFloat(e.target.value),
+                    taxPercentage: parseFloat(e.target.value) || 0,
                   })
                 }
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins text-gray-900 bg-white"
@@ -136,139 +176,122 @@ export default function PaymentSettingsPage() {
 
         {/* Payment Gateways */}
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-4 font-poppins">
-            Payment Gateways
-          </h2>
-          <div className="space-y-4">
-            {/* Stripe */}
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <div className="flex items-start justify-between mb-3">
+          <div className="border-b pb-2 mb-4">
+            <h2 className="text-lg font-bold text-gray-900 font-poppins">
+              Integrasi Payment Gateway
+            </h2>
+            <p className="text-xs text-gray-500 font-poppins mt-0.5">
+              Aktifkan dan konfigurasi gateway pembayaran yang ingin digunakan di website.
+            </p>
+          </div>
+          <div className="space-y-6">
+
+
+            {/* Xendit */}
+            <div className={`p-5 border rounded-xl transition-colors ${settings.enableXendit ? "border-blue-200 bg-blue-50/30" : "border-gray-200"}`}>
+              <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h3 className="font-semibold text-gray-900 font-poppins">
-                    Stripe
+                  <h3 className="text-base font-bold text-gray-900 font-poppins">
+                    Xendit
                   </h3>
                   <p className="text-sm text-gray-500 font-poppins">
-                    International credit card payments
+                    Payment gateway Indonesia (QRIS, Virtual Account, E-Wallet, Retail, PayLater).
                   </p>
                 </div>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
-                    checked={settings.enableStripe}
+                    checked={settings.enableXendit}
                     onChange={(e) =>
                       setSettings({
                         ...settings,
-                        enableStripe: e.target.checked,
+                        enableXendit: e.target.checked,
                       })
                     }
-                    className="w-4 h-4"
+                    className="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
+                  <span className="text-sm font-medium text-gray-700">Aktifkan</span>
                 </label>
               </div>
-              {settings.enableStripe && (
-                <input
-                  type="password"
-                  placeholder="Enter Stripe Secret Key"
-                  value={settings.stripeKey || ""}
-                  onChange={(e) =>
-                    setSettings({ ...settings, stripeKey: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins text-sm text-gray-900 bg-white placeholder-gray-500"
-                />
+
+              {settings.enableXendit && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 bg-white p-4 rounded-lg border border-gray-100">
+                  <div className="sm:col-span-2 flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
+                    <span className="text-sm font-medium text-gray-700">Mode Environment</span>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <select
+                        value={settings.isXenditProduction ? "production" : "sandbox"}
+                        onChange={(e) => setSettings({ ...settings, isXenditProduction: e.target.value === "production" })}
+                        className="text-sm border-gray-300 rounded-md font-medium text-gray-700 focus:ring-blue-500"
+                      >
+                        <option value="sandbox">Sandbox (Development / Test)</option>
+                        <option value="production">Production (Live)</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Secret Key (xnd_development_... / xnd_production_...)</label>
+                    <input
+                      type="password"
+                      placeholder="xnd_development_..."
+                      value={settings.xenditSecretKey || ""}
+                      onChange={(e) => setSettings({ ...settings, xenditSecretKey: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Public Key (Opsional)</label>
+                    <input
+                      type="text"
+                      placeholder="xnd_public_..."
+                      value={settings.xenditPublicKey || ""}
+                      onChange={(e) => setSettings({ ...settings, xenditPublicKey: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Webhook Verification Token</label>
+                    <input
+                      type="password"
+                      placeholder="••••••••••••••••"
+                      value={settings.xenditWebhookToken || ""}
+                      onChange={(e) => setSettings({ ...settings, xenditWebhookToken: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm font-mono"
+                    />
+                  </div>
+                  <div className="sm:col-span-2 mt-2 flex justify-end">
+                    <button
+                      onClick={handleTestXendit}
+                      disabled={testingXendit || !settings.xenditSecretKey}
+                      className="text-xs px-4 py-2 bg-blue-100 text-blue-700 hover:bg-blue-200 font-bold rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      {testingXendit ? (
+                        <>
+                          <div className="w-3 h-3 border-2 border-blue-700 border-t-transparent rounded-full animate-spin"></div>
+                          Mengetes...
+                        </>
+                      ) : (
+                        "Test Koneksi Xendit"
+                      )}
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
 
-            {/* Midtrans */}
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="font-semibold text-gray-900 font-poppins">
-                    Midtrans
-                  </h3>
-                  <p className="text-sm text-gray-500 font-poppins">
-                    Indonesian payment aggregator
-                  </p>
-                </div>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={settings.enableMidtrans}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        enableMidtrans: e.target.checked,
-                      })
-                    }
-                    className="w-4 h-4"
-                  />
-                </label>
-              </div>
-              {settings.enableMidtrans && (
-                <input
-                  type="password"
-                  placeholder="Enter Midtrans Server Key"
-                  value={settings.midtransKey || ""}
-                  onChange={(e) =>
-                    setSettings({ ...settings, midtransKey: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins text-sm text-gray-900 bg-white placeholder-gray-500"
-                />
-              )}
-            </div>
 
-            {/* Tripay */}
-            <div className="p-4 border border-gray-200 rounded-lg">
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="font-semibold text-gray-900 font-poppins">
-                    Tripay
-                  </h3>
-                  <p className="text-sm text-gray-500 font-poppins">
-                    Bank transfers & e-wallets
-                  </p>
-                </div>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={settings.enableTripay}
-                    onChange={(e) =>
-                      setSettings({
-                        ...settings,
-                        enableTripay: e.target.checked,
-                      })
-                    }
-                    className="w-4 h-4"
-                  />
-                </label>
-              </div>
-              {settings.enableTripay && (
-                <input
-                  type="password"
-                  placeholder="Enter Tripay API Key"
-                  value={settings.tripayKey || ""}
-                  onChange={(e) =>
-                    setSettings({ ...settings, tripayKey: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-poppins text-sm text-gray-900 bg-white placeholder-gray-500"
-                />
-              )}
-            </div>
           </div>
         </div>
 
         {/* Info Box */}
         <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex gap-3">
-          <AlertCircle
-            size={20}
-            className="text-blue-600 flex-shrink-0 mt-0.5"
-          />
+          <AlertCircle size={20} className="text-blue-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-blue-900 font-poppins">
-              Security Notice
+            <p className="text-sm font-bold text-blue-900 font-poppins">
+              Catatan Keamanan (Security Notice)
             </p>
-            <p className="text-sm text-blue-800 mt-1 font-poppins">
-              API keys are encrypted. Never share your secret keys with anyone.
-              Always use environment variables in production.
+            <p className="text-sm text-blue-800 mt-1 font-poppins leading-relaxed">
+              API keys ini disimpan dengan aman di database. Pastikan Anda tidak membagikan <strong>Secret Key / Server Key / Private Key</strong> kepada siapapun.
             </p>
           </div>
         </div>
@@ -277,10 +300,10 @@ export default function PaymentSettingsPage() {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 transition-colors font-poppins"
+          className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 disabled:opacity-50 transition-colors font-poppins shadow-sm"
         >
           <Save size={18} />
-          {saving ? "Saving..." : "Save Payment Settings"}
+          {saving ? "Menyimpan Pengaturan..." : "Simpan Pengaturan Pembayaran"}
         </button>
       </div>
     </div>
